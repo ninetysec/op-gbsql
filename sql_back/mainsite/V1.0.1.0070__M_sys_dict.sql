@@ -1,0 +1,2 @@
+-- auto gen by longer 2015-11-09 17:36:53
+UPDATE sys_dict set active='f' where dict_code= (select dict_code from sys_dict where module='operation' and dict_type='activity_state' and dict_code='draft');

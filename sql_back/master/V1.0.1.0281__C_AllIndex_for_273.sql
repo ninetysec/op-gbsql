@@ -1,0 +1,484 @@
+-- -- auto gen by tony 2015-12-23 09:04:15
+-- DROP INDEX IF EXISTS fk_activity_message_user_id; CREATE INDEX fk_activity_message_user_id ON activity_message USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_message_update_user_id; CREATE INDEX fk_activity_message_update_user_id ON activity_message USING btree(update_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_message_check_user_id; CREATE INDEX fk_activity_message_check_user_id ON activity_message USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_message_i18n_activity_message_id; CREATE INDEX fk_activity_message_i18n_activity_message_id ON activity_message_i18n USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_apply_rank_id; CREATE INDEX fk_activity_player_apply_rank_id ON activity_player_apply USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_apply_activity_message_id; CREATE INDEX fk_activity_player_apply_activity_message_id ON activity_player_apply USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_apply_check_user_id; CREATE INDEX fk_activity_player_apply_check_user_id ON activity_player_apply USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_apply_player_recharge_id; CREATE INDEX fk_activity_player_apply_player_recharge_id ON activity_player_apply USING btree(player_recharge_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_apply_user_id; CREATE INDEX fk_activity_player_apply_user_id ON activity_player_apply USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_preferential_activity_player_apply_id; CREATE INDEX fk_activity_player_preferential_activity_player_apply_id ON activity_player_preferential USING btree(activity_player_apply_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_player_preferential_activity_message_id; CREATE INDEX fk_activity_player_preferential_activity_message_id ON activity_player_preferential USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_preferential_relation_activity_message_id; CREATE INDEX fk_activity_preferential_relation_activity_message_id ON activity_preferential_relation USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_priotity_activity_message_id; CREATE INDEX fk_activity_priotity_activity_message_id ON activity_priotity USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_rule_activity_message_id; CREATE INDEX fk_activity_rule_activity_message_id ON activity_rule USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_way_relation_activity_message_id; CREATE INDEX fk_activity_way_relation_activity_message_id ON activity_way_relation USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_activity_way_relation_activity_rule_id; CREATE INDEX fk_activity_way_relation_activity_rule_id ON activity_way_relation USING btree(activity_rule_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_rebate_order_user_id; CREATE INDEX fk_agent_rebate_order_user_id ON agent_rebate_order USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_rebate_order_rebate_bill_id; CREATE INDEX fk_agent_rebate_order_rebate_bill_id ON agent_rebate_order USING btree(rebate_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_rebate_order_agent_id; CREATE INDEX fk_agent_rebate_order_agent_id ON agent_rebate_order USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_water_bill_agent_id; CREATE INDEX fk_agent_water_bill_agent_id ON agent_water_bill USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_water_bill_order_id; CREATE INDEX fk_agent_water_bill_order_id ON agent_water_bill USING btree(order_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_withdraw_order_lock_person_id; CREATE INDEX fk_agent_withdraw_order_lock_person_id ON agent_withdraw_order USING btree(lock_person_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_withdraw_order_agent_id; CREATE INDEX fk_agent_withdraw_order_agent_id ON agent_withdraw_order USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_agent_withdraw_order_audit_user_id; CREATE INDEX fk_agent_withdraw_order_audit_user_id ON agent_withdraw_order USING btree(audit_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_carousel_i18n_carousel_id; CREATE INDEX fk_ctt_carousel_i18n_carousel_id ON ctt_carousel_i18n USING btree(carousel_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_carousel_language_carousel_id; CREATE INDEX fk_ctt_carousel_language_carousel_id ON ctt_carousel_language USING btree(carousel_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_document_create_user_id; CREATE INDEX fk_ctt_document_create_user_id ON ctt_document USING btree(create_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_document_parent_id; CREATE INDEX fk_ctt_document_parent_id ON ctt_document USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_document_check_user_id; CREATE INDEX fk_ctt_document_check_user_id ON ctt_document USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_document_update_user_id; CREATE INDEX fk_ctt_document_update_user_id ON ctt_document USING btree(update_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_document_i18n_document_id; CREATE INDEX fk_ctt_document_i18n_document_id ON ctt_document_i18n USING btree(document_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_domain_domain_type_id; CREATE INDEX fk_ctt_domain_domain_type_id ON ctt_domain USING btree(domain_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_domain_rank_domain_id; CREATE INDEX fk_ctt_domain_rank_domain_id ON ctt_domain_rank USING btree(domain_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_domain_rank_rank_id; CREATE INDEX fk_ctt_domain_rank_rank_id ON ctt_domain_rank USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_draft_parent_id; CREATE INDEX fk_ctt_draft_parent_id ON ctt_draft USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_draft_child_id; CREATE INDEX fk_ctt_draft_child_id ON ctt_draft USING btree(child_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_float_pic_temp_id; CREATE INDEX fk_ctt_float_pic_temp_id ON ctt_float_pic USING btree(temp_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_float_pic_temp_template_id; CREATE INDEX fk_ctt_float_pic_temp_template_id ON ctt_float_pic_temp USING btree(template_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ctt_logo_check_user_id; CREATE INDEX fk_ctt_logo_check_user_id ON ctt_logo USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_interface_rank_rank_id; CREATE INDEX fk_interface_rank_rank_id ON interface_rank USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_contact_way_user_id; CREATE INDEX fk_notice_contact_way_user_id ON notice_contact_way USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_email_interface_user_group_id; CREATE INDEX fk_notice_email_interface_user_group_id ON notice_email_interface USING btree(user_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_receive_send_id; CREATE INDEX fk_notice_receive_send_id ON notice_receive USING btree(send_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_receive_receiver_id; CREATE INDEX fk_notice_receive_receiver_id ON notice_receive USING btree(receiver_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_receiver_group_id; CREATE INDEX fk_notice_send_receiver_group_id ON notice_send USING btree(receiver_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_orig_send_id; CREATE INDEX fk_notice_send_orig_send_id ON notice_send USING btree(orig_send_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_text_id; CREATE INDEX fk_notice_send_text_id ON notice_send USING btree(text_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_text_tmpl_id; CREATE INDEX fk_notice_text_tmpl_id ON notice_text USING btree(tmpl_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_unreceived_user_id; CREATE INDEX fk_notice_unreceived_user_id ON notice_unreceived USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_agent_occupy_bill_id; CREATE INDEX fk_occupy_agent_occupy_bill_id ON occupy_agent USING btree(occupy_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_agent_agent_id; CREATE INDEX fk_occupy_agent_agent_id ON occupy_agent USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_api_player_id; CREATE INDEX fk_occupy_api_player_id ON occupy_api USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_api_occupy_bill_id; CREATE INDEX fk_occupy_api_occupy_bill_id ON occupy_api USING btree(occupy_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_api_api_type_id; CREATE INDEX fk_occupy_api_api_type_id ON occupy_api USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_api_api_id; CREATE INDEX fk_occupy_api_api_id ON occupy_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_bill_user_id; CREATE INDEX fk_occupy_bill_user_id ON occupy_bill USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_player_player_id; CREATE INDEX fk_occupy_player_player_id ON occupy_player USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_player_occupy_bill_id; CREATE INDEX fk_occupy_player_occupy_bill_id ON occupy_player USING btree(occupy_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_topagent_occupy_bill_id; CREATE INDEX fk_occupy_topagent_occupy_bill_id ON occupy_topagent USING btree(occupy_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_occupy_topagent_top_agent_id; CREATE INDEX fk_occupy_topagent_top_agent_id ON occupy_topagent USING btree(top_agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_site_id; CREATE INDEX fk_operate_agent_site_id ON operate_agent USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_api_id; CREATE INDEX fk_operate_agent_api_id ON operate_agent USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_master_id; CREATE INDEX fk_operate_agent_master_id ON operate_agent USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_center_id; CREATE INDEX fk_operate_agent_center_id ON operate_agent USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_topagent_id; CREATE INDEX fk_operate_agent_topagent_id ON operate_agent USING btree(topagent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_agent_id; CREATE INDEX fk_operate_agent_agent_id ON operate_agent USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_agent_api_type_id; CREATE INDEX fk_operate_agent_api_type_id ON operate_agent USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_center_id; CREATE INDEX fk_operate_player_center_id ON operate_player USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_api_type_id; CREATE INDEX fk_operate_player_api_type_id ON operate_player USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_api_id; CREATE INDEX fk_operate_player_api_id ON operate_player USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_player_id; CREATE INDEX fk_operate_player_player_id ON operate_player USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_agent_id; CREATE INDEX fk_operate_player_agent_id ON operate_player USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_topagent_id; CREATE INDEX fk_operate_player_topagent_id ON operate_player USING btree(topagent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_master_id; CREATE INDEX fk_operate_player_master_id ON operate_player USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_player_site_id; CREATE INDEX fk_operate_player_site_id ON operate_player USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_api_id; CREATE INDEX fk_operate_topagent_api_id ON operate_topagent USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_center_id; CREATE INDEX fk_operate_topagent_center_id ON operate_topagent USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_api_type_id; CREATE INDEX fk_operate_topagent_api_type_id ON operate_topagent USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_site_id; CREATE INDEX fk_operate_topagent_site_id ON operate_topagent USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_topagent_id; CREATE INDEX fk_operate_topagent_topagent_id ON operate_topagent USING btree(topagent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operate_topagent_master_id; CREATE INDEX fk_operate_topagent_master_id ON operate_topagent USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_account_currency_pay_account_id; CREATE INDEX fk_pay_account_currency_pay_account_id ON pay_account_currency USING btree(pay_account_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_rank_pay_account_id; CREATE INDEX fk_pay_rank_pay_account_id ON pay_rank USING btree(pay_account_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_rank_player_rank_id; CREATE INDEX fk_pay_rank_player_rank_id ON pay_rank USING btree(player_rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_address_player_id; CREATE INDEX fk_player_address_player_id ON player_address USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_player_id; CREATE INDEX fk_player_advisory_player_id ON player_advisory USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_continue_quiz_id; CREATE INDEX fk_player_advisory_continue_quiz_id ON player_advisory USING btree(continue_quiz_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_read_user_id; CREATE INDEX fk_player_advisory_read_user_id ON player_advisory_read USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_read_player_advisory_id; CREATE INDEX fk_player_advisory_read_player_advisory_id ON player_advisory_read USING btree(player_advisory_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_reply_player_advisory_id; CREATE INDEX fk_player_advisory_reply_player_advisory_id ON player_advisory_reply USING btree(player_advisory_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_advisory_reply_user_id; CREATE INDEX fk_player_advisory_reply_user_id ON player_advisory_reply USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_api_player_id; CREATE INDEX fk_player_api_player_id ON player_api USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_api_api_id; CREATE INDEX fk_player_api_api_id ON player_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_api_account_api_id; CREATE INDEX fk_player_api_account_api_id ON player_api_account USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_api_account_user_id; CREATE INDEX fk_player_api_account_user_id ON player_api_account USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_favorable_player_transaction_id; CREATE INDEX fk_player_favorable_player_transaction_id ON player_favorable USING btree(player_transaction_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_favorable_player_recharge_id; CREATE INDEX fk_player_favorable_player_recharge_id ON player_favorable USING btree(player_recharge_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_favorable_favorable_id; CREATE INDEX fk_player_favorable_favorable_id ON player_favorable USING btree(favorable_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_favorable_activity_message_id; CREATE INDEX fk_player_favorable_activity_message_id ON player_favorable USING btree(activity_message_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_log_api_id; CREATE INDEX fk_player_game_log_api_id ON player_game_log USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_log_user_id; CREATE INDEX fk_player_game_log_user_id ON player_game_log USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_log_game_id; CREATE INDEX fk_player_game_log_game_id ON player_game_log USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_order_api_id; CREATE INDEX fk_player_game_order_api_id ON player_game_order USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_order_player_id; CREATE INDEX fk_player_game_order_player_id ON player_game_order USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_order_game_id; CREATE INDEX fk_player_game_order_game_id ON player_game_order USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_game_order_api_type_id; CREATE INDEX fk_player_game_order_api_type_id ON player_game_order USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_logs_player_id; CREATE INDEX fk_player_logs_player_id ON player_logs USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recharge_player_transaction_id; CREATE INDEX fk_player_recharge_player_transaction_id ON player_recharge USING btree(player_transaction_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recharge_player_id; CREATE INDEX fk_player_recharge_player_id ON player_recharge USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recharge_related_order_id; CREATE INDEX fk_player_recharge_related_order_id ON player_recharge USING btree(related_order_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recharge_check_user_id; CREATE INDEX fk_player_recharge_check_user_id ON player_recharge USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recharge_pay_account_id; CREATE INDEX fk_player_recharge_pay_account_id ON player_recharge USING btree(pay_account_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recommend_award_player_transaction_id; CREATE INDEX fk_player_recommend_award_player_transaction_id ON player_recommend_award USING btree(player_transaction_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recommend_award_user_id; CREATE INDEX fk_player_recommend_award_user_id ON player_recommend_award USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_recommend_award_recommend_user_id; CREATE INDEX fk_player_recommend_award_recommend_user_id ON player_recommend_award USING btree(recommend_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_tag_player_id; CREATE INDEX fk_player_tag_player_id ON player_tag USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_tag_tag_id; CREATE INDEX fk_player_tag_tag_id ON player_tag USING btree(tag_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_transaction_source_id; CREATE INDEX fk_player_transaction_source_id ON player_transaction USING btree(source_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_transaction_player_id; CREATE INDEX fk_player_transaction_player_id ON player_transaction USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_transfer_user_id; CREATE INDEX fk_player_transfer_user_id ON player_transfer USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_transfer_api_id; CREATE INDEX fk_player_transfer_api_id ON player_transfer USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_transfer_player_transaction_id; CREATE INDEX fk_player_transfer_player_transaction_id ON player_transfer USING btree(player_transaction_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_withdraw_lock_person_id; CREATE INDEX fk_player_withdraw_lock_person_id ON player_withdraw USING btree(lock_person_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_withdraw_check_user_id; CREATE INDEX fk_player_withdraw_check_user_id ON player_withdraw USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_withdraw_player_transaction_id; CREATE INDEX fk_player_withdraw_player_transaction_id ON player_withdraw USING btree(player_transaction_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_player_withdraw_player_id; CREATE INDEX fk_player_withdraw_player_id ON player_withdraw USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_api_type_id; CREATE INDEX fk_rakeback_api_api_type_id ON rakeback_api USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_rakeback_bill_id; CREATE INDEX fk_rakeback_api_rakeback_bill_id ON rakeback_api USING btree(rakeback_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_api_id; CREATE INDEX fk_rakeback_api_api_id ON rakeback_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_player_id; CREATE INDEX fk_rakeback_api_player_id ON rakeback_api USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_nosettled_api_id; CREATE INDEX fk_rakeback_api_nosettled_api_id ON rakeback_api_nosettled USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_nosettled_player_id; CREATE INDEX fk_rakeback_api_nosettled_player_id ON rakeback_api_nosettled USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_nosettled_rakeback_bill_nosettled_id; CREATE INDEX fk_rakeback_api_nosettled_rakeback_bill_nosettled_id ON rakeback_api_nosettled USING btree(rakeback_bill_nosettled_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_api_nosettled_api_type_id; CREATE INDEX fk_rakeback_api_nosettled_api_type_id ON rakeback_api_nosettled USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_bill_user_id; CREATE INDEX fk_rakeback_bill_user_id ON rakeback_bill USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_grads_rakeback_id; CREATE INDEX fk_rakeback_grads_rakeback_id ON rakeback_grads USING btree(rakeback_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_grads_api_rakeback_grads_id; CREATE INDEX fk_rakeback_grads_api_rakeback_grads_id ON rakeback_grads_api USING btree(rakeback_grads_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_grads_api_api_id; CREATE INDEX fk_rakeback_grads_api_api_id ON rakeback_grads_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_top_agent_id; CREATE INDEX fk_rakeback_player_top_agent_id ON rakeback_player USING btree(top_agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_operate_id; CREATE INDEX fk_rakeback_player_operate_id ON rakeback_player USING btree(operate_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_rank_id; CREATE INDEX fk_rakeback_player_rank_id ON rakeback_player USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_agent_id; CREATE INDEX fk_rakeback_player_agent_id ON rakeback_player USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_rakeback_bill_id; CREATE INDEX fk_rakeback_player_rakeback_bill_id ON rakeback_player USING btree(rakeback_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_player_id; CREATE INDEX fk_rakeback_player_player_id ON rakeback_player USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_nosettled_rakeback_bill_nosettled_id; CREATE INDEX fk_rakeback_player_nosettled_rakeback_bill_nosettled_id ON rakeback_player_nosettled USING btree(rakeback_bill_nosettled_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_nosettled_rank_id; CREATE INDEX fk_rakeback_player_nosettled_rank_id ON rakeback_player_nosettled USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_nosettled_player_id; CREATE INDEX fk_rakeback_player_nosettled_player_id ON rakeback_player_nosettled USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_nosettled_agent_id; CREATE INDEX fk_rakeback_player_nosettled_agent_id ON rakeback_player_nosettled USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_player_nosettled_top_agent_id; CREATE INDEX fk_rakeback_player_nosettled_top_agent_id ON rakeback_player_nosettled USING btree(top_agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rakeback_set_create_user_id; CREATE INDEX fk_rakeback_set_create_user_id ON rakeback_set USING btree(create_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_agent_rebate_bill_id; CREATE INDEX fk_rebate_agent_rebate_bill_id ON rebate_agent USING btree(rebate_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_agent_agent_id; CREATE INDEX fk_rebate_agent_agent_id ON rebate_agent USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_agent_nosettled_agent_id; CREATE INDEX fk_rebate_agent_nosettled_agent_id ON rebate_agent_nosettled USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_agent_nosettled_rebate_bill_nosettled_id; CREATE INDEX fk_rebate_agent_nosettled_rebate_bill_nosettled_id ON rebate_agent_nosettled USING btree(rebate_bill_nosettled_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_api_type_id; CREATE INDEX fk_rebate_api_api_type_id ON rebate_api USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_player_id; CREATE INDEX fk_rebate_api_player_id ON rebate_api USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_api_id; CREATE INDEX fk_rebate_api_api_id ON rebate_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_rebate_bill_id; CREATE INDEX fk_rebate_api_rebate_bill_id ON rebate_api USING btree(rebate_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_nosettled_rebate_bill_nosettled_id; CREATE INDEX fk_rebate_api_nosettled_rebate_bill_nosettled_id ON rebate_api_nosettled USING btree(rebate_bill_nosettled_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_nosettled_api_type_id; CREATE INDEX fk_rebate_api_nosettled_api_type_id ON rebate_api_nosettled USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_nosettled_api_id; CREATE INDEX fk_rebate_api_nosettled_api_id ON rebate_api_nosettled USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_api_nosettled_player_id; CREATE INDEX fk_rebate_api_nosettled_player_id ON rebate_api_nosettled USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_bill_user_id; CREATE INDEX fk_rebate_bill_user_id ON rebate_bill USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_grads_rebate_id; CREATE INDEX fk_rebate_grads_rebate_id ON rebate_grads USING btree(rebate_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_grads_api_api_id; CREATE INDEX fk_rebate_grads_api_api_id ON rebate_grads_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_grads_api_rebate_grads_id; CREATE INDEX fk_rebate_grads_api_rebate_grads_id ON rebate_grads_api USING btree(rebate_grads_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_player_agent_id; CREATE INDEX fk_rebate_player_agent_id ON rebate_player USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_player_rebate_bill_id; CREATE INDEX fk_rebate_player_rebate_bill_id ON rebate_player USING btree(rebate_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_player_user_id; CREATE INDEX fk_rebate_player_user_id ON rebate_player USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_player_nosettled_player_id; CREATE INDEX fk_rebate_player_nosettled_player_id ON rebate_player_nosettled USING btree(player_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_player_nosettled_rebate_bill_nosettled_id; CREATE INDEX fk_rebate_player_nosettled_rebate_bill_nosettled_id ON rebate_player_nosettled USING btree(rebate_bill_nosettled_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_rebate_set_create_user_id; CREATE INDEX fk_rebate_set_create_user_id ON rebate_set USING btree(create_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_entity_user_id; CREATE INDEX fk_remark_entity_user_id ON remark USING btree(entity_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_operator_id; CREATE INDEX fk_remark_operator_id ON remark USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_entity_id; CREATE INDEX fk_remark_entity_id ON remark USING btree(entity_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_settlement_site_user_id; CREATE INDEX fk_settlement_site_user_id ON settlement_site USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_settlement_site_detail_settlement_site_id; CREATE INDEX fk_settlement_site_detail_settlement_site_id ON settlement_site_detail USING btree(settlement_site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_settlement_site_detail_api_id; CREATE INDEX fk_settlement_site_detail_api_id ON settlement_site_detail USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_letter_sign_sign_id; CREATE INDEX fk_station_letter_sign_sign_id ON station_letter_sign USING btree(sign_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operate_type_id; CREATE INDEX fk_sys_audit_log_operate_type_id ON sys_audit_log USING btree(operate_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operator_id; CREATE INDEX fk_sys_audit_log_operator_id ON sys_audit_log USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_id; CREATE INDEX fk_sys_audit_log_entity_id ON sys_audit_log USING btree(entity_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_user_id; CREATE INDEX fk_sys_audit_log_entity_user_id ON sys_audit_log USING btree(entity_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_site_id; CREATE INDEX fk_sys_dept_site_id ON sys_dept USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_parent_id; CREATE INDEX fk_sys_dept_parent_id ON sys_dept USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_message_user_id; CREATE INDEX fk_sys_message_user_id ON sys_message USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_session_id; CREATE INDEX fk_sys_on_line_session_session_id ON sys_on_line_session USING btree(session_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_site_id; CREATE INDEX fk_sys_on_line_session_site_id ON sys_on_line_session USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_sys_user_id; CREATE INDEX fk_sys_on_line_session_sys_user_id ON sys_on_line_session USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_param_site_id; CREATE INDEX fk_sys_param_site_id ON sys_param USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_player_game_log_user_id; CREATE INDEX fk_sys_player_game_log_user_id ON sys_player_game_log USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_player_game_log_game_id; CREATE INDEX fk_sys_player_game_log_game_id ON sys_player_game_log USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_player_game_log_online_session_id; CREATE INDEX fk_sys_player_game_log_online_session_id ON sys_player_game_log USING btree(online_session_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_resource_parent_id; CREATE INDEX fk_sys_resource_parent_id ON sys_resource USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_resource_credit_resource_id; CREATE INDEX fk_sys_resource_credit_resource_id ON sys_resource_credit USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_resource_credit_his_resource_id; CREATE INDEX fk_sys_resource_credit_his_resource_id ON sys_resource_credit_his USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_site_id; CREATE INDEX fk_sys_role_site_id ON sys_role USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_resource_id; CREATE INDEX fk_sys_role_default_resource_resource_id ON sys_role_default_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_role_id; CREATE INDEX fk_sys_role_default_resource_role_id ON sys_role_default_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_resource_id; CREATE INDEX fk_sys_role_resource_resource_id ON sys_role_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_role_id; CREATE INDEX fk_sys_role_resource_role_id ON sys_role_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_visitor_sys_user_id; CREATE INDEX fk_sys_site_visitor_sys_user_id ON sys_site_visitor USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_visitor_site_id; CREATE INDEX fk_sys_site_visitor_site_id ON sys_site_visitor USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_owner_id; CREATE INDEX fk_sys_user_owner_id ON sys_user USING btree(owner_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_site_id; CREATE INDEX fk_sys_user_site_id ON sys_user USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_dept_id; CREATE INDEX fk_sys_user_dept_id ON sys_user USING btree(dept_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_protection_safe_contact_way_id; CREATE INDEX fk_sys_user_protection_safe_contact_way_id ON sys_user_protection USING btree(safe_contact_way_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_user_id; CREATE INDEX fk_sys_user_role_user_id ON sys_user_role USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_role_id; CREATE INDEX fk_sys_user_role_role_id ON sys_user_role USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_sites_id; CREATE INDEX fk_user_agent_sites_id ON user_agent USING btree(sites_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_check_user_id; CREATE INDEX fk_user_agent_check_user_id ON user_agent USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_player_rank_id; CREATE INDEX fk_user_agent_player_rank_id ON user_agent USING btree(player_rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_parent_id; CREATE INDEX fk_user_agent_parent_id ON user_agent USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_api_user_id; CREATE INDEX fk_user_agent_api_user_id ON user_agent_api USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_api_api_id; CREATE INDEX fk_user_agent_api_api_id ON user_agent_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_quota_user_id; CREATE INDEX fk_user_agent_quota_user_id ON user_agent_quota USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_quota_quota_id; CREATE INDEX fk_user_agent_quota_quota_id ON user_agent_quota USING btree(quota_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_rakeback_rakeback_id; CREATE INDEX fk_user_agent_rakeback_rakeback_id ON user_agent_rakeback USING btree(rakeback_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_rakeback_user_id; CREATE INDEX fk_user_agent_rakeback_user_id ON user_agent_rakeback USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_rebate_user_id; CREATE INDEX fk_user_agent_rebate_user_id ON user_agent_rebate USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_agent_rebate_rebate_id; CREATE INDEX fk_user_agent_rebate_rebate_id ON user_agent_rebate USING btree(rebate_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_bankcard_user_id; CREATE INDEX fk_user_bankcard_user_id ON user_bankcard USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_player_rank_id; CREATE INDEX fk_user_player_rank_id ON user_player USING btree(rank_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_player_user_agent_id; CREATE INDEX fk_user_player_user_agent_id ON user_player USING btree(user_agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_player_recommend_user_id; CREATE INDEX fk_user_player_recommend_user_id ON user_player USING btree(recommend_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_player_rakeback_id; CREATE INDEX fk_user_player_rakeback_id ON user_player USING btree(rakeback_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_shortcut_menu_resource_id; CREATE INDEX fk_user_shortcut_menu_resource_id ON user_shortcut_menu USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_shortcut_menu_user_id; CREATE INDEX fk_user_shortcut_menu_user_id ON user_shortcut_menu USING btree(user_id ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_material_pic_create_time;
+-- CREATE INDEX in_ctt_material_pic_create_time ON ctt_material_pic USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_material_text_create_time;
+-- CREATE INDEX in_ctt_material_text_create_time ON ctt_material_text USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_agent_rebate_order_create_time;
+-- CREATE INDEX in_agent_rebate_order_create_time ON agent_rebate_order USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_user_last_login_time;
+-- CREATE INDEX in_sys_user_last_login_time ON sys_user USING btree(last_login_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_user_create_time;
+-- CREATE INDEX in_sys_user_create_time ON sys_user USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_announcement_publish_time;
+-- CREATE INDEX in_ctt_announcement_publish_time ON ctt_announcement USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_carousel_order_num;
+-- CREATE INDEX in_ctt_carousel_order_num ON ctt_carousel USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_carousel_i18n_language;
+-- CREATE INDEX in_ctt_carousel_i18n_language ON ctt_carousel_i18n USING btree(language ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_build_in;
+-- CREATE INDEX in_ctt_document_build_in ON ctt_document USING btree(build_in ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_check_time;
+-- CREATE INDEX in_ctt_document_check_time ON ctt_document USING btree(check_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_create_time;
+-- CREATE INDEX in_ctt_document_create_time ON ctt_document USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_order_num;
+-- CREATE INDEX in_ctt_document_order_num ON ctt_document USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_publish_time;
+-- CREATE INDEX in_ctt_document_publish_time ON ctt_document USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_update_time;
+-- CREATE INDEX in_ctt_document_update_time ON ctt_document USING btree(update_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_check_status;
+-- CREATE INDEX in_ctt_document_check_status ON ctt_document USING btree(check_status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_code;
+-- CREATE INDEX in_ctt_document_code ON ctt_document USING btree(code ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_document_status;
+-- CREATE INDEX in_ctt_document_status ON ctt_document USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_domain_sort_num;
+-- CREATE INDEX in_ctt_domain_sort_num ON ctt_domain USING btree(sort_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_domain_rank_sort_num;
+-- CREATE INDEX in_ctt_domain_rank_sort_num ON ctt_domain_rank USING btree(sort_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_draft_create_time;
+-- CREATE INDEX in_ctt_draft_create_time ON ctt_draft USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_draft_is_internal;
+-- CREATE INDEX in_ctt_draft_is_internal ON ctt_draft USING btree(is_internal ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_float_pic_publish_time;
+-- CREATE INDEX in_ctt_float_pic_publish_time ON ctt_float_pic USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_logo_publish_time;
+-- CREATE INDEX in_ctt_logo_publish_time ON ctt_logo USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_logo_is_default;
+-- CREATE INDEX in_ctt_logo_is_default ON ctt_logo USING btree(is_default ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_logo_create_time;
+-- CREATE INDEX in_ctt_logo_create_time ON ctt_logo USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_logo_update_time;
+-- CREATE INDEX in_ctt_logo_update_time ON ctt_logo USING btree(update_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_logo_check_time;
+-- CREATE INDEX in_ctt_logo_check_time ON ctt_logo USING btree(check_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_activity_message_create_time;
+-- CREATE INDEX in_activity_message_create_time ON activity_message USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_activity_message_update_time;
+-- CREATE INDEX in_activity_message_update_time ON activity_message USING btree(update_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_activity_message_check_time;
+-- CREATE INDEX in_activity_message_check_time ON activity_message USING btree(check_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_carousel_status;
+-- CREATE INDEX in_ctt_carousel_status ON ctt_carousel USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_carousel_order_num;
+-- CREATE INDEX in_ctt_carousel_order_num ON ctt_carousel USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_ctt_carousel_type;
+-- CREATE INDEX in_ctt_carousel_type ON ctt_carousel USING btree(type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_account_type;
+-- CREATE INDEX in_pay_account_account_type ON pay_account USING btree(account_type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_bank_code;
+-- CREATE INDEX in_pay_account_bank_code ON pay_account USING btree(bank_code ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_create_time;
+-- CREATE INDEX in_pay_account_create_time ON pay_account USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_deposit_count;
+-- CREATE INDEX in_pay_account_deposit_count ON pay_account USING btree(deposit_count ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_deposit_total;
+-- CREATE INDEX in_pay_account_deposit_total ON pay_account USING btree(deposit_total ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_disable_amount;
+-- CREATE INDEX in_pay_account_disable_amount ON pay_account USING btree(disable_amount ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_account_type;
+-- CREATE INDEX in_pay_account_type ON pay_account USING btree(type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_agent_withdraw_order_create_time;
+-- CREATE INDEX in_agent_withdraw_order_create_time ON agent_withdraw_order USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_recharge_create_time;
+-- CREATE INDEX in_player_recharge_create_time ON player_recharge USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_transfer_transfer_time;
+-- CREATE INDEX in_player_transfer_transfer_time ON player_transfer USING btree(transfer_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_withdraw_create_time;
+-- CREATE INDEX in_player_withdraw_create_time ON player_withdraw USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_withdraw_withdraw_status;
+-- CREATE INDEX in_player_withdraw_withdraw_status ON player_withdraw USING btree(withdraw_status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_agent_withdraw_order_transaction_status;
+-- CREATE INDEX in_agent_withdraw_order_transaction_status ON agent_withdraw_order USING btree(transaction_status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_activity_player_apply_apply_time;
+-- CREATE INDEX in_activity_player_apply_apply_time ON activity_player_apply USING btree(apply_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_rakeback_bill_create_time;
+-- CREATE INDEX in_rakeback_bill_create_time ON rakeback_bill USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_rakeback_bill_start_time;
+-- CREATE INDEX in_rakeback_bill_start_time ON rakeback_bill USING btree(start_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_rebate_agent_agent_name;
+-- CREATE INDEX in_rebate_agent_agent_name ON rebate_agent USING btree(agent_name ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_rebate_bill_create_time;
+-- CREATE INDEX in_rebate_bill_create_time ON rebate_bill USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_rebate_bill_nosettled_create_time;
+-- CREATE INDEX in_rebate_bill_nosettled_create_time ON rebate_bill_nosettled USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_activity_player_apply_check_state;
+-- CREATE INDEX in_activity_player_apply_check_state ON activity_player_apply USING btree(check_state ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_pay_rank_sort;
+-- CREATE INDEX in_pay_rank_sort ON pay_rank USING btree(sort ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_address_create_time;
+-- CREATE INDEX in_player_address_create_time ON player_address USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_api_money;
+-- CREATE INDEX in_player_api_money ON player_api USING btree(money ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_api_money;
+-- CREATE INDEX in_player_api_money ON player_api USING btree(money ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_rank_rank_code;
+-- CREATE INDEX in_player_rank_rank_code ON player_rank USING btree(rank_code ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_rank_status;
+-- CREATE INDEX in_player_rank_status ON player_rank USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_rank_rank_name;
+-- CREATE INDEX in_player_rank_rank_name ON player_rank USING btree(rank_name ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_transaction_create_time;
+-- CREATE INDEX in_player_transaction_create_time ON player_transaction USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_transaction_transaction_money;
+-- CREATE INDEX in_player_transaction_transaction_money ON player_transaction USING btree(transaction_money ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_remark_remark_time;
+-- CREATE INDEX in_remark_remark_time ON remark USING btree(remark_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_message_publish_time;
+-- CREATE INDEX in_sys_message_publish_time ON sys_message USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_agent_api_game_type;
+-- CREATE INDEX in_user_agent_api_game_type ON user_agent_api USING btree(game_type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_bankcard_create_time;
+-- CREATE INDEX in_user_bankcard_create_time ON user_bankcard USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_bankcard_is_default;
+-- CREATE INDEX in_user_bankcard_is_default ON user_bankcard USING btree(is_default ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_advisory_advisory_time;
+-- CREATE INDEX in_player_advisory_advisory_time ON player_advisory USING btree(advisory_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_agent_account_balance;
+-- CREATE INDEX in_user_agent_account_balance ON user_agent USING btree(account_balance ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_agent_total_rebate;
+-- CREATE INDEX in_user_agent_total_rebate ON user_agent USING btree(total_rebate ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_player_wallet_balance;
+-- CREATE INDEX in_user_player_wallet_balance ON user_player USING btree(wallet_balance ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_user_birthday;
+-- CREATE INDEX in_sys_user_birthday ON sys_user USING btree(birthday ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_user_create_time;
+-- CREATE INDEX in_sys_user_create_time ON sys_user USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_operate_agent_static_time;
+-- CREATE INDEX in_operate_agent_static_time ON operate_agent USING btree(static_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_operate_player_static_time;
+-- CREATE INDEX in_operate_player_static_time ON operate_player USING btree(static_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_operate_topagent_static_time;
+-- CREATE INDEX in_operate_topagent_static_time ON operate_topagent USING btree(static_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_recommend_award_reward_time;
+-- CREATE INDEX in_player_recommend_award_reward_time ON player_recommend_award USING btree(reward_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_player_recommend_award_reward_time;
+-- CREATE INDEX in_player_recommend_award_reward_time ON player_recommend_award USING btree(reward_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_export_create_time;
+-- CREATE INDEX in_sys_export_create_time ON sys_export USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_role_create_time;
+-- CREATE INDEX in_sys_role_create_time ON sys_role USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_role_name;
+-- CREATE INDEX in_sys_role_name ON sys_role USING btree(name ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_role_status;
+-- CREATE INDEX in_sys_role_status ON sys_role USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_role_subsys_code;
+-- CREATE INDEX in_sys_role_subsys_code ON sys_role USING btree(subsys_code ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_shortcut_menu_sort;
+-- CREATE INDEX in_user_shortcut_menu_sort ON user_shortcut_menu USING btree(sort ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_user_task_reminder_update_time;
+-- CREATE INDEX in_user_task_reminder_update_time ON user_task_reminder USING btree(update_time ASC NULLS LAST);

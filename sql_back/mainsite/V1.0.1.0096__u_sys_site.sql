@@ -1,0 +1,1 @@
+COMMENT ON COLUMN "sys_site"."status" IS '状态,1:正常，2:停用，3:维护中';

@@ -1,0 +1,66 @@
+-- -- auto gen by tony 2015-12-23 09:04:36
+-- DROP INDEX IF EXISTS fk_game_api_increment_provider_id; CREATE INDEX fk_game_api_increment_provider_id ON game_api_increment USING btree(provider_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_increment_start_id; CREATE INDEX fk_game_api_increment_start_id ON game_api_increment USING btree(start_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_increment_interface_id; CREATE INDEX fk_game_api_increment_interface_id ON game_api_increment USING btree(interface_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_interface_provider_id; CREATE INDEX fk_game_api_interface_provider_id ON game_api_interface USING btree(provider_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_interface_request_interface_id; CREATE INDEX fk_game_api_interface_request_interface_id ON game_api_interface_request USING btree(interface_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_interface_response_interface_id; CREATE INDEX fk_game_api_interface_response_interface_id ON game_api_interface_response USING btree(interface_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_ip_db_amend_site_id; CREATE INDEX fk_ip_db_amend_site_id ON ip_db_amend USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_config_relation_config_id; CREATE INDEX fk_monitor_config_relation_config_id ON monitor_config_relation USING btree(config_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_config_relation_config_group_id; CREATE INDEX fk_monitor_config_relation_config_group_id ON monitor_config_relation USING btree(config_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_config_relation_parent_config_id; CREATE INDEX fk_monitor_config_relation_parent_config_id ON monitor_config_relation USING btree(parent_config_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_data_result_config_id; CREATE INDEX fk_monitor_data_result_config_id ON monitor_data_result USING btree(config_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_data_result_busi_id; CREATE INDEX fk_monitor_data_result_busi_id ON monitor_data_result USING btree(busi_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_monitor_recharge_faile_info_recharge_id; CREATE INDEX fk_monitor_recharge_faile_info_recharge_id ON monitor_recharge_faile_info USING btree(recharge_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_contact_way_user_id; CREATE INDEX fk_notice_contact_way_user_id ON notice_contact_way USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_email_interface_user_group_id; CREATE INDEX fk_notice_email_interface_user_group_id ON notice_email_interface USING btree(user_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_log_order_id; CREATE INDEX fk_pay_log_order_id ON pay_log USING btree(order_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_log_center_id; CREATE INDEX fk_pay_log_center_id ON pay_log USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_log_site_id; CREATE INDEX fk_pay_log_site_id ON pay_log USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_log_master_id; CREATE INDEX fk_pay_log_master_id ON pay_log USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_pay_log_user_id; CREATE INDEX fk_pay_log_user_id ON pay_log USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_qrtz_cron_triggers_time_zone_id; CREATE INDEX fk_qrtz_cron_triggers_time_zone_id ON qrtz_cron_triggers USING btree(time_zone_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_qrtz_fired_triggers_entry_id; CREATE INDEX fk_qrtz_fired_triggers_entry_id ON qrtz_fired_triggers USING btree(entry_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_svr_servers_type_id; CREATE INDEX fk_svr_servers_type_id ON svr_servers USING btree(type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_svr_servers_group_id; CREATE INDEX fk_svr_servers_group_id ON svr_servers USING btree(group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_id; CREATE INDEX fk_sys_audit_log_entity_id ON sys_audit_log USING btree(entity_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operate_type_id; CREATE INDEX fk_sys_audit_log_operate_type_id ON sys_audit_log USING btree(operate_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_user_id; CREATE INDEX fk_sys_audit_log_entity_user_id ON sys_audit_log USING btree(entity_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operator_id; CREATE INDEX fk_sys_audit_log_operator_id ON sys_audit_log USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_site_id; CREATE INDEX fk_sys_dept_site_id ON sys_dept USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_parent_id; CREATE INDEX fk_sys_dept_parent_id ON sys_dept USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_session_id; CREATE INDEX fk_sys_on_line_session_session_id ON sys_on_line_session USING btree(session_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_sys_user_id; CREATE INDEX fk_sys_on_line_session_sys_user_id ON sys_on_line_session USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_site_id; CREATE INDEX fk_sys_on_line_session_site_id ON sys_on_line_session USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_param_site_id; CREATE INDEX fk_sys_param_site_id ON sys_param USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_resource_parent_id; CREATE INDEX fk_sys_resource_parent_id ON sys_resource USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_site_id; CREATE INDEX fk_sys_role_site_id ON sys_role USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_role_id; CREATE INDEX fk_sys_role_default_resource_role_id ON sys_role_default_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_resource_id; CREATE INDEX fk_sys_role_default_resource_resource_id ON sys_role_default_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_resource_id; CREATE INDEX fk_sys_role_resource_resource_id ON sys_role_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_role_id; CREATE INDEX fk_sys_role_resource_role_id ON sys_role_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_rule_file_catalog_id; CREATE INDEX fk_sys_rule_file_catalog_id ON sys_rule_file USING btree(catalog_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_rule_file_catalog_parent_id; CREATE INDEX fk_sys_rule_file_catalog_parent_id ON sys_rule_file_catalog USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_owner_id; CREATE INDEX fk_sys_user_owner_id ON sys_user USING btree(owner_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_site_id; CREATE INDEX fk_sys_user_site_id ON sys_user USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_dept_id; CREATE INDEX fk_sys_user_dept_id ON sys_user USING btree(dept_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_protection_safe_contact_way_id; CREATE INDEX fk_sys_user_protection_safe_contact_way_id ON sys_user_protection USING btree(safe_contact_way_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_user_id; CREATE INDEX fk_sys_user_role_user_id ON sys_user_role USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_role_id; CREATE INDEX fk_sys_user_role_role_id ON sys_user_role USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_task_run_record_task_schedule_id; CREATE INDEX fk_task_run_record_task_schedule_id ON task_run_record USING btree(task_schedule_id ASC NULLS LAST);
+--
+--
+-- DROP INDEX IF EXISTS in_task_run_record_begin_time;
+-- CREATE INDEX in_task_run_record_begin_time ON task_run_record USING btree(begin_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_task_run_record_end_time;
+-- CREATE INDEX in_task_run_record_end_time ON task_run_record USING btree(end_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_task_run_record_job_name;
+-- CREATE INDEX in_task_run_record_job_name ON task_run_record USING btree(job_name ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_task_run_record_result;
+-- CREATE INDEX in_task_run_record_result ON task_run_record USING btree(result ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_task_run_record_status;
+-- CREATE INDEX in_task_run_record_status ON task_run_record USING btree(status ASC NULLS LAST);

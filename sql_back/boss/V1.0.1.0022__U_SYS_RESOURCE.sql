@@ -1,0 +1,2 @@
+-- auto gen by tom 2015-12-07 15:57:13
+UPDATE sys_resource SET url = 'vContractScheme/list.html', remark = '总控-平台-包网方案' WHERE id = (SELECT id FROM sys_resource WHERE "name" = '包网方案' AND parent_id = 3 AND subsys_code = 'boss');

@@ -1,0 +1,73 @@
+-- -- auto gen by tony 2015-12-23 09:04:57
+-- DROP INDEX IF EXISTS fk_company_operate_api_type_id; CREATE INDEX fk_company_operate_api_type_id ON company_operate USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_company_operate_operator_id; CREATE INDEX fk_company_operate_operator_id ON company_operate USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_company_operate_api_id; CREATE INDEX fk_company_operate_api_id ON company_operate USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_survey_center_id; CREATE INDEX fk_game_survey_center_id ON game_survey USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_survey_api_type_id; CREATE INDEX fk_game_survey_api_type_id ON game_survey USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_survey_api_id; CREATE INDEX fk_game_survey_api_id ON game_survey USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_survey_site_id; CREATE INDEX fk_game_survey_site_id ON game_survey USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_survey_master_id; CREATE INDEX fk_game_survey_master_id ON game_survey USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_master_operate_api_id; CREATE INDEX fk_master_operate_api_id ON master_operate USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_master_operate_center_id; CREATE INDEX fk_master_operate_center_id ON master_operate USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_master_operate_master_id; CREATE INDEX fk_master_operate_master_id ON master_operate USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_master_operate_api_type_id; CREATE INDEX fk_master_operate_api_type_id ON master_operate USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_master_operate_site_id; CREATE INDEX fk_master_operate_site_id ON master_operate USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operation_profile_center_id; CREATE INDEX fk_operation_profile_center_id ON operation_profile USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operation_profile_master_id; CREATE INDEX fk_operation_profile_master_id ON operation_profile USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_operation_profile_site_id; CREATE INDEX fk_operation_profile_site_id ON operation_profile USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_api_api_id; CREATE INDEX fk_site_backwater_api_api_id ON site_backwater_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_api_center_id; CREATE INDEX fk_site_backwater_api_center_id ON site_backwater_api USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_api_master_id; CREATE INDEX fk_site_backwater_api_master_id ON site_backwater_api USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_api_site_id; CREATE INDEX fk_site_backwater_api_site_id ON site_backwater_api USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_gametype_api_id; CREATE INDEX fk_site_backwater_gametype_api_id ON site_backwater_gametype USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_gametype_center_id; CREATE INDEX fk_site_backwater_gametype_center_id ON site_backwater_gametype USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_gametype_master_id; CREATE INDEX fk_site_backwater_gametype_master_id ON site_backwater_gametype USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_gametype_site_id; CREATE INDEX fk_site_backwater_gametype_site_id ON site_backwater_gametype USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_player_site_id; CREATE INDEX fk_site_backwater_player_site_id ON site_backwater_player USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_player_center_id; CREATE INDEX fk_site_backwater_player_center_id ON site_backwater_player USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_backwater_player_master_id; CREATE INDEX fk_site_backwater_player_master_id ON site_backwater_player USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_information_site_id; CREATE INDEX fk_site_information_site_id ON site_information USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_information_master_id; CREATE INDEX fk_site_information_master_id ON site_information USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_information_center_id; CREATE INDEX fk_site_information_center_id ON site_information USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_api_id; CREATE INDEX fk_site_operate_api_id ON site_operate USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_site_id; CREATE INDEX fk_site_operate_site_id ON site_operate USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_center_id; CREATE INDEX fk_site_operate_center_id ON site_operate USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_master_id; CREATE INDEX fk_site_operate_master_id ON site_operate USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_api_type_id; CREATE INDEX fk_site_operate_api_type_id ON site_operate USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_site_id; CREATE INDEX fk_site_rebate_site_id ON site_rebate USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_center_id; CREATE INDEX fk_site_rebate_center_id ON site_rebate USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_master_id; CREATE INDEX fk_site_rebate_master_id ON site_rebate USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_api_api_id; CREATE INDEX fk_site_rebate_api_api_id ON site_rebate_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_api_center_id; CREATE INDEX fk_site_rebate_api_center_id ON site_rebate_api USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_api_master_id; CREATE INDEX fk_site_rebate_api_master_id ON site_rebate_api USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_api_site_id; CREATE INDEX fk_site_rebate_api_site_id ON site_rebate_api USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_gametype_center_id; CREATE INDEX fk_site_rebate_gametype_center_id ON site_rebate_gametype USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_gametype_site_id; CREATE INDEX fk_site_rebate_gametype_site_id ON site_rebate_gametype USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_gametype_api_id; CREATE INDEX fk_site_rebate_gametype_api_id ON site_rebate_gametype USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_rebate_gametype_master_id; CREATE INDEX fk_site_rebate_gametype_master_id ON site_rebate_gametype USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_topagent_id; CREATE INDEX fk_station_bill_topagent_id ON station_bill USING btree(topagent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_master_id; CREATE INDEX fk_station_bill_master_id ON station_bill USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_center_id; CREATE INDEX fk_station_bill_center_id ON station_bill USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_operate_user_id; CREATE INDEX fk_station_bill_operate_user_id ON station_bill USING btree(operate_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_site_id; CREATE INDEX fk_station_bill_site_id ON station_bill USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_bill_other_station_bill_id; CREATE INDEX fk_station_bill_other_station_bill_id ON station_bill_other USING btree(station_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_profit_loss_station_bill_id; CREATE INDEX fk_station_profit_loss_station_bill_id ON station_profit_loss USING btree(station_bill_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_profit_loss_api_id; CREATE INDEX fk_station_profit_loss_api_id ON station_profit_loss USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_master_report_center_id; CREATE INDEX fk_sys_master_report_center_id ON sys_master_report USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_master_report_master_id; CREATE INDEX fk_sys_master_report_master_id ON sys_master_report USING btree(master_id ASC NULLS LAST);
+--
+--
+-- DROP INDEX IF EXISTS in_master_operate_static_time;
+-- CREATE INDEX in_master_operate_static_time ON master_operate USING btree(static_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_operate_static_time;
+-- CREATE INDEX in_site_operate_static_time ON site_operate USING btree(static_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_station_bill_amount_payable;
+-- CREATE INDEX in_station_bill_amount_payable ON station_bill USING btree(amount_payable ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_station_bill_create_time;
+-- CREATE INDEX in_station_bill_create_time ON station_bill USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_operation_profile_statistics_time;
+-- CREATE INDEX in_operation_profile_statistics_time ON operation_profile USING btree(statistics_time ASC NULLS LAST);

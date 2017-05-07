@@ -1,0 +1,15 @@
+-- auto gen by lenovo 2016-05-16 03:06:53
+--新增gd修改注单的接口
+INSERT INTO "game_api_interface" ("id", "protocol", "api_action", "local_action", "http_method", "remarks", "param_class", "result_class", "request_content_type", "response_content_type", "provider_id", "ext_json") VALUES ('59', 'HTTP', '', 'fetchModifiedRecord', 'POST', 'GD修改注单数据', 'org.soul.model.gameapi.param.FetchModifiedRecordParam', 'org.soul.model.gameapi.result.FetchModifiedRecordResult', 'XML', 'XML', '5', '');
+
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('196', 'FromTime', 'startTime', 't', NULL, NULL, '', '', '59', '', 'GD-下注开始时间', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('197', 'ToTime', 'endTime', 't', NULL, NULL, '', '', '59', '', 'GD-结束时间', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('198', 'Index', 'Index', 'f', NULL, NULL, '', '0', '59', '', 'GD-在某段時間內的記錄開始指數', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('199', 'ShowBalance', 'ShowBalance', 'f', NULL, NULL, '', '0', '59', '', 'GD-顯示開始結餘及完結結餘 (非必須)。只適用於選用轉移錢包的商戶', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('190', 'SearchByBalanceTime', 'SearchByBalanceTime', 'f', NULL, NULL, '', '1', '59', '', 'GD-只顯示已經結餘的投注項目', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('191', 'ShowRefID', 'ShowRefID', 'f', NULL, NULL, '', '', '59', '', 'GD-顯示單荷包系統中的transaction ID。只適用於選用單錢包的商戶', '', '');
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") VALUES ('192', 'ShowOdds', 'ShowOdds', 'f', NULL, NULL, '', '0', '59', '', 'GD-是否展现赔率', '', '');
+
+update game_api_interface_request set default_value ='0' where id=130;
+
+update game_api_provider set jar_version=to_char(CURRENT_TIMESTAMP, 'yyyymmddhhmmss');

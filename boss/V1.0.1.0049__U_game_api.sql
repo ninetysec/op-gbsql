@@ -1,0 +1,6 @@
+-- auto gen by Alvin 2016-05-13 12:54:21
+--更新所有版本号
+update game_api_provider set jar_version=to_char(CURRENT_TIMESTAMP, 'yyyymmddhhmmss');
+--MG--真实环境
+update game_api_provider set ext_json='{"username":"DawooCNY","password":"Password123","defaultApiUser":"apiadmin","defaultApiPassword":"apipassword","currencyCode":"CNY","SH_NET_ID":"81119847","horid":"81119836","ipaddress":"202.181.174.37","parentID":"Dawoo","launch-mode":"api","search-setting":{"ahead-minute":25,"backward-minute":15,"auto-settled":true,"settled-after-bet-minute":10,"sleep-time":5000},"API_URL":"/lps/j_spring_security_check","headers":{"X-Requested-With":"X-Api-Client","X-Api-Call":"X-Api-Client"},"additional":{"currencyFormat":"%23%2C%23%23%23.%23%23"},"links":{"live":"https://etiloader3.valueactive.eu/ETILoader/default.aspx?token=%s&casinoid=%s&UL=%s&VideoQuality=3&ModuleID=70004&ClientID=4&ClientType=1&UserType=0&ProductID=2&BetProfileID=0&ActiveCurrency=Credits&LoginName=&Password=&StartingTab=Baccarat&CustomLDParam=MultiTableMode^^1","ele":"https://launch88.gameassists.co.uk/aurora/?theme=158poker&ul=%s&variant=vanguard&AuthToken=%s&gameid=%s","html5":"http://mobile3.gameassists.co.uk/MobileWebServices/casino/game/launch/mobile88/%s/%s?casinoID=2487&lobbyURL=%s&bankingURL=%s&loginType=VanguardSessionToken&authToken=%s&isRGI=true&currencyFormat=%s"}}'  where id=3;
+

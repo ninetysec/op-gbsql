@@ -1,0 +1,4 @@
+-- auto gen by wayne 2016-09-21 16:19:26
+UPDATE pay_api_provider set ext_json='{"pro":{"payUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://3rd.pay.api.com/jiupay-pay/cgi-bin/netpayment/pay_gate.cgi"},"test":{"payUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi"}}' WHERE channel_code='jiupay';
+
+UPDATE pay_api_provider set ext_json='{"pro":{"payUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://3rd.pay.api.com/jiupay-pay/cgi-bin/netpayment/pay_gate.cgi"},"test":{"payUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"https://9pay.9payonline.com/cgi-bin/netpayment/pay_gate.cgi"}}' WHERE channel_code='jiupay_wx';

@@ -1,0 +1,2 @@
+-- auto gen by jerry 2016-10-10 23:37:31
+UPDATE game_api_provider SET ext_json=' {"hashCode":"xkk8899_q8p0n9u_0g3k5k_1c1w3j7y9k7a5","recordUrl":"http://3rd.game.api.com/ds-record-api/dsapiyfrecord/app/api.do"}' WHERE id=1;

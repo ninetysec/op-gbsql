@@ -1,0 +1,2 @@
+-- auto gen by tom 2015-12-28 20:24:05
+UPDATE sys_resource SET url = 'vSiteContractScheme/list.html' WHERE id = (SELECT id FROM sys_resource WHERE "name" = '包网方案' AND parent_id = 4 AND subsys_code = 'ccenter');

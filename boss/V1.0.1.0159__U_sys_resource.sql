@@ -1,0 +1,2 @@
+-- auto gen by jerry 2016-10-03 15:32:16
+UPDATE sys_resource SET "id"='513', "name"='转账日志', "url"='gameApiLog/list.html', "remark"='转账日志', "parent_id"='5', "structure"=NULL, "sort_num"='13', "subsys_code"='boss', "permission"='maintenance:apiLog', "resource_type"='1', "icon"=NULL, "privilege"='f', "built_in"='t', "status"='t' WHERE ("id"='513');

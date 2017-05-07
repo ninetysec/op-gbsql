@@ -1,0 +1,2 @@
+-- auto gen by admin 2017-04-18 10:20:30
+update game_api_provider set ext_json='{"MerchantID":"Dawoo","AccessKey":"3885731c-97ee-439c-8ea1-eedc0b3551e6","gameUrl":"gd.ampinplayopt0matrix.com","setNum":"500","search-minute":"10","supportReSend":"true"}' where id=5;

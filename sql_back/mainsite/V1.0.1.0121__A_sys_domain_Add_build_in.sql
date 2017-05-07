@@ -1,0 +1,45 @@
+-- auto gen by longer 2015-11-26 16:42:13
+
+select redo_sqls($$
+  alter TABLE sys_domain add COLUMN build_in BOOL;
+$$);
+
+COMMENT ON COLUMN  sys_domain.build_in is '是否内置:开发使用';
+
+
+--重新整理数据
+
+TRUNCATE TABLE sys_domain;
+alter SEQUENCE sys_domain_id_seq RESTART 1;
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( -1, 'boss.me.so', null, true, false, null, -1, 'boss', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( -1, 'boss.dev.so', null, true, false, null, -1, 'boss', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( -1, 'boss.test.so', false, true, false, null, -1, 'boss', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 0, 'ccenter.me.so', null, true, false, null, 0, 'ccenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 0, 'ccenter.dev.so', null, true, false, null, 0, 'ccenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 0, 'ccenter.test.so', false, true, false, null, 0, 'ccenter', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites.me.so', null, true, false, null, 1, 'mcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites.dev.so', null, true, false, null, 1, 'mcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites.test.so', null, true, false, null, 1, 'mcenter', null, null, null, null, null, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter.me.so', null, true, false, null, 1, 'mcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter.dev.so', null, true, false, null, 1, 'mcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter.test.so', false, true, false, null, 1, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter.me.so', null, true, false, null, 1, 'pcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter.dev.so', null, true, false, null, 1, 'pcenter', null, null, null, null, null, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter.test.so', false, true, false, null, 1, 'pcenter', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter2.me.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter2.dev.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'mcenter2.test.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites2.me.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites2.dev.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'msites2.test.so', false, true, false, null, 2, 'mcenter', null, null, null, null, false, null, null, null, '2', true);
+
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter2.me.so', false, true, false, null, 2, 'pcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter2.dev.so', false, true, false, null, 2, 'pcenter', null, null, null, null, false, null, null, null, '2', true);
+INSERT INTO sys_domain (sys_user_id, domain, is_default, is_enable, is_deleted, sort, site_id, subsys_code, create_user, create_time, update_user, update_time, is_for_all_rank, page_url, name, agent_id, resolve_status, build_in) VALUES ( 1, 'pcenter2.test.so', false, true, false, null, 2, 'pcenter', null, null, null, null, false, null, null, null, '2', true);
+alter SEQUENCE sys_domain_id_seq RESTART 100;

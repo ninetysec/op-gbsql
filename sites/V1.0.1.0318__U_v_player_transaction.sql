@@ -1,0 +1,1 @@
+-- auto gen by admin 2016-11-14 16:16:23DROP VIEW  IF  EXISTS V_PLAYER_TRANSFER;CREATE OR REPLACE VIEW v_player_transfer ASSELECT pt.*,paa.accountFROM player_transfer ptLEFT JOIN player_api_account paa ON paa.user_id = pt.user_id AND pt.api_id=paa.api_id;

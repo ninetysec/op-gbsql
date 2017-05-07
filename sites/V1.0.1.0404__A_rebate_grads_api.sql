@@ -1,0 +1,795 @@
+-- auto gen by cherry 2017-03-13 10:22:21
+ select redo_sqls($$
+    alter table rebate_grads_api ADD COLUMN api_type_id int4;
+$$);
+
+COMMENT ON COLUMN rebate_grads_api.api_type_id is 'API类型ID';
+
+update rebate_grads_api set api_type_id = 1 where game_type = 'LiveDealer';
+
+update rebate_grads_api set api_type_id = 2 where game_type = 'Casino';
+
+update rebate_grads_api set api_type_id = 3 where game_type = 'Sportsbook';
+
+update rebate_grads_api set api_type_id = 4 where game_type = 'Lottery';
+
+CREATE TABLE IF not EXISTS "agent_rebate" (
+
+"id" SERIAL4 NOT NULL PRIMARY KEY,
+
+"rebate_year" int4,
+
+"rebate_month" int4,
+
+"start_time" timestamp(6),
+
+"end_time" timestamp(6),
+
+"topagent_id" int4,
+
+"topagentusername" varchar(32) COLLATE "default",
+
+"agent_id" int4,
+
+"agentusername" varchar(32) COLLATE "default",
+
+"effective_player_amount" numeric(20,2),
+
+"effective_player_num" int4,
+
+"payout_amount_history" numeric(20,2),
+
+"payout_amount" numeric(20,2),
+
+"effective_amount_history" numeric(20,2),
+
+"effective_amount" numeric(20,2),
+
+"fee_amount_history" numeric(20,2),
+
+"favorable_amount_history" numeric(20,2),
+
+"rakeback_amount_history" numeric(20,2),
+
+"other_amount_history" numeric(20,2),
+
+"fee_amount" numeric(20,2),
+
+"favorable_amount" numeric(20,2),
+
+"rakeback_amount" numeric(20,2),
+
+"other_amount" numeric(20,2),
+
+"rebate_amount" numeric(20,2),
+
+"rebate_amount_actual" numeric(20,2),
+
+"rebate_status" varchar(32) COLLATE "default",
+
+"create_time" timestamp(6)
+
+);
+
+COMMENT ON TABLE "agent_rebate" IS '代理返佣账单';
+
+COMMENT ON COLUMN "agent_rebate"."rebate_year" IS '返佣年份';
+
+COMMENT ON COLUMN "agent_rebate"."rebate_month" IS '返佣月份';
+
+COMMENT ON COLUMN "agent_rebate"."start_time" IS '返佣起始时间';
+
+COMMENT ON COLUMN "agent_rebate"."end_time" IS '返佣截止时间';
+
+COMMENT ON COLUMN "agent_rebate"."topagent_id" IS '总代id';
+
+COMMENT ON COLUMN "agent_rebate"."topagentusername" IS '总代账号';
+
+COMMENT ON COLUMN "agent_rebate"."agent_id" IS '代理id';
+
+COMMENT ON COLUMN "agent_rebate"."agentusername" IS '代理账号';
+
+COMMENT ON COLUMN "agent_rebate"."effective_player_amount" IS '有效玩家的有效投注额';
+
+COMMENT ON COLUMN "agent_rebate"."effective_player_num" IS '有效玩家数';
+
+COMMENT ON COLUMN "agent_rebate"."payout_amount_history" IS '累积派彩';
+
+COMMENT ON COLUMN "agent_rebate"."payout_amount" IS '当期派彩';
+
+COMMENT ON COLUMN "agent_rebate"."effective_amount_history" IS '累积有效投注额';
+
+COMMENT ON COLUMN "agent_rebate"."effective_amount" IS '当期有效投注额';
+
+COMMENT ON COLUMN "agent_rebate"."fee_amount_history" IS '累积行政费用(上一期的累积费用+上一期当期费用)';
+
+COMMENT ON COLUMN "agent_rebate"."favorable_amount_history" IS '累积存款优惠';
+
+COMMENT ON COLUMN "agent_rebate"."rakeback_amount_history" IS '累积返水优惠';
+
+COMMENT ON COLUMN "agent_rebate"."other_amount_history" IS '累积其他费用';
+
+COMMENT ON COLUMN "agent_rebate"."fee_amount" IS '当期行政费用';
+
+COMMENT ON COLUMN "agent_rebate"."favorable_amount" IS '当期存款优惠';
+
+COMMENT ON COLUMN "agent_rebate"."rakeback_amount" IS '当期返水优惠';
+
+COMMENT ON COLUMN "agent_rebate"."other_amount" IS '当期其他费用';
+
+COMMENT ON COLUMN "agent_rebate"."rebate_amount" IS '返佣金额';
+
+COMMENT ON COLUMN "agent_rebate"."rebate_amount_actual" IS '已返佣金额';
+
+COMMENT ON COLUMN "agent_rebate"."rebate_status" IS '返佣状态';
+
+COMMENT ON COLUMN "agent_rebate"."create_time" IS '创建时间';
+
+CREATE TABLE IF not EXISTS "agent_rebate_player" (
+
+"id" SERIAL4 NOT NULL  PRIMARY KEY,
+
+"topagent_id" int4,
+
+"topagentusername" varchar(32) COLLATE "default",
+
+"agent_id" int4,
+
+"agentusername" varchar(32) COLLATE "default",
+
+"user_id" int4,
+
+"username" varchar(32) COLLATE "default",
+
+"deposit_amount" numeric(20,2),
+
+"deposit_radio" numeric(20,2),
+
+"withdraw_amount" numeric(20,2),
+
+"withdraw_radio" numeric(20,2),
+
+"rakeback_amount" numeric(20,2),
+
+"favorable_amount" numeric(20,2),
+
+"recommend_amount" numeric(20,2),
+
+"rebate_year" int4,
+
+"rebate_month" int4
+
+);
+
+COMMENT ON TABLE "agent_rebate_player" IS '代理返佣_玩家明细';
+
+COMMENT ON COLUMN "agent_rebate_player"."topagent_id" IS '总代id';
+
+COMMENT ON COLUMN "agent_rebate_player"."topagentusername" IS '总代账号';
+
+COMMENT ON COLUMN "agent_rebate_player"."agent_id" IS '代理id';
+
+COMMENT ON COLUMN "agent_rebate_player"."agentusername" IS '代理账号';
+
+COMMENT ON COLUMN "agent_rebate_player"."user_id" IS '玩家id';
+
+COMMENT ON COLUMN "agent_rebate_player"."username" IS '玩家账号';
+
+COMMENT ON COLUMN "agent_rebate_player"."deposit_amount" IS '存款(行政费用1=存款×存款手续费)';
+
+COMMENT ON COLUMN "agent_rebate_player"."deposit_radio" IS '存款手续费比例,百分比';
+
+COMMENT ON COLUMN "agent_rebate_player"."withdraw_amount" IS '取款(行政费用2=取款×取款手续费)';
+
+COMMENT ON COLUMN "agent_rebate_player"."withdraw_radio" IS '取款手续费比例,百分比';
+
+COMMENT ON COLUMN "agent_rebate_player"."rakeback_amount" IS '返水费用';
+
+COMMENT ON COLUMN "agent_rebate_player"."favorable_amount" IS '存款优惠';
+
+COMMENT ON COLUMN "agent_rebate_player"."recommend_amount" IS '推荐费用(其他费用)';
+
+CREATE TABLE if not EXISTS "agent_rebate_grads" (
+
+"id" SERIAL4 NOT NULL PRIMARY KEY,
+
+"topagent_id" int4,
+
+"topagentusername" varchar(32) COLLATE "default",
+
+"agent_id" int4,
+
+"agentusername" varchar(32) COLLATE "default",
+
+"api_id" int4,
+
+"api_type_id" int4,
+
+"payout_amount_history" numeric(20,2),
+
+"payout_amount" numeric(20,2),
+
+"radio" numeric(20,2),
+
+"rebate_year" int4,
+
+"rebate_month" int4,
+
+"rebate_order_num" int4,
+
+"expense_amount" numeric(20,2),
+
+"remain_payout_amount" numeric(20,2),
+
+"remain_expense_amount" numeric(20,2)
+
+);
+
+COMMENT ON TABLE "agent_rebate_grads" IS '代理返佣_玩家明细';
+
+COMMENT ON COLUMN "agent_rebate_grads"."agent_id" IS '代理id';
+
+COMMENT ON COLUMN "agent_rebate_grads"."agentusername" IS '代理账号';
+
+COMMENT ON COLUMN "agent_rebate_grads"."api_id" IS 'API';
+
+COMMENT ON COLUMN "agent_rebate_grads"."api_type_id" IS 'api分类';
+
+COMMENT ON COLUMN "agent_rebate_grads"."payout_amount_history" IS '累积派彩(上一期已处理则为0，否则为上一期的累积派彩+上一期的当期派彩)';
+
+COMMENT ON COLUMN "agent_rebate_grads"."payout_amount" IS '当期派彩';
+
+COMMENT ON COLUMN "agent_rebate_grads"."radio" IS '比例';
+
+COMMENT ON COLUMN "agent_rebate_grads"."rebate_order_num" IS '返佣顺序号';
+
+COMMENT ON COLUMN "agent_rebate_grads"."expense_amount" IS '承担费用';
+
+COMMENT ON COLUMN "agent_rebate_grads"."remain_payout_amount" IS '剩余派彩';
+
+COMMENT ON COLUMN "agent_rebate_grads"."remain_expense_amount" IS '剩余费用';
+
+CREATE OR REPLACE FUNCTION "f_agent_rebate"(stat_month text, p_start_time text, p_end_time text, api_type_relation_json text,p_com_url text)
+
+  RETURNS "pg_catalog"."varchar" AS $BODY$
+
+/*版本更新说明
+
+  版本   时间        作者     内容
+
+--v1.00  2017/03/03  younger   创建此函数: 返佣结算账单-入口
+
+  -- stat_month 统计月份
+
+  -- p_start_time 统计开始时间
+
+  -- p_end_time 统计结束时间
+
+  -- api_type_relation_json API返佣排序
+
+	--生成JSON串语句：
+
+	--select array_to_json(array_agg(row_to_json(t))) from (select api_id, api_type_id,rebate_order_num from api_type_relation order by rebate_order_num ) t
+
+	--运行函数
+
+	--select f_agent_rebate('2017-02','2017-01-31 16:00:00','2017-02-28 16:00:00','','192.168.0.88 port=5432 dbname=gb-companies user=gb-companies password=postgres')
+
+	--select f_agent_rebate('2017-02','2017-01-31 16:00:00','2017-02-28 16:00:00','','host=postgres-boss port=5432 dbname=gb-companies user=gb-companies password=postgres');
+
+*/
+
+DECLARE
+	t_start_time 	TIMESTAMP;--查询开始时间
+
+	t_end_time 	TIMESTAMP;--查询结束时间
+
+	t_start_date DATE;
+
+	t_end_date DATE;
+
+	last_rebate_month VARCHAR;
+
+  need_history_count BOOLEAN :=false;--是否需要累计
+
+  p_year INT :=0; --统计年
+
+  p_month INT :=0;--统计月
+
+  p_last_year INT :=0;--上期统计年
+
+  p_last_month INT :=0;--上期统计月
+
+  rebateStatus VARCHAR;--佣统状态
+
+	deposit_radio numeric :=0;--存款率
+
+	withdraw_radio numeric :=0;--取款率
+
+	agentRecord RECORD;--代理行记录
+
+	apiRelationRecord RECORD;--API关系记录
+
+	apiRebateRecord RECORD;--API返佣记录
+
+	agentrebateid INT;--代理返佣ID
+
+	agentgradsid INT;--代理满足的梯度ID
+
+	validValue INT;--有效值
+
+	apiJson VARCHAR;--API JSON串
+
+	apiId int; --API临时ID
+
+	apiTypeId int;--API类型临时ID
+
+	zpc numeric(20,2) :=0; --总派彩
+
+	feeAmount numeric(20,2) :=0;--当期行政费用
+
+	apiGradsRec RECORD;--API派彩记录
+
+	remainFeeAmount numeric(20,2) :=0;--剩余费用
+
+	remainPayout numeric(20,2) :=0;--剩作派彩
+
+	totalFee numeric(20,2) :=0;--代理总费用
+
+	idx int := 0 ;--序号
+
+	rebateOrderNum int;--API返佣排序号
+
+	unsettled RECORD;--数据库连接
+
+	temp_sql VARCHAR;--临时SQL
+
+BEGIN
+
+	if stat_month is null or stat_month = '' THEN
+
+		raise notice '统计月分为空';
+
+		RETURN '统计月分为空';
+
+	end if;
+
+	if (api_type_relation_json is null or api_type_relation_json = '') and (p_com_url is null or p_com_url = '') THEN
+
+		raise notice 'API返佣顺序数据为空';
+
+		RETURN 'API返佣顺序数据为空';
+
+	end if;
+
+	if api_type_relation_json is null or api_type_relation_json = '' THEN
+
+		raise notice 'API返佣顺序数据为空,从URL获取';
+
+		temp_sql = 'select array_to_json(array_agg(row_to_json(t))) from (select api_id, api_type_id,rebate_order_num from api_type_relation order by rebate_order_num ) t';
+
+		for unsettled in
+
+			SELECT * from dblink(p_com_url,temp_sql) as unsettled_temp(apiJson VARCHAR)
+
+		loop
+
+			api_type_relation_json = unsettled.apiJson;
+
+		end loop;
+
+	end if;
+
+	raise notice 'api_type_relation_json： %', api_type_relation_json;
+
+	--拆分统计年月
+
+  SELECT substring(stat_month from 1 for 4) INTO p_year;
+
+  SELECT substring(stat_month from 6 for 7) INTO p_month;
+
+	--上月
+
+	select to_char(to_date('2016-11','yyyy-mm')+ interval '-1 months','yyyy-mm') into last_rebate_month;
+
+	--拆分上期统计年月
+
+	if last_rebate_month is not null and last_rebate_month <> '' then
+
+		SELECT substring(last_rebate_month from 1 for 4) INTO p_last_year;
+
+		SELECT substring(last_rebate_month from 6 for 7) INTO p_last_month;
+
+	end if;
+
+	--转换时间格式
+
+	t_start_time = p_start_time::TIMESTAMP;
+
+	t_end_time = p_end_time::TIMESTAMP;
+
+	--统计查询条件年月日
+
+	select to_date(stat_month||'-01','yyyy-mm-dd') into t_start_date;
+
+	select to_date(to_char(t_start_date+ interval '1 months','yyyy-mm-dd'),'yyyy-mm-dd') into t_end_date;
+
+	raise notice 't_start_date %', t_start_date;
+
+	raise notice 't_end_date %', t_end_date;
+
+
+
+  --1、判断统计月份是否存在，有存在，先删除
+
+
+
+		DELETE FROM agent_rebate WHERE rebate_year=p_year and rebate_month=p_month;
+
+		DELETE FROM agent_rebate_player where rebate_year=p_year and rebate_month=p_month;
+
+		DELETE FROM agent_rebate_grads where rebate_year=p_year and rebate_month=p_month;
+
+
+
+
+
+	--2、计算代理的承担费用（即生成agent_rebate_player）
+
+		SELECT CASE WHEN param_value is NULL THEN default_value ELSE param_value end FROM sys_param WHERE param_type = 'rebateSetting' and param_code='settlement.deposit.fee' INTO deposit_radio;
+
+		SELECT CASE WHEN param_value is NULL THEN default_value ELSE param_value end FROM sys_param WHERE param_type = 'rebateSetting' and param_code='settlement.withdraw.fee' INTO withdraw_radio;
+
+		--插入代理返佣_玩家明细表
+
+		insert into agent_rebate_player(
+
+			rebate_year,rebate_month,topagent_id,topagentusername,agent_id,agentusername,user_id,username,deposit_amount,deposit_radio,withdraw_amount,withdraw_radio,rakeback_amount,favorable_amount,recommend_amount
+
+		)
+
+		SELECT p_year,p_month,d.id topagent_id,d.username topagentusername,c.id agent_id,c.username agentusername,player_id user_id,b.username username,
+
+		(SELECT sum(COALESCE(transaction_money,0)) from player_transaction pt where pt.player_id = a.player_id and pt.transaction_type='deposit' and pt.status = 'success' and completion_time>=t_start_time and completion_time<t_end_time) deposit_amount,
+
+		COALESCE(deposit_radio,0),
+
+		(SELECT sum(COALESCE(-transaction_money,0)) from player_transaction pt where pt.player_id = a.player_id and pt.transaction_type='withdrawals' and pt.status = 'success' and completion_time>=t_start_time and completion_time<t_end_time) withdraw_amount,
+
+		COALESCE(withdraw_radio,0),
+
+		(SELECT sum(COALESCE(transaction_money,0)) from player_transaction pt where pt.player_id = a.player_id and pt.transaction_type='backwater' and pt.status = 'success' and completion_time>=t_start_time and completion_time<t_end_time) rakeback_amount,
+
+		(SELECT sum(COALESCE(transaction_money,0)) from player_transaction pt where pt.player_id = a.player_id and pt.transaction_type='favorable' and pt.status = 'success' and completion_time>=t_start_time and completion_time<t_end_time) favorable_amount,
+
+				(SELECT sum(COALESCE(transaction_money,0)) from player_transaction pt where pt.player_id = a.player_id and pt.transaction_type='recommend' and pt.status = 'success' and completion_time>=t_start_time and completion_time<t_end_time) recommend_amount
+
+		 from (select player_id from player_transaction where transaction_type!='transfers'  and completion_time>= t_start_time and completion_time < t_end_time group by player_id) a left join sys_user b
+
+		on a.player_id = b.id left join sys_user c on b.owner_id = c.id left join sys_user d on c.owner_id = d.id;
+
+
+
+
+
+	--3、每个代理生成一条主表数据
+
+		FOR agentRecord in
+
+			SELECT * from sys_user where user_type='23' and status in('1','3')
+
+		LOOP
+
+			--是否需要累计
+
+			select rebate_status from agent_rebate where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agentRecord.id into rebateStatus;
+
+			if rebateStatus='0' or rebateStatus='1' THEN
+
+				need_history_count = true;
+
+			end if;
+
+
+
+			--获取代理返佣方案
+
+			select rebate_id from user_agent_rebate uar where uar.user_id = agentRecord.id INTO agentrebateid;
+
+			select valid_value from rebate_set where id = agentrebateid into validValue;
+
+
+
+			--获取代理满足的佣金梯度
+
+			SELECT  id FROM rebate_grads WHERE rebate_id=agentrebateid AND total_profit <= (SELECT -sum(profit_loss) FROM operate_player WHERE agent_id = agentRecord.id and static_date>=t_start_date and static_date < t_end_date )
+
+				AND  valid_player_num <= (select count(1) from (select player_id,sum(transaction_volume) tradevalue from operate_player where static_date>=t_start_date and static_date < t_end_date and agent_id=agentRecord.id  group by player_id) ta where ta.tradevalue>validValue)  order by valid_player_num desc limit 1 INTO agentgradsid;
+
+
+
+			--批量插入数据
+
+			insert INTO agent_rebate(rebate_year,rebate_month,start_time,end_time,topagent_id,topagentusername,agent_id,agentusername,effective_player_amount,
+
+				effective_player_num,payout_amount_history,payout_amount,effective_amount_history,effective_amount,fee_amount_history,favorable_amount_history,
+
+				rakeback_amount_history,other_amount_history,fee_amount,favorable_amount,rakeback_amount,other_amount,rebate_amount,rebate_amount_actual,rebate_status,create_time
+
+			)
+
+			select rebate_year,rebate_month,t_start_time,t_end_time,topagent_id,topagentusername,agent_id,agentusername,
+
+			--有效玩家的有效投注额
+
+			COALESCE(validValue,0),
+
+			--有效玩家数
+
+			COALESCE((select count(1) from (select player_id,sum(effective_transaction) effAmount from operate_player where static_date>=t_start_date and static_date < t_end_date and agent_id = agentRecord.id GROUP BY player_id) a where a.effAmount>=validValue),0) effective_player_num,
+
+			--累积派彩
+
+			COALESCE((CASE WHEN need_history_count THEN
+
+				(select (COALESCE(payout_amount_history,0)+COALESCE(payout_amount,0)) from agent_rebate where agent_id = agentRecord.id and rebate_year = p_last_year and rebate_month = p_last_month)
+
+				ELSE 0 END),0) payout_amount_history,
+
+			--当期派彩、
+
+			--(select sum(payout_amount) from agent_rebate_grads where agent_id=agentRecord.id and rebate_year = p_year and rebate_month = p_month) payout_amount,
+
+			COALESCE((select -COALESCE(sum(profit_loss),0) from operate_agent oa where oa.agent_id = agentRecord.id and oa.static_date>=t_start_date and oa.static_date<t_end_date),0) payout_amount,
+
+			--累积有效投注额、
+
+			COALESCE((CASE WHEN need_history_count THEN (
+
+					(select (COALESCE(effective_amount_history,0)+COALESCE(effective_amount,0)) from agent_rebate where agent_id = agentRecord.id and rebate_year = p_last_year and rebate_month = p_last_month)
+
+				) ELSE 0 END),0) effective_amount_history,
+
+			--当期有效投注额、
+
+			COALESCE((select COALESCE(sum(effective_transaction),0) from operate_agent oa where oa.agent_id = agentRecord.id and oa.static_date>=t_start_date and oa.static_date<t_end_date),0) effective_amount,
+
+			--累积行政费用(上一期的累积费用+上一期当期费用)
+
+			COALESCE((CASE WHEN need_history_count THEN
+
+					(select (COALESCE(fee_amount_history,0)+COALESCE(fee_amount,0)) history_fee from agent_rebate where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agentRecord.id)
+
+				ELSE 0 END),0) fee_amount_history,
+
+			--累积存款优惠
+
+			COALESCE((CASE WHEN need_history_count THEN
+
+					(select (COALESCE(favorable_amount_history,0)+COALESCE(favorable_amount,0)) history_favorable from agent_rebate where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agentRecord.id)
+
+				ELSE 0 END),0) favorable_amount_history,
+
+			--累积返水优惠
+
+			COALESCE((CASE WHEN need_history_count THEN
+
+					(select (COALESCE(rakeback_amount_history,0)+COALESCE(rakeback_amount,0)) history_rakeback from agent_rebate where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agentRecord.id)
+
+				ELSE 0 END),0) rakeback_amount_history,
+
+			--累积其他费用
+
+			COALESCE((CASE WHEN need_history_count THEN
+
+					(select (COALESCE(other_amount_history,0)+COALESCE(other_amount,0)) from agent_rebate where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agentRecord.id)
+
+				ELSE 0 END),0) other_amount_history,
+
+
+
+			COALESCE((sum(deposit_amount*(arp.deposit_radio/100))+sum(withdraw_amount*(arp.withdraw_radio/100))),0) fee_amount,	 	--当期行政费用
+
+			COALESCE(sum(favorable_amount),0) favorable_amount,	 	--当期存款优惠
+
+			COALESCE(sum(rakeback_amount),0) rakeback_amount,	 	--当期返水优惠
+
+			COALESCE(sum(recommend_amount),0) other_amount,	 	--当期其他费用
+
+			0 rebate_amount,	 	--返佣金额
+
+			0 rebate_amount_actual,	 	--已返佣金额
+
+			'0' rebate_status,		--返佣状态
+
+			now()	--创建时间
+
+			from agent_rebate_player arp where rebate_year =p_year and rebate_month = p_month and agent_id = agentRecord.id  group BY topagent_id,topagentusername,agent_id,agentusername,rebate_year,rebate_month;
+
+
+
+		--4、计算代理各api的总派彩(即生成agent_rebate_grads)
+
+		--当期派彩，从player_game_order直接统计
+
+		--累积派彩，需要看下上一期的返佣账单的状态是否需要累积，需要累积的话，等于上一期的累积派彩+上一期的当期派彩
+
+
+
+			insert into agent_rebate_grads(
+
+			rebate_year,rebate_month,topagent_id,topagentusername,agent_id,agentusername,api_id,api_type_id,payout_amount_history,payout_amount,radio
+
+		)
+
+		select p_year,p_month,topagent_id,topagent_name,agent_id,agent_name,api_id,api_type_id,
+
+			COALESCE((CASE WHEN need_history_count THEN (
+
+				select (payout_amount_history+payout_amount) from agent_rebate_grads arg where rebate_year = p_last_year and rebate_month = p_last_month and agent_id=agent_id and arg.api_id=api_id and arg.api_type_id = api_type_id
+
+			) ELSE 0 END),0) payout_amount_history ,
+
+			COALESCE(SUM(-profit_loss),0) payout_amount,
+
+			COALESCE((SELECT ratio FROM rebate_grads_api WHERE rebate_grads_id = agentgradsid AND api_id=oa.api_id AND api_type_id=oa.api_type_id),0) radio
+
+			from operate_player oa where static_date>=t_start_date and static_date < t_end_date and agent_id=agentRecord.id group by topagent_id,topagent_name,agent_id,agent_name,api_id,api_type_id;
+
+
+
+		end LOOP;
+
+
+
+		--5、计算代理可获返佣
+
+		--按返佣顺序列出api_type的各返佣比例
+
+		--根据各api的总派彩计算游戏费用
+
+		--各游戏费用×返佣比例相加，即为代理返佣费用
+
+
+
+		for apiRebateRecord in
+
+				select * from agent_rebate where rebate_year = p_year and rebate_month = p_month
+
+		loop
+
+				--初始数据
+
+				feeAmount = 0;
+
+				remainFeeAmount = 0;
+
+				remainPayout = 0;
+
+				remainPayout = 0;
+
+				totalFee = 0;
+
+				idx = 0;
+
+
+
+				feeAmount = COALESCE(apiRebateRecord.fee_amount,0)+COALESCE(apiRebateRecord.fee_amount_history,0)+COALESCE(apiRebateRecord.favorable_amount,0)+COALESCE(apiRebateRecord.rakeback_amount,0)+COALESCE(apiRebateRecord.other_amount,0)+COALESCE(apiRebateRecord.favorable_amount_history,0)+COALESCE(apiRebateRecord.rakeback_amount_history,0)+COALESCE(apiRebateRecord.other_amount_history,0);
+
+				raise notice '代理的承担费用feeAmount为 %', feeAmount;
+
+
+
+				for apiJson in
+
+						select json_array_elements(api_type_relation_json::json)
+
+				loop
+
+						select apiJson::json->>'api_id' into apiId;
+
+						select apiJson::json->>'api_type_id' into apiTypeId;
+
+						select apiJson::json->>'rebate_order_num' into rebateOrderNum;
+
+						--raise notice 'apiId % apiTypeId %', apiId,apiTypeId;
+
+						for apiGradsRec in
+
+								select * from agent_rebate_grads where rebate_year = p_year and rebate_month = p_month and radio is not null and radio>0 and agent_id = apiRebateRecord.agent_id
+
+						loop
+
+								if apiId = apiGradsRec.api_id and apiTypeId = apiGradsRec.api_type_id THEN
+
+										if idx >0 THEN
+
+											feeAmount =remainFeeAmount;--承担费用
+
+										ELSEIF idx =0 THEN
+
+											remainFeeAmount = feeAmount;
+
+										end if;
+
+										zpc = apiGradsRec.payout_amount_history + apiGradsRec.payout_amount;--当前api总派彩
+
+										--如果总派彩大于０，即需要扣掉代理承担费用，反之剩余派彩等于总派彩
+
+										if zpc >= 0 THEN
+
+											remainFeeAmount = zpc - feeAmount;
+
+											--如果剩余费用小于０，则剩余派彩为０,剩余承担费用也是０，反之等于总派彩－当前承担费用
+
+											if remainFeeAmount <0 THEN
+
+													remainPayout =0;
+
+													remainFeeAmount=-remainFeeAmount;
+
+											ELSE
+
+													remainPayout = remainFeeAmount;
+
+													remainFeeAmount=0;
+
+											end if;
+
+										ELSE
+
+											remainPayout = zpc;
+
+										end if;
+
+										totalFee = totalFee +  (remainPayout * apiGradsRec.radio)/100;
+
+										update agent_rebate_grads set expense_amount = feeAmount,rebate_order_num = rebateOrderNum,remain_expense_amount=remainFeeAmount,remain_payout_amount=remainPayout  where id = apiGradsRec.id;
+
+										idx = idx +1;
+
+								end if;
+
+						END loop;		--循环API
+
+				END loop;--循环排序的API
+
+				raise notice '总费用为 % ，剩余承担费用为 %， 所以代理 % 的最终返佣费用为 %', totalFee,remainFeeAmount,apiRebateRecord.agentusername,totalFee - remainFeeAmount;
+
+				if remainFeeAmount>0 THEN
+
+					totalFee = totalFee - remainFeeAmount;
+
+				end if;
+
+				if totalFee = 0 THEN
+
+					UPDATE agent_rebate set rebate_amount = totalFee,rebate_status='1' where id = apiRebateRecord.id;
+
+				ELSE
+
+					UPDATE agent_rebate set rebate_amount = totalFee where id = apiRebateRecord.id;
+
+				end if;
+
+		end loop;--循环代理返佣
+
+
+
+
+
+  return '成功';
+
+END;
+
+
+
+$BODY$
+
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+
+;
+
+
+
+COMMENT ON FUNCTION "f_agent_rebate"(stat_month text, p_start_time text, p_end_time text, api_type_relation_json text,p_com_url text) IS 'younger-返佣结算账单-入口';

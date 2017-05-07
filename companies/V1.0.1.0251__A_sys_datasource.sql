@@ -1,0 +1,1 @@
+-- auto gen by Administrator select redo_sqls($$    ALTER TABLE sys_datasource      ADD COLUMN report_url character varying(128);$$);COMMENT ON COLUMN sys_datasource.report_url  IS '站点报表数据源';--更新为默认和站点一致update sys_datasource set report_url=url;

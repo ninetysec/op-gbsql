@@ -1,0 +1,6 @@
+-- auto gen by jerry 2016-08-31 21:22:11
+
+INSERT INTO gather_user ("id", "username", "password", "nickname", "type", "status", "create_time", "category_id", "duplicateused") SELECT '27', 'bdyh48', 'Ve25GbtW', 'AG用户', '01', '1', '2016-08-10 21:22:14', '090', 'f' WHERE  not EXISTS (SELECT id from gather_user where username='bdyh48');
+INSERT INTO gather_user ("id", "username", "password", "nickname", "type", "status", "create_time", "category_id", "duplicateused") SELECT '25', 'mical', 'Fa8034H6', 'PT用户', '01', '1', '2016-08-10 21:21:51', '060', 'f' WHERE  not EXISTS (SELECT id from gather_user where username='mical');
+INSERT INTO gather_user ("id", "username", "password", "nickname", "type", "status", "create_time", "category_id", "duplicateused") SELECT '26', 'jerry', 'Fa8034H6', 'PT用户', '01', '1', '2016-08-10 21:22:14', '060', 'f' WHERE  not EXISTS (SELECT id from gather_user where username='jerry');
+INSERT INTO gather_user ("id", "username", "password", "nickname", "type", "status", "create_time", "category_id", "duplicateused") SELECT '24', 'alvin', 'Fa8034H6', 'PT用户', '01', '1', '2016-08-10 21:21:27', '060', 'f' WHERE  not EXISTS (SELECT id from gather_user where username='alvin');

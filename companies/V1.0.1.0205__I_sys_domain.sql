@@ -1,0 +1,4 @@
+-- auto gen by cherry 2016-02-03 09:58:37
+INSERT INTO sys_domain ("sys_user_id", "domain", "is_default", "is_enable", "is_deleted", "sort", "site_id", "subsys_code", "create_user", "create_time", "update_user", "update_time", "is_for_all_rank", "page_url", "name", "agent_id", "resolve_status", "build_in", "is_temp", "code", "__clean__", "for_agent")
+SELECT '0', 'apiplay.info', 'f', 't', 'f', NULL, '0', 'boss', '2', '2016-01-21 06:27:54.135', '0', '2016-02-25 08:22:48.972', 'f', NULL, '客户端域名', NULL, '5', 'f', 'f', NULL, NULL, NULL
+WHERE NOT EXISTS (select id from sys_domain where domain = 'apiplay.info');

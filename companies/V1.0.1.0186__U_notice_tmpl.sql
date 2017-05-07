@@ -1,0 +1,3 @@
+-- auto gen by cherry 2016-09-24 20:04:57
+update notice_tmpl
+set "content"='<div class="modal-body"><dd class="m-t m-b line-hi34">您上传的文案<span class="co-orange ft-bold">已下架</span>，将不会在站点展示，以下为下架原因，您可调整后再重新发布。</dd><div class="gray-chunk clearfix"><dd class="form-group clearfix"><b>文案名称：</b><a href="javascript:void(0)">${title}</a></dd><dd class="form-group clearfix"><b>提交时间：</b>${submitTime}</dd><dd class="form-group clearfix"><b>失败原因：</b>${reasonContent}</dd></div></div>' where event_type='DOCUMENT_AUDIT_FAIL' and group_code='7ad16ca7e2964748a6a4370894c74a5b';

@@ -1,0 +1,2 @@
+-- auto gen by tom 2015-12-16 11:29:07
+UPDATE sys_resource SET url = 'vPlatformManage/list.html', remark = '总控-平台-平台管理' WHERE id = (SELECT id FROM sys_resource WHERE "name" = '平台管理' AND parent_id = 3 AND subsys_code = 'boss');

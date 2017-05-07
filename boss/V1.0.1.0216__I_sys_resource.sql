@@ -1,0 +1,3 @@
+-- auto gen by jerry 2016-11-06 21:00:02
+INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '513', '转账日志', 'gameApiLog/list.html', '转账日志', '5', NULL, '13', 'boss', 'maintenance:apiLog', '1', NULL, 'f', 't', 't'
+WHERE NOT EXISTS(SELECT id from sys_resource where id='513');

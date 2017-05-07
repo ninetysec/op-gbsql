@@ -1,0 +1,249 @@
+-- -- auto gen by tony 2015-12-23 09:04:30
+-- DROP INDEX IF EXISTS fk_api_gametype_relation_api_id; CREATE INDEX fk_api_gametype_relation_api_id ON api_gametype_relation USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_api_i18n_api_id; CREATE INDEX fk_api_i18n_api_id ON api_i18n USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_api_type_i18n_api_type_id; CREATE INDEX fk_api_type_i18n_api_type_id ON api_type_i18n USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_api_type_relation_api_id; CREATE INDEX fk_api_type_relation_api_id ON api_type_relation USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_api_type_relation_api_type_id; CREATE INDEX fk_api_type_relation_api_type_id ON api_type_relation USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_api_api_id; CREATE INDEX fk_contract_api_api_id ON contract_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_api_contract_scheme_id; CREATE INDEX fk_contract_api_contract_scheme_id ON contract_api USING btree(contract_scheme_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_favourable_contract_scheme_id; CREATE INDEX fk_contract_favourable_contract_scheme_id ON contract_favourable USING btree(contract_scheme_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_favourable_grads_contract_favourable_id; CREATE INDEX fk_contract_favourable_grads_contract_favourable_id ON contract_favourable_grads USING btree(contract_favourable_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_occupy_api_api_id; CREATE INDEX fk_contract_occupy_api_api_id ON contract_occupy_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_occupy_api_contract_occupy_grads_id; CREATE INDEX fk_contract_occupy_api_contract_occupy_grads_id ON contract_occupy_api USING btree(contract_occupy_grads_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_occupy_grads_contract_scheme_id; CREATE INDEX fk_contract_occupy_grads_contract_scheme_id ON contract_occupy_grads USING btree(contract_scheme_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_scheme_update_user_id; CREATE INDEX fk_contract_scheme_update_user_id ON contract_scheme USING btree(update_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_contract_scheme_create_user_id; CREATE INDEX fk_contract_scheme_create_user_id ON contract_scheme USING btree(create_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_type_id; CREATE INDEX fk_game_api_type_id ON game USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_api_id; CREATE INDEX fk_game_api_id ON game USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_game_i18n_game_id; CREATE INDEX fk_game_i18n_game_id ON game_i18n USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_contact_way_user_id; CREATE INDEX fk_notice_contact_way_user_id ON notice_contact_way USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_email_interface_user_group_id; CREATE INDEX fk_notice_email_interface_user_group_id ON notice_email_interface USING btree(user_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_receive_receiver_id; CREATE INDEX fk_notice_receive_receiver_id ON notice_receive USING btree(receiver_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_receive_send_id; CREATE INDEX fk_notice_receive_send_id ON notice_receive USING btree(send_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_receiver_group_id; CREATE INDEX fk_notice_send_receiver_group_id ON notice_send USING btree(receiver_group_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_orig_send_id; CREATE INDEX fk_notice_send_orig_send_id ON notice_send USING btree(orig_send_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_send_text_id; CREATE INDEX fk_notice_send_text_id ON notice_send USING btree(text_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_text_tmpl_id; CREATE INDEX fk_notice_text_tmpl_id ON notice_text USING btree(tmpl_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_notice_unreceived_user_id; CREATE INDEX fk_notice_unreceived_user_id ON notice_unreceived USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_operator_id; CREATE INDEX fk_remark_operator_id ON remark USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_entity_id; CREATE INDEX fk_remark_entity_id ON remark USING btree(entity_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_remark_entity_user_id; CREATE INDEX fk_remark_entity_user_id ON remark USING btree(entity_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_site_id; CREATE INDEX fk_site_api_site_id ON site_api USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_api_id; CREATE INDEX fk_site_api_api_id ON site_api USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_i18n_api_id; CREATE INDEX fk_site_api_i18n_api_id ON site_api_i18n USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_i18n_site_id; CREATE INDEX fk_site_api_i18n_site_id ON site_api_i18n USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_site_id; CREATE INDEX fk_site_api_type_site_id ON site_api_type USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_api_type_id; CREATE INDEX fk_site_api_type_api_type_id ON site_api_type USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_i18n_api_type_id; CREATE INDEX fk_site_api_type_i18n_api_type_id ON site_api_type_i18n USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_i18n_site_id; CREATE INDEX fk_site_api_type_i18n_site_id ON site_api_type_i18n USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_relation_api_id; CREATE INDEX fk_site_api_type_relation_api_id ON site_api_type_relation USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_relation_api_type_id; CREATE INDEX fk_site_api_type_relation_api_type_id ON site_api_type_relation USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_api_type_relation_site_id; CREATE INDEX fk_site_api_type_relation_site_id ON site_api_type_relation USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_confine_area_site_id; CREATE INDEX fk_site_confine_area_site_id ON site_confine_area USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_confine_ip_site_id; CREATE INDEX fk_site_confine_ip_site_id ON site_confine_ip USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_contacts_site_id; CREATE INDEX fk_site_contacts_site_id ON site_contacts USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_contacts_position_id; CREATE INDEX fk_site_contacts_position_id ON site_contacts USING btree(position_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_contacts_position_site_id; CREATE INDEX fk_site_contacts_position_site_id ON site_contacts_position USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_content_site_id; CREATE INDEX fk_site_content_site_id ON site_content USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_content_check_source_id; CREATE INDEX fk_site_content_check_source_id ON site_content_check USING btree(source_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_content_check_check_user_id; CREATE INDEX fk_site_content_check_check_user_id ON site_content_check USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_content_check_site_id; CREATE INDEX fk_site_content_check_site_id ON site_content_check USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_contract_scheme_contract_scheme_id; CREATE INDEX fk_site_contract_scheme_contract_scheme_id ON site_contract_scheme USING btree(contract_scheme_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_contract_scheme_center_id; CREATE INDEX fk_site_contract_scheme_center_id ON site_contract_scheme USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_currency_site_id; CREATE INDEX fk_site_currency_site_id ON site_currency USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_customer_service_site_id; CREATE INDEX fk_site_customer_service_site_id ON site_customer_service USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_site_id; CREATE INDEX fk_site_game_site_id ON site_game USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_game_id; CREATE INDEX fk_site_game_game_id ON site_game USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_api_id; CREATE INDEX fk_site_game_api_id ON site_game USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_api_type_id; CREATE INDEX fk_site_game_api_type_id ON site_game USING btree(api_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_i18n_game_id; CREATE INDEX fk_site_game_i18n_game_id ON site_game_i18n USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_i18n_site_id; CREATE INDEX fk_site_game_i18n_site_id ON site_game_i18n USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_tag_site_id; CREATE INDEX fk_site_game_tag_site_id ON site_game_tag USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_tag_game_id; CREATE INDEX fk_site_game_tag_game_id ON site_game_tag USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_game_tag_tag_id; CREATE INDEX fk_site_game_tag_tag_id ON site_game_tag USING btree(tag_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_i18n_site_id; CREATE INDEX fk_site_i18n_site_id ON site_i18n USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_introducer_site_id; CREATE INDEX fk_site_introducer_site_id ON site_introducer USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_language_site_id; CREATE INDEX fk_site_language_site_id ON site_language USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_operate_area_site_id; CREATE INDEX fk_site_operate_area_site_id ON site_operate_area USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_site_other_expenses_site_id; CREATE INDEX fk_site_other_expenses_site_id ON site_other_expenses USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_station_letter_sign_sign_id; CREATE INDEX fk_station_letter_sign_sign_id ON station_letter_sign USING btree(sign_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operate_type_id; CREATE INDEX fk_sys_audit_log_operate_type_id ON sys_audit_log USING btree(operate_type_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_user_id; CREATE INDEX fk_sys_audit_log_entity_user_id ON sys_audit_log USING btree(entity_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_entity_id; CREATE INDEX fk_sys_audit_log_entity_id ON sys_audit_log USING btree(entity_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_audit_log_operator_id; CREATE INDEX fk_sys_audit_log_operator_id ON sys_audit_log USING btree(operator_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_currency_center_id; CREATE INDEX fk_sys_currency_center_id ON sys_currency USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_site_id; CREATE INDEX fk_sys_dept_site_id ON sys_dept USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_dept_parent_id; CREATE INDEX fk_sys_dept_parent_id ON sys_dept USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_site_id; CREATE INDEX fk_sys_domain_site_id ON sys_domain USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_sys_user_id; CREATE INDEX fk_sys_domain_sys_user_id ON sys_domain USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_agent_id; CREATE INDEX fk_sys_domain_agent_id ON sys_domain USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_check_check_user_id; CREATE INDEX fk_sys_domain_check_check_user_id ON sys_domain_check USING btree(check_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_check_site_id; CREATE INDEX fk_sys_domain_check_site_id ON sys_domain_check USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_check_sys_domain_id; CREATE INDEX fk_sys_domain_check_sys_domain_id ON sys_domain_check USING btree(sys_domain_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_domain_check_publish_user_id; CREATE INDEX fk_sys_domain_check_publish_user_id ON sys_domain_check USING btree(publish_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_list_operator_site_id; CREATE INDEX fk_sys_list_operator_site_id ON sys_list_operator USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_sys_user_id; CREATE INDEX fk_sys_on_line_session_sys_user_id ON sys_on_line_session USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_site_id; CREATE INDEX fk_sys_on_line_session_site_id ON sys_on_line_session USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_on_line_session_session_id; CREATE INDEX fk_sys_on_line_session_session_id ON sys_on_line_session USING btree(session_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_param_site_id; CREATE INDEX fk_sys_param_site_id ON sys_param USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_resource_parent_id; CREATE INDEX fk_sys_resource_parent_id ON sys_resource USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_site_id; CREATE INDEX fk_sys_role_site_id ON sys_role USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_role_id; CREATE INDEX fk_sys_role_default_resource_role_id ON sys_role_default_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_default_resource_resource_id; CREATE INDEX fk_sys_role_default_resource_resource_id ON sys_role_default_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_role_id; CREATE INDEX fk_sys_role_resource_role_id ON sys_role_resource USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_role_resource_resource_id; CREATE INDEX fk_sys_role_resource_resource_id ON sys_role_resource USING btree(resource_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_sys_user_id; CREATE INDEX fk_sys_site_sys_user_id ON sys_site USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_maintain_operate_id; CREATE INDEX fk_sys_site_maintain_operate_id ON sys_site USING btree(maintain_operate_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_site_net_scheme_id; CREATE INDEX fk_sys_site_site_net_scheme_id ON sys_site USING btree(site_net_scheme_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_parent_id; CREATE INDEX fk_sys_site_parent_id ON sys_site USING btree(parent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_visitor_sys_user_id; CREATE INDEX fk_sys_site_visitor_sys_user_id ON sys_site_visitor USING btree(sys_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_site_visitor_site_id; CREATE INDEX fk_sys_site_visitor_site_id ON sys_site_visitor USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_announcement_publish_user_id; CREATE INDEX fk_system_announcement_publish_user_id ON system_announcement USING btree(publish_user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_announcement_site_id; CREATE INDEX fk_system_announcement_site_id ON system_announcement USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_announcement_game_id; CREATE INDEX fk_system_announcement_game_id ON system_announcement USING btree(game_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_announcement_api_id; CREATE INDEX fk_system_announcement_api_id ON system_announcement USING btree(api_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_announcement_i18n_system_announcement_id; CREATE INDEX fk_system_announcement_i18n_system_announcement_id ON system_announcement_i18n USING btree(system_announcement_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_agent_id; CREATE INDEX fk_system_feedback_agent_id ON system_feedback USING btree(agent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_topagent_id; CREATE INDEX fk_system_feedback_topagent_id ON system_feedback USING btree(topagent_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_site_id; CREATE INDEX fk_system_feedback_site_id ON system_feedback USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_master_id; CREATE INDEX fk_system_feedback_master_id ON system_feedback USING btree(master_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_center_id; CREATE INDEX fk_system_feedback_center_id ON system_feedback USING btree(center_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_system_feedback_feedback_id; CREATE INDEX fk_system_feedback_feedback_id ON system_feedback USING btree(feedback_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_dept_id; CREATE INDEX fk_sys_user_dept_id ON sys_user USING btree(dept_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_site_id; CREATE INDEX fk_sys_user_site_id ON sys_user USING btree(site_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_owner_id; CREATE INDEX fk_sys_user_owner_id ON sys_user USING btree(owner_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_protection_safe_contact_way_id; CREATE INDEX fk_sys_user_protection_safe_contact_way_id ON sys_user_protection USING btree(safe_contact_way_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_user_id; CREATE INDEX fk_sys_user_role_user_id ON sys_user_role USING btree(user_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_sys_user_role_role_id; CREATE INDEX fk_sys_user_role_role_id ON sys_user_role USING btree(role_id ASC NULLS LAST);
+-- DROP INDEX IF EXISTS fk_user_extend_theme_id; CREATE INDEX fk_user_extend_theme_id ON user_extend USING btree(theme_id ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_system_announcement_operate_time;
+-- CREATE INDEX in_system_announcement_operate_time ON system_announcement USING btree(operate_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_system_announcement_publish_time;
+-- CREATE INDEX in_system_announcement_publish_time ON system_announcement USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_audit_check;
+-- CREATE INDEX in_site_content_audit_check ON site_content USING btree(audit_check ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_last_publish_time;
+-- CREATE INDEX in_site_content_last_publish_time ON site_content USING btree(last_publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_pending_check;
+-- CREATE INDEX in_site_content_pending_check ON site_content USING btree(pending_check ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_check_check_status;
+-- CREATE INDEX in_site_content_check_check_status ON site_content_check USING btree(check_status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_check_check_time;
+-- CREATE INDEX in_site_content_check_check_time ON site_content_check USING btree(check_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_check_content_type;
+-- CREATE INDEX in_site_content_check_content_type ON site_content_check USING btree(content_type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_content_check_publish_time;
+-- CREATE INDEX in_site_content_check_publish_time ON site_content_check USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_site_site_classify_key;
+-- CREATE INDEX in_sys_site_site_classify_key ON sys_site USING btree(site_classify_key ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_api_maintain_start_time;
+-- CREATE INDEX in_api_maintain_start_time ON api USING btree(maintain_start_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_api_maintain_end_time;
+-- CREATE INDEX in_api_maintain_end_time ON api USING btree(maintain_end_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_api_order_num;
+-- CREATE INDEX in_api_order_num ON api USING btree(order_num ASC NULLS LAST);
+--
+--
+-- DROP INDEX IF EXISTS in_api_status;
+-- CREATE INDEX in_api_status ON api USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_api_i18n_locale;
+-- CREATE INDEX in_api_i18n_locale ON api_i18n USING btree(locale ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_api_type_order_num;
+-- CREATE INDEX in_api_type_order_num ON api_type USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_maintain_start_time;
+-- CREATE INDEX in_game_maintain_start_time ON  game USING btree(maintain_start_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_maintain_end_time;
+-- CREATE INDEX in_game_maintain_end_time ON  game USING btree(maintain_end_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_order_num;
+-- CREATE INDEX in_game_order_num ON  game USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_status;
+-- CREATE INDEX in_game_status ON  game USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_i18n_introduce_status;
+-- CREATE INDEX in_game_i18n_introduce_status ON  game_i18n USING btree(introduce_status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_game_i18n_locale;
+-- CREATE INDEX in_game_i18n_locale ON  game_i18n USING btree(locale ASC NULLS LAST);
+--
+--
+-- DROP INDEX IF EXISTS in_game_game_type;
+-- CREATE INDEX in_game_game_type ON  game USING btree(game_type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_api_order_num;
+-- CREATE INDEX in_site_api_order_num ON  site_api USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_api_type_order_num;
+-- CREATE INDEX in_site_api_type_order_num ON  site_api_type USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_api_type_relation_order_num;
+-- CREATE INDEX in_site_api_type_relation_order_num ON  site_api_type_relation USING btree(order_num ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_confine_area_create_time;
+-- CREATE INDEX in_site_confine_area_create_time ON  site_confine_area USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_confine_ip_create_time;
+-- CREATE INDEX in_site_confine_ip_create_time ON  site_confine_ip USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_customer_service_code;
+-- CREATE INDEX in_site_customer_service_code ON  site_customer_service USING btree(code ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_customer_service_status;
+-- CREATE INDEX in_site_customer_service_status ON  site_customer_service USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_customer_service_create_time;
+-- CREATE INDEX in_site_customer_service_create_time ON  site_customer_service USING btree(create_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_i18n_key;
+-- CREATE INDEX in_site_i18n_key ON  site_i18n USING btree(key ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_i18n_locale;
+-- CREATE INDEX in_site_i18n_locale ON  site_i18n USING btree(locale ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_i18n_module;
+-- CREATE INDEX in_site_i18n_module ON  site_i18n USING btree(module ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_i18n_type;
+-- CREATE INDEX in_site_i18n_type ON  site_i18n USING btree(type ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_language_status;
+-- CREATE INDEX in_site_language_status ON  site_language USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_language_open_time;
+-- CREATE INDEX in_site_language_open_time ON  site_language USING btree(open_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_operate_area_status;
+-- CREATE INDEX in_site_operate_area_status ON  site_operate_area USING btree(status ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_site_operate_area_open_time;
+-- CREATE INDEX in_site_operate_area_open_time ON  site_operate_area USING btree(open_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_domain_domain;
+-- CREATE INDEX in_sys_domain_domain ON  sys_domain USING btree(domain ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_domain_sort;
+-- CREATE INDEX in_sys_domain_sort ON  sys_domain USING btree(sort ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_domain_check_publish_time;
+-- CREATE INDEX in_sys_domain_check_publish_time ON  sys_domain_check USING btree(publish_time ASC NULLS LAST);
+--
+-- DROP INDEX IF EXISTS in_sys_site_name;
+-- CREATE INDEX in_sys_site_name ON  sys_site USING btree(name ASC NULLS LAST);

@@ -1,0 +1,16 @@
+DROP FUNCTION IF EXISTS gamebox_occupy_bill(TEXT, TIMESTAMP, TIMESTAMP, INOUT BIGINT, TEXT);
+DROP FUNCTION if exists gamebox_occupy_player(INT, hstore, hstore);
+DROP FUNCTION if exists gamebox_occupy_player(INT, hstore, hstore, hstore);
+DROP FUNCTION if exists gamebox_occupy_agent(INT);
+DROP FUNCTION if exists gamebox_occupy_topagent(INT);
+DROP FUNCTION IF EXISTS gamebox_occupy_api_set();
+DROP FUNCTION if exists gamebox_occupy(text, text, text, text);
+DROP FUNCTION IF EXISTS gamebox_occupy_api(INT, TIMESTAMP, TIMESTAMP, hstore, hstore, hstore, hstore, hstore);
+DROP FUNCTION IF EXISTS gamebox_occupy_api_map(TIMESTAMP, TIMESTAMP, hstore, hstore);
+DROP FUNCTION if EXISTS gamebox_occupy_value(TIMESTAMP, TIMESTAMP, hstore);
+DROP FUNCTION if exists gamebox_expense_calculate(hstore, hstore, TEXT);
+DROP FUNCTION if EXISTS gamebox_occupy_expense_map(TIMESTAMP, TIMESTAMP, hstore);
+DROP FUNCTION if exists gamebox_expense_gather(TIMESTAMP, TIMESTAMP, text);
+DROP FUNCTION if exists gamebox_occupy_map(text, text, text);
+DROP FUNCTION if EXISTS gamebox_occupy_expense_gather(INT, TIMESTAMP, TIMESTAMP);
+DROP FUNCTION if exists gamebox_occupy_api_calculator(hstore, hstore, INT, INT, INT, TEXT, FLOAT);

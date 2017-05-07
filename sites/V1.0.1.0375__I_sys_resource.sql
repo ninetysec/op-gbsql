@@ -1,0 +1,3 @@
+-- auto gen by bruce 2017-01-10 11:18:03
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
+        select '40104', '活动编辑', 'operation/activityType/activityEdit.html', '活动管理-活动编辑', '401', '', NULL, 'mcenter', 'operate:activity_edit', '2', '', 't', 'f', 't' WHERE not exists(SELECT id FROM sys_resource WHERE id=40104);

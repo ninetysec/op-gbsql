@@ -1,0 +1,2 @@
+-- auto gen by cherry 2016-11-16 11:40:36
+UPDATE pay_api_provider SET jar_version='2016111624',ext_json='{"pro":{"payUrl":"https://www.funpay.com/website/pay.htm","queryOrderUrl":"http://3rd.pay.api.com/funpay-pay/website/queryOrderResult.htm"},"test":{"payUrl":"https://www.funpay.com/website/pay.htm","queryOrderUrl":"http://3rd.pay.api.com/funpay-pay/website/queryOrderResult.htm"}}'  WHERE "id" IN (38,39,40);

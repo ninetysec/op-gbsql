@@ -1,0 +1,14 @@
+DROP FUNCTION IF EXISTS gamebox_station_bill(text, text, text, text, text, int);
+DROP FUNCTION IF EXISTS gamebox_station_bill(text, text, text, text, int);
+DROP FUNCTION IF EXISTS gamebox_station_bill_other(hstore);
+DROP FUNCTION IF EXISTS gamebox_station_bill_other(hstore, hstore, int);
+DROP FUNCTION IF EXISTS gamebox_station_bill_top(hstore, hstore, text, text, text, text);
+DROP FUNCTION IF EXISTS gamebox_station_profit_loss(hstore);
+DROP FUNCTION IF EXISTS gamebox_station_bill(hstore);
+DROP FUNCTION IF EXISTS gamebox_station_bill_master(hstore, hstore, text, text, text, text);
+DROP FUNCTION IF EXISTS gamebox_operation_occupy_calculate(FLOAT[], FLOAT[], FLOAT, BOOLEAN);
+DROP FUNCTION IF EXISTS gamebox_operation_occupy_to_array(text, int);
+DROP FUNCTION IF EXISTS gamebox_operation_occupy_api(text, text, text);
+DROP FUNCTION IF EXISTS gamebox_station_no_bill(int, int, int, text);
+DROP FUNCTION IF EXISTS gamebox_operation_favorable_calculate(hstore, float);
+DROP FUNCTION IF EXISTS gamebox_occupy_calculate(FLOAT[], FLOAT[], FLOAT, BOOLEAN);

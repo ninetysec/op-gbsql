@@ -1,0 +1,2 @@
+-- auto gen by orange 2016-02-23 15:16:13
+UPDATE "sys_resource" SET "id"='20208', "name"='玩家详细资料', "url"='player/playerViewDetail.html', "remark"='玩家管理-玩家详细资料（显示隐藏字段）', "parent_id"='202', "structure"='', "sort_num"='1', "subsys_code"='mcenter', "permission"='role:player:detail', "resource_type"='2', "icon"='', "built_in"='t', "privilege"='t', "status"='t' WHERE ("id"='152');

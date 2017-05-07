@@ -1,0 +1,12 @@
+DROP FUNCTION if exists gamebox_rebate(text, text, text, text, text);
+DROP FUNCTION IF EXISTS gamebox_rebate_bill(TEXT, TIMESTAMP, TIMESTAMP, INT, TEXT, TEXT);
+DROP FUNCTION IF EXISTS gamebox_rebate_api(INT, TIMESTAMP, TIMESTAMP, hstore, hstore, hstore, TEXT);
+DROP FUNCTION if exists gamebox_rebate_player(hstore, hstore, hstore, int, text, text, TEXT);
+DROP FUNCTION if exists gamebox_rebate_agent(INT,TEXT);
+DROP FUNCTION if EXISTS gamebox_rebate_map(TEXT, TEXT, TEXT, TEXT);
+DROP FUNCTION IF EXISTS gamebox_rebate_map(TIMESTAMP, TIMESTAMP, INT, hstore, hstore, hstore);
+DROP FUNCTION if exists gamebox_expense_gather(TIMESTAMP, TIMESTAMP);
+DROP FUNCTION if exists gamebox_expense_share(hstore, hstore);
+DROP FUNCTION if exists gamebox_expense_map(TIMESTAMP, TIMESTAMP, hstore);
+DROP FUNCTION if exists gamebox_rebate_expense_gather(int, hstore, TIMESTAMP, TIMESTAMP, text, text);
+DROP FUNCTION if exists gamebox_expense_gather(TIMESTAMP, TIMESTAMP, text, text);

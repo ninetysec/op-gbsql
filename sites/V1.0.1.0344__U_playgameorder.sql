@@ -1,0 +1,1 @@
+-- auto gen by admin 2016-12-09 09:40:02  select redo_sqls($$    ALTER TABLE player_game_order ADD COLUMN contribution_amount numeric(20,6);  $$); COMMENT ON COLUMN player_game_order.contribution_amount IS '彩池贡献金';

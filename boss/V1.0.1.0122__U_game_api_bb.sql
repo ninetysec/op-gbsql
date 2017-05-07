@@ -1,0 +1,2 @@
+-- auto gen by lenovo 2016-09-07 06:27:09
+update game_api_provider set ext_json='{"website":"dawoo","uppername":"ddwb001","gameUrl":"http://3rd.game.api.com/bb-login-api/app/WebService/JSON/display.php","loginUrl":"http://888.bbpicdance.info/app/WebService/JSON/display.php","setNum":"500","search-minute":"5","modify-minute":"3","validateTokenExpire":10}' where id=10;

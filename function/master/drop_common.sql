@@ -1,0 +1,15 @@
+DROP FUNCTION IF exists put(INOUT hstore, TEXT, TEXT);
+DROP FUNCTION IF exists sys_config();
+DROP FUNCTION IF EXISTS gamebox_rakeback_map(TIMESTAMP, TIMESTAMP, text, text);
+DROP FUNCTION IF EXISTS gamebox_rebate_rakeback_map(TIMESTAMP, TIMESTAMP);
+DROP FUNCTION IF EXISTS gamebox_rakeback_calculator(hstore, hstore, json);
+DROP FUNCTION if exists gamebox_generate_order_no(TEXT, TEXT, TEXT);
+DROP FUNCTION IF EXISTS gamebox_rebate_agent_check(hstore, hstore, TIMESTAMP, TIMESTAMP);
+DROP FUNCTION if exists gamebox_rebate_agent_default_set();
+DROP FUNCTION IF exists gamebox_rebate_api_grads();
+DROP FUNCTION if EXISTS gamebox_rebate_calculator(hstore, hstore, INT, INT, TEXT, FLOAT, FLOAT);
+DROP FUNCTION if exists gamebox_sys_param(TEXT);
+DROP VIEW if EXISTS v_sys_user_tier;
+DROP FUNCTION if exists gamebox_current_site();
+DROP FUNCTION IF EXISTS gamebox_occupy_rebate_map(TIMESTAMP, TIMESTAMP);
+DROP FUNCTION IF EXISTS gamebox_rakeback_calculator(hstore, hstore, json, TIMESTAMP);

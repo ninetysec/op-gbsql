@@ -1,0 +1,5 @@
+-- auto gen by Alvin 2016-08-04 13:20:38
+update game_api_provider set jar_version=to_char(CURRENT_TIMESTAMP, 'yyyymmddhhmmss') where id=12;
+update game_api_provider set api_url='http://3rd.game.api.com/ss-api/' where id=12;
+update game_api_provider set ext_json='{"private-key":"Y88hjdjhe7hHYHuhu7ejhrYYK","public-key":"YYQheduryey734u347rywehuhreuhterureu","runner":"php","encode":"/usr/local/tomcat/webapps/api/encrypt.php","code":"yaa","gate-code":"YYGSTE887E","company-code":"A0036","launch-mode":"api","log-level":1,"fetch-type":"1","check-search-type":"1","split":"|","end":"=@=","batch-size":5000,"GMT":"GMT-04:00","record-date-format":"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}","login-url":"http://hyxu36.uv178.com/whb/direct-login.php?activekey={0}&acc={1}&langs={2}"}' where id=12;
+update game_api_provider set jar_url='file:/data/impl-jars/api-ss.jar' where id=12;

@@ -1,0 +1,3 @@
+-- auto gen by bruce 2016-10-04 17:35:38
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") VALUES ('306', '站点管理', 'vSiteMaster/list.html', '站点管理', '3', NULL, '6', 'boss', 'platform:sitemanage', '1', NULL, 'f', 't', 't');
+INSERT INTO "sys_role_resource" ("role_id", "resource_id") VALUES ('1', '306');
