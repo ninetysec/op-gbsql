@@ -1,13 +1,8 @@
 -- auto gen by cherry 2017-04-27 19:47:36
+DROP function if EXISTS "lottery_payout_ssc"(lottery_expect text, lottery_code text, p_com_url text);
 CREATE OR REPLACE FUNCTION "lottery_payout_ssc"(lottery_expect text, lottery_code text, p_com_url text)
 
   RETURNS "pg_catalog"."varchar" AS $BODY$
-
-
-
-
-
-
 
 /*版本更新说明
 
