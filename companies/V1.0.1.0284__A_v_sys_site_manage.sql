@@ -2,7 +2,7 @@
 Drop view if EXISTS "v_sys_site_manage";
 Drop view if EXISTS "v_site_manage";
 CREATE OR REPLACE VIEW "v_sys_site_manage" AS
- SELECT ss.id,
+  SELECT ss.id,
     ss.sys_user_id,
     u.username,
     ss.theme,
@@ -11,8 +11,8 @@ CREATE OR REPLACE VIEW "v_sys_site_manage" AS
     ss.is_buildin,
     ss.postfix,
     ss.short_name,
-    i18n.value AS parent_name,
-    ds.name AS site_name,
+    i18n_center.value AS parent_name,
+    i18n_site.value AS site_name,
     ss.main_currency,
     ss.main_language,
     ss.web_site,
@@ -31,19 +31,20 @@ CREATE OR REPLACE VIEW "v_sys_site_manage" AS
     ss.import_players_time,
     ss.maintain_start_time,
     ss.maintain_end_time,
-    (((((ds.ip)::text || '|'::text) || (ds.dbname)::text) || '|'::text) || (ds.username)::text) AS db,
-    i18n.locale,
+    (ds.ip::text || '|'::text || ds.dbname::text || '|'::text || ds.username::text) AS db,
+    ss.main_language as locale,
     ( SELECT m.domain
            FROM sys_domain m
-          WHERE ((m.site_id = ss.id) AND ((m.subsys_code)::text = 'msites'::text) AND ((m.page_url)::text = '/'::text))
+          WHERE m.site_id = ss.id AND (m.subsys_code::text) = ('msites'::text) AND (m.page_url::text) = ('/'::text)
          LIMIT 1) AS domain,
     ss.remark,
     ss.belong_to_idc
-   FROM  (((sys_user u
-     LEFT JOIN sys_site ss ON ((u.id = ss.sys_user_id)))
-     LEFT JOIN sys_datasource ds ON ((ss.id = ds.id)))
-     LEFT JOIN site_i18n i18n ON (((u.site_id = i18n.site_id) AND ((i18n.type)::text = 'site_name'::text))))
-  WHERE ((u.user_type)::text = '2'::text);
+   FROM sys_user u
+     LEFT JOIN sys_site ss ON ((u.id = ss.sys_user_id))
+     LEFT JOIN sys_datasource ds ON ((ss.id = ds.id))
+     LEFT JOIN site_i18n i18n_center ON (((u.site_id = i18n_center.site_id) AND ((i18n_center.type)::text = 'site_name'::text))) and i18n_center.locale= u.default_locale
+     LEFT JOIN site_i18n i18n_site ON (((ss.id = i18n_site.site_id) AND ((i18n_site.type)::text = 'site_name'::text))) and i18n_site.locale= ss.main_language
 
+  WHERE (u.user_type::text) = ('2'::text);
 
 COMMENT ON VIEW "v_sys_site_manage" IS '站点管理 --tom';
