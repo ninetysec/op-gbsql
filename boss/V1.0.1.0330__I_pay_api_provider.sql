@@ -16,7 +16,7 @@ INSERT INTO "pay_api_provider" (
 	'file:/data/impl-jars/pay/pay-dinpay.jar',
 	'org.soul.pay.impl.DinPayZFBApi',
 	'20170515',
-	'{"pro":{"payUrl":"http://3rd.pay.api.com/dinpay-pay/gateway/api/scanpay","queryOrderUrl":"http://3rd.pay.api.com/dinpay-pay/query"},"test":{"payUrl":"https://api.dinpay.com/gateway/api/scanpay","queryOrderUrl":"https://query.dinpay.com/query"}}'
+	'{"pro":{"payUrl":"http://3rd.pay.api.com/dinpay-pay/wxpay/gateway/api/scanpay","queryOrderUrl":"http://3rd.pay.api.com/dinpay-pay/query"},"test":{"payUrl":"https://api.dinpay.com/gateway/api/scanpay","queryOrderUrl":"https://query.dinpay.com/query"}}'
 WHERE
 	NOT EXISTS (
 		SELECT
