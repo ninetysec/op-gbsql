@@ -13,7 +13,7 @@ INSERT INTO "pay_api_provider" ("id", "channel_code", "remarks", "jar_url", "api
 INSERT INTO "pay_api_provider" ("id", "channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
 
   SELECT '137', 'xinmobao_wx', '新摩宝（微信）', 'file:/data/impl-jars/pay/pay-xinmobao.jar', 'org.soul.pay.impl.XinmobaoPayWXApi', '20170524',
-'{"pro":{"payUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://s3rd.pay.api.com/xinmobao-pay/cgi-bin/netpayment/pay_gate.cgi"},"test":{"payUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi"}}'
+'{"pro":{"payUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://3rd.pay.api.com/xinmobao-pay/cgi-bin/netpayment/pay_gate.cgi"},"test":{"payUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi","queryOrderUrl":"http://saascashier.mobaopay.com/cgi-bin/netpayment/pay_gate.cgi"}}'
 
   WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'xinmobao_wx');
 
