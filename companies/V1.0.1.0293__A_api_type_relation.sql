@@ -8,3 +8,6 @@ ALTER SEQUENCE api_type_relation_id_seq OWNED BY "api_type_relation"."id";
 	 START 100
 	 CACHE 1
 	 OWNED BY "api_type_relation_i18n"."id";
+
+	 ALTER TABLE api_type_relation ALTER COLUMN id set DEFAULT nextval('api_type_relation_id_seq'::regclass);
+ALTER TABLE api_type_relation_i18n ALTER COLUMN id set DEFAULT nextval('api_type_relation_i18n_id_seq'::regclass);
