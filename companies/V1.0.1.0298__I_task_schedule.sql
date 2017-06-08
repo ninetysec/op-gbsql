@@ -24,13 +24,13 @@ SELECT '江苏快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.
 WHERE not EXISTS(SELECT id FROM task_schedule where job_code = 'lotteryResultGather_jsk3');
 
 INSERT INTO "task_schedule" ( "job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc")
-SELECT '安徽快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '安徽快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_ahk3', 'f', 'f', 'jsk3', 'java.lang.String', 'A'
+SELECT '安徽快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '安徽快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_ahk3', 'f', 'f', 'ahk3', 'java.lang.String', 'A'
 WHERE not EXISTS(SELECT id FROM task_schedule where job_code = 'lotteryResultGather_ahk3');
 
 INSERT INTO "task_schedule" ( "job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc")
-SELECT '广西快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '广西快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_gxk3', 'f', 'f', 'jsk3', 'java.lang.String', 'A'
+SELECT '广西快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '广西快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_gxk3', 'f', 'f', 'gxk3', 'java.lang.String', 'A'
 WHERE not EXISTS(SELECT id FROM task_schedule where job_code = 'lotteryResultGather_gxk3');
 
 INSERT INTO "task_schedule" ( "job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc")
-SELECT '湖北快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '湖北快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_hbk3', 'f', 'f', 'jsk3', 'java.lang.String', 'A'
+SELECT '湖北快3彩票采集任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultGatherJob', 'execute', 't', '2', '0 0/1 * * * ?', 't', '湖北快3彩票采集任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultGather_hbk3', 'f', 'f', 'hbk3', 'java.lang.String', 'A'
 WHERE not EXISTS(SELECT id FROM task_schedule where job_code = 'lotteryResultGather_hbk3');
