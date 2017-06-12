@@ -1,4 +1,8 @@
 -- auto gen by cherry 2017-06-10 14:18:36
+drop table if EXISTS activity_open_period;
+drop table if EXISTS activity_awards_rules;
+drop SEQUENCE if EXISTS activity_open_period_id_seq;
+
 INSERT INTO "activity_type" ("code", "name", "introduce", "logo") SELECT 'money', '红包', '通过抢红包，玩家有一定机率获取优惠', '/images/activity/events-img-10.jpg'
     where not EXISTS (SELECT code FROM activity_type where code='money');
 
