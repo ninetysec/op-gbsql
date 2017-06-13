@@ -13,7 +13,7 @@ ALTER TABLE "pay_api_provider" ALTER COLUMN "id" SET DEFAULT nextval('pay_api_pr
 --http://3rd.pay.api.com/caimao-pay/query
 INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
 
-  SELECT 'caimao_wy', '财猫支付（网银）', 'file:/data/impl-jars/pay/pay-caimao.jar', 'org.soul.pay.impl.CaimaoPayWYApi', '20170227', '{"pro":{"payUrl":"http://3rd.pay.api.com/caimao-pay/pay/gateway?input_charset=UTF-8","queryOrderUrl":"http://3rd.pay.api.com/caimao-pay/query/query"},"test":{"payUrl":"https://pay.caimao9.com/gateway?input_charset=UTF-8","queryOrderUrl":"https://query.caimao9.com/query"}}'
+  SELECT 'caimao_wy', '财猫支付（网银）', 'file:/data/impl-jars/pay/pay-caimao.jar', 'org.soul.pay.impl.CaimaoPayWYApi', '20170227', '{"pro":{"payUrl":"https://pay.caimao9.com/gateway?input_charset=UTF-8","queryOrderUrl":"http://3rd.pay.api.com/caimao-pay/query/query"},"test":{"payUrl":"https://pay.caimao9.com/gateway?input_charset=UTF-8","queryOrderUrl":"https://query.caimao9.com/query"}}'
 
   WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'caimao_wy');
 
