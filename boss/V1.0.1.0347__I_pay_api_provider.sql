@@ -8,3 +8,8 @@ INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class
 INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
   SELECT 'yunfux_zfb', '云付盟支付（支付宝）', 'file:/data/impl-jars/pay/pay-yunfux.jar', 'org.soul.pay.impl.YunfuPayZFBApi', '20170607', '{"pro":{"payUrl":"http://3rd.pay.api.com/yunfux-pay/pay/api/pay/gateway","queryOrderUrl":""},"test":{"payUrl":"http://newpay.yunfux.cn/pay/api/pay/gateway","queryOrderUrl":""}}'
   WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'yunfux_zfb');
+
+  INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
+  SELECT 'woozf_wy', '沃支付（网银）', 'file:/data/impl-jars/pay/pay-woozf.jar', 'org.soul.pay.impl.WoozfPayWYApi', '20170603',
+'{"pro":{"payUrl":"http://pay.woozf.com/gateway","queryOrderUrl":"http://3rd.pay.api.com/woozf-pay/query"},"test":{"payUrl":"http://pay.woozf.com/gateway","queryOrderUrl":"http://pay.woozf.com/query"}}'
+  WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'woozf_wy');
