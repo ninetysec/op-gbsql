@@ -1,20 +1,20 @@
 -- auto gen by cherry 2017-06-16 14:52:29
---http://119.23.249.156:8080
---http://3rd.pay.api.com/baolifu-pay
-INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
 
-  SELECT 'baolifu_wy', '宝立付支付（网银）', 'file:/data/impl-jars/pay/pay-baolifu.jar', 'org.soul.pay.impl.BaolifuPayWYApi', '20170603', '{"pro":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://3rd.pay.api.com/baolifu-pay/pp_server/pay"},"test":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://119.23.249.156:8080/pp_server/pay"}}'
+INSERT INTO "bank" ("bank_name", "bank_icon", "bank_district", "type", "bank_short_name", "bank_icon_simplify", "bank_short_name2", "is_use", "order_num", "pay_type", "website")
 
-  WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'baolifu_wy');
+  SELECT 'baolifu_wy', NULL, 'CN', '3', '宝立付支付-网银支付', NULL, '宝立付支付', 't', '021','1', NULL
 
-INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
+  WHERE not EXISTS(SELECT id FROM bank where bank_name='baolifu_wy');
 
-  SELECT 'baolifu_wx', '宝立付支付（微信）', 'file:/data/impl-jars/pay/pay-baolifu.jar', 'org.soul.pay.impl.BaolifuPayWXApi', '20170603', '{"pro":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://3rd.pay.api.com/baolifu-pay/pp_server/pay"},"test":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://119.23.249.156:8080/pp_server/pay"}}'
+INSERT INTO "bank" ("bank_name", "bank_icon", "bank_district", "type", "bank_short_name", "bank_icon_simplify", "bank_short_name2", "is_use", "order_num", "pay_type", "website")
 
-  WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'baolifu_wx');
+  SELECT 'baolifu_wx', NULL, 'CN', '3', '宝立付支付-微信支付', NULL, '宝立付支付', 't', '022', '2', NULL
 
-INSERT INTO "pay_api_provider" ("channel_code", "remarks", "jar_url", "api_class", "jar_version", "ext_json")
+  WHERE not EXISTS(SELECT id FROM bank where bank_name='baolifu_wx');
 
-  SELECT 'baolifu_zfb', '宝立付支付（支付宝）', 'file:/data/impl-jars/pay/pay-baolifu.jar', 'org.soul.pay.impl.BaolifuPayZFBApi', '20170603', '{"pro":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://3rd.pay.api.com/baolifu-pay/pp_server/pay"},"test":{"payUrl":"http://119.23.249.156:8080/pp_server/pay","queryOrderUrl":"http://119.23.249.156:8080/pp_server/pay"}}'
+INSERT INTO "bank" ("bank_name", "bank_icon", "bank_district", "type", "bank_short_name", "bank_icon_simplify", "bank_short_name2", "is_use", "order_num", "pay_type", "website")
 
-  WHERE NOT EXISTS (select channel_code from pay_api_provider where channel_code = 'baolifu_zfb');
+  SELECT 'baolifu_zfb', NULL, 'CN', '3', '宝立付支付-支付宝', NULL, '宝立付支付', 't', '023', '3', NULL
+
+  WHERE not EXISTS(SELECT id FROM bank where bank_name='baolifu_zfb');
+
