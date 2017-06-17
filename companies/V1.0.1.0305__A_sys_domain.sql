@@ -1,8 +1,8 @@
 -- auto gen by tony 2017-06-15 14:52:47
 
 select redo_sqls($$
-    ALTER TABLE sys_domain ADD COLUMN ssl_enabled boolean DEFAULT false;
-    COMMENT ON COLUMN sys_domain.ssl_enabled IS 'SSL启用标示';
+ALTER TABLE sys_domain ADD COLUMN ssl_enabled boolean DEFAULT false;
+COMMENT ON COLUMN sys_domain.ssl_enabled IS 'SSL启用标示';
   $$);
 
 DROP VIEW if EXISTS v_sys_site_domain;
