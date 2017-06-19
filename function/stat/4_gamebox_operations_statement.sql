@@ -287,6 +287,7 @@ description:通过Dblink方式收集玩家经营报表.
 */
 --drop function IF EXISTS gamebox_master_operation_statement(text, int, text, text, date, text);
 --drop function IF EXISTS gamebox_master_operation_statement(text, int, text, text, text, text);
+/*
 drop function IF EXISTS gamebox_master_operation_statement(text, text, text, text, text, text);
 CREATE OR REPLACE FUNCTION gamebox_master_operation_statement(
 	conn 		TEXT,
@@ -301,12 +302,12 @@ CREATE OR REPLACE FUNCTION gamebox_master_operation_statement(
 --v1.00  2015/01/01  Lins     创建此函数: 经营报表-玩家.代理.总代报表
 --v1.01  2016/05/31  Leisure  统计日期由current_date，改为参数获取
 --v1.02  2016/07/07  Leisure  修改参数类型
-*/
+/
 DECLARE
 	rtn TEXT:='';
 BEGIN
 	SELECT
-		INTO rtn P .msg
+		INTO rtn P.msg
 	FROM
 		dblink (conn,
 			--v1.01  2016/05/31  Leisure
@@ -318,6 +319,7 @@ $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION gamebox_master_operation_statement(conn TEXT, siteid TEXT, curday TEXT, startTime TEXT, endTime TEXT, url TEXT)
 IS 'Lins-经营报表-玩家.代理.总代报表';
+*/
 
 /**
 	description:站点经营报表
