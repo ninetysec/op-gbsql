@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS f_agent_rebate(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text);
-CREATE OR REPLACE FUNCTION "f_agent_rebate"(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text)
-  RETURNS "pg_catalog"."varchar" AS $BODY$
+CREATE OR REPLACE FUNCTION f_agent_rebate(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text)
+  RETURNS pg_catalog.varchar AS $BODY$
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2017/03/03  younger  创建此函数: 返佣结算账单-入口
@@ -344,7 +344,7 @@ BEGIN
 END;
 
 $BODY$ LANGUAGE 'plpgsql';
-COMMENT ON FUNCTION "f_agent_rebate"(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text)
+COMMENT ON FUNCTION f_agent_rebate(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text)
 IS 'younger-返佣结算账单-入口';
 
 /**
