@@ -284,7 +284,7 @@ BEGIN
 								AND is_profit_loss = TRUE --v1.03  2016/06/13  Leisure
 							GROUP BY player_id, api_id, api_type_id, game_type
 							) p, v_sys_user_tier u
-	WHERE p.player_id = u.id;
+	     WHERE p.player_id = u.id;
 
 	GET DIAGNOSTICS n_count = ROW_COUNT;
 	raise notice '本次插入数据量 %', n_count;
