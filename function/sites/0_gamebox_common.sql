@@ -67,7 +67,7 @@ create or replace function gamebox_rakeback_map(
 --版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 返水-玩家入口-返佣调用
 --v1.01  2016/05/25  Leisure  返回值类型由hstore[]改为hstore
-*/
+/
 DECLARE
   gradshash 	hstore;
 	agenthash 	hstore;
