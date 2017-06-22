@@ -53,4 +53,3 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE COST 100
 ;
 
-SELECT * from site_api;
