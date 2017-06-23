@@ -1,6 +1,5 @@
 -- auto gen by cherry 2017-06-22 19:28:05
 
--- auto gen by cherry 2017-06-22 19:28:05
 DROP FUNCTION IF EXISTS "f_init_site_api_game"(siteid int4, apiid int4);
 CREATE OR REPLACE FUNCTION "f_init_site_api_game"(siteid int4, apiid int4)
   RETURNS "pg_catalog"."void" AS $BODY$
