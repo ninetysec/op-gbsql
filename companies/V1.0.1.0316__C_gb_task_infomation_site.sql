@@ -84,6 +84,7 @@ COMMENT ON COLUMN task_infomation.remark IS '备注';
 COMMENT ON COLUMN task_infomation.is_effective IS '是否是有效记录';
 
 DROP VIEW v_sys_site_manage;
+DROP VIEW v_site_master;
 
 SELECT redo_sqls($$
 ALTER TABLE sys_datasource ADD COLUMN remote_ip VARCHAR(32);
@@ -137,3 +138,31 @@ AS backupdb,
      LEFT JOIN site_i18n i18n_center ON u.site_id = i18n_center.site_id AND i18n_center.type::text = 'site_name'::text AND i18n_center.locale = u.default_locale::bpchar
      LEFT JOIN site_i18n i18n_site ON ss.id = i18n_site.site_id AND i18n_site.type::text = 'site_name'::text AND i18n_site.locale = ss.main_language::bpchar
   WHERE u.user_type::text = '2'::text;
+COMMENT ON VIEW v_sys_site_manage IS '站点管理 --tom';
+
+CREATE OR REPLACE VIEW v_site_master AS
+ SELECT u.id AS userid,
+    u.username,
+    u.site_id AS parent_id,
+    i18n.value AS parent_name,
+    site.id AS siteid,
+    ds.name AS site_name,
+    site.timezone,
+    site.code,
+    site.max_profit,
+    site.status,
+    (((ds.ip::text || '|'::text) || ds.dbname::text) || '|'::text) || ds.username::text AS db,
+    i18n.locale,
+    ( SELECT m.domain
+           FROM sys_domain m
+          WHERE m.site_id = site.id AND m.subsys_code::text = 'msites'::text AND m.page_url::text = '/'::text
+         LIMIT 1) AS domain,
+    site.remark,
+    site.belong_to_idc
+   FROM sys_user u
+     LEFT JOIN sys_site site ON u.id = site.sys_user_id
+     LEFT JOIN sys_datasource ds ON site.id = ds.id
+     LEFT JOIN site_i18n i18n ON u.site_id = i18n.site_id AND i18n.type::text = 'site_name'::text
+  WHERE u.user_type::text = '2'::text
+  ORDER BY u.site_id, u.id, site.id;
+COMMENT ON VIEW v_site_master IS '站长管理视图';
