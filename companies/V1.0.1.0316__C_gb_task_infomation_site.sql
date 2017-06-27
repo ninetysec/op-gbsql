@@ -83,8 +83,8 @@ COMMENT ON COLUMN task_infomation.end_time IS '任务结束时间';
 COMMENT ON COLUMN task_infomation.remark IS '备注';
 COMMENT ON COLUMN task_infomation.is_effective IS '是否是有效记录';
 
-DROP VIEW v_sys_site_manage;
-DROP VIEW v_site_master;
+DROP VIEW IF EXISTS v_sys_site_manage;
+DROP VIEW IF EXISTS v_site_master;
 
 SELECT redo_sqls($$
 ALTER TABLE sys_datasource ADD COLUMN remote_ip VARCHAR(32);
