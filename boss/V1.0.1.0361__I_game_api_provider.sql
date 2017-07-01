@@ -461,4 +461,4 @@ INSERT INTO "gather_user" ("id", "username", "password", "nickname", "type", "st
 
 
 INSERT INTO "task_schedule" ( "job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc", "scheduler")
-SELECT   'apiId-23-OPUSSPORT-未结算注单记录', NULL, NULL, 'so.wwb.gamebox.service.company.PlayerGameOrderModifierJob', 'execute', 't', '1', '0 0/4 * * * ?', 't', 'api任务', '2017-05-24 02:13:48.132917', NULL, 'api-23-M', 'f', 'f', '23', 'java.lang.Integer', 'B', 'scheduler4Api' WHERE NOT EXISTS(SELECT id  FROM  task_schedule where  job_code='api-23-M')
+SELECT   'apiId-23-OPUSSPORT-未结算注单记录', NULL, NULL, 'so.wwb.gamebox.service.company.PlayerGameOrderModifierJob', 'execute', 't', '1', '0 0/4 * * * ?', 't', 'api任务', '2017-05-24 02:13:48.132917', NULL, 'api-23-M', 'f', 'f', '23', 'java.lang.Integer', 'B', 'scheduler4Api' WHERE NOT EXISTS(SELECT id  FROM  task_schedule where  job_code='api-23-M');
