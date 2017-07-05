@@ -1,6 +1,5 @@
 -- auto gen by cherry 2017-07-01 10:14:12
 DELETE FROM lottery_quota;
-DELETE FROM site_lottery_quota;
 INSERT INTO lottery_quota (code, play_code, num_quota, bet_quota, play_quota)  SELECT 'ahk3', 'armed_forces', '50000', '10000', ' 500000'where not EXISTS(SELECT id FROM lottery_quota WHERE code='ahk3' and play_code='armed_forces');
 INSERT INTO lottery_quota (code, play_code, num_quota, bet_quota, play_quota)  SELECT 'ahk3', 'dice', '10000', '1000', ' 50000'where not EXISTS(SELECT id FROM lottery_quota WHERE code='ahk3' and play_code='dice');
 INSERT INTO lottery_quota (code, play_code, num_quota, bet_quota, play_quota)  SELECT 'ahk3', 'full_dice', '50000', '5000', ' 100000'where not EXISTS(SELECT id FROM lottery_quota WHERE code='ahk3' and play_code='full_dice');
