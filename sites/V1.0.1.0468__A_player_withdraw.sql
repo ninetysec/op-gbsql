@@ -1,3 +1,4 @@
+-- auto gen by cherry 2017-07-05 17:03:55
 -- auto gen by cherry 2017-07-04 10:57:15
 
  select redo_sqls($$
