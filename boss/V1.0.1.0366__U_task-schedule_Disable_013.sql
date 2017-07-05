@@ -2,3 +2,6 @@
 
 -- 调度任务:禁用:返水api基础数据任务
 update task_schedule set status = '2' where task_schedule.job_class = 'so.wwb.gamebox.service.master.RakebackApiBaseProcedureJob';
+
+-- 调度任务:禁用:返佣未出账单任务(旧版功能 )
+update task_schedule set status = '2' where task_schedule.job_class = 'so.wwb.gamebox.service.master.RebateNotSettledProcedureJob';
