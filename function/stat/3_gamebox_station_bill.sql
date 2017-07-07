@@ -540,30 +540,36 @@ drop function if exists gamebox_station_profit_loss(hstore);
 create or replace function gamebox_station_profit_loss(
     map hstore
 ) returns void as $$
+/*版本更新说明
+  版本   时间        作者     内容
+--v1.00  2017/01/18  Leisure  创建此函数: 站点账务-API
+--v1.01  2017/03/22  Leisure  增加api_type_id
+*/
 DECLARE
-	api_id 		INT;
-	game_type 	TEXT;
-	profit_loss FLOAT;
-	occupy_proportion FLOAT;
-	amount_payable FLOAT;
-	bill_id 	INT;
-	api_type_id INT;
+  api_id     INT;
+  game_type   TEXT;
+  profit_loss FLOAT;
+  occupy_proportion FLOAT;
+  amount_payable FLOAT;
+  bill_id   INT;
+  api_type_id INT;
 BEGIN
-	api_id = (map->'api_id')::INT;
-	game_type = (map->'game_type')::TEXT;
-	profit_loss = (map->'profit_loss')::FLOAT;
-	occupy_proportion = (map->'occupy_proportion')::FLOAT;
-	amount_payable = (map->'amount_payable')::FLOAT;
-	bill_id = (map->'bill_id')::INT;
-	api_type_id = CASE game_type WHEN 'LiveDealer' THEN 1 WHEN 'Casino' THEN 2 WHEN 'Sportsbook' THEN 3 WHEN'Lottery' THEN 4 END;
+  api_id = (map->'api_id')::INT;
+  game_type = (map->'game_type')::TEXT;
+  profit_loss = (map->'profit_loss')::FLOAT;
+  occupy_proportion = (map->'occupy_proportion')::FLOAT;
+  amount_payable = (map->'amount_payable')::FLOAT;
+  bill_id = (map->'bill_id')::INT;
+  --v1.01  2017/03/22  Leisure
+  api_type_id = CASE game_type WHEN 'LiveDealer' THEN 1 WHEN 'Casino' THEN 2 WHEN 'Sportsbook' THEN 3 WHEN'Lottery' THEN 4 END;
 
-	INSERT INTO station_profit_loss(
-		station_bill_id, api_id, profit_loss,
-		amount_payable, game_type, occupy_proportion, api_type_id
-	) VALUES (
-		bill_id, api_id, profit_loss,
-		amount_payable, game_type, occupy_proportion, api_type_id
-	);
+  INSERT INTO station_profit_loss(
+    station_bill_id, api_id, profit_loss,
+    amount_payable, game_type, occupy_proportion, api_type_id
+  ) VALUES (
+    bill_id, api_id, profit_loss,
+    amount_payable, game_type, occupy_proportion, api_type_id
+  );
 END
 $$ language plpgsql;
 COMMENT ON FUNCTION gamebox_station_profit_loss(
