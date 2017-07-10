@@ -43,42 +43,57 @@ IS 'Lins-关闭所有dblink连接.';
 **/
 drop function IF EXISTS gamebox_collect_site_infor(text);
 create or replace function gamebox_collect_site_infor(
-	hostinfo text
+  hostinfo text
 ) returns void as $$
-
+/*版本更新说明
+  版本   时间        作者     内容
+--v1.00  2015/01/01  Lins     创建此函数: 收集站点相关信息
+--v1.10  2017/06/29  Leisure  TRUNCATE改为DELETE
+--v1.01  2017/07/10  Leisure  修改DBLINK连接方式，回收SU
+*/
 declare
-	sql text:='';
-	rec record;
+  sql text:='';
+  rec record;
 
 BEGIN
-	perform dblink_connect('mainsite', hostinfo);
-	sql:='SELECT s.siteid, 				s.sitename,
-				 s.masterid, 			s.mastername,
-				 s.usertype, 			s.subsyscode,
-		  		 s.operationid, 		s.operationname,
-		  		 s.operationusertype, 	s.operationsubsyscode
-		    FROM dblink (''mainsite'', ''SELECT * from v_sys_site_info'') as s
-		    	 (
-					siteid int4, 		sitename VARCHAR,
-					masterid int4, 		mastername VARCHAR,
-					usertype VARCHAR, 	subsyscode VARCHAR,
-					operationid int4, 	operationname VARCHAR,
-					operationusertype VARCHAR, operationsubsyscode VARCHAR
-				 )';
+  --v1.01  2017/07/10
+  perform dblink_connect_u('mainsite', hostinfo);
 
-	FOR rec in EXECUTE sql LOOP
-		raise notice 'name:%', rec.sitename;
-	END LOOP;
+  sql:='SELECT s.siteid,         s.sitename,
+         s.masterid,       s.mastername,
+         s.usertype,       s.subsyscode,
+           s.operationid,     s.operationname,
+           s.operationusertype,   s.operationsubsyscode
+        FROM dblink (''mainsite'', ''SELECT * from v_sys_site_info'')
+        as s(
+             siteid int4,
+             sitename VARCHAR,
+             masterid int4,
+             mastername VARCHAR,
+             usertype VARCHAR,
+             subsyscode VARCHAR,
+             operationid int4,
+             operationname VARCHAR,
+             operationusertype VARCHAR,
+             operationsubsyscode VARCHAR
+            )';
 
-	execute 'truncate table sys_site_info';
-	execute 'insert into sys_site_info '||sql;
+  FOR rec in EXECUTE sql LOOP
+    raise notice 'name:%', rec.sitename;
+  END LOOP;
 
-	perform dblink_disconnect('mainsite');
+  --v1.10  2017/06/29  Leisure
+  --execute 'truncate table sys_site_info';
+  DELETE FROM sys_site_info;
+  execute 'insert into sys_site_info '||sql;
+
+  perform dblink_disconnect('mainsite');
 END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gamebox_collect_site_infor(hostinfo text)
 IS 'Lins-经营报表-收集站点相关信息';
+
 /*
 description:经营报表-入口
 @author:Lins
@@ -109,6 +124,7 @@ create or replace function gb_operations_statement_master(
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2017/02/23  Leisure  创建此函数: 经营报表-入口
+--v1.10  2017/06/29  Leisure  改变sys_site_info同步方式
 */
 DECLARE
   v_site_urls     varchar[];
@@ -136,8 +152,9 @@ BEGIN
 
   --关闭所有链接.
   perform dblink_close_all();
+  --v1.10  2017/06/29  Leisure
   --收集当前所有运营站点相关信息.
-  perform gamebox_collect_site_infor(p_comp_url);
+  --perform gamebox_collect_site_infor(p_comp_url);
 
   --获取当前运营商id
   SELECT operationid INTO n_center_id FROM sys_site_info WHERE masterid = p_master_id::INT LIMIT 1;
