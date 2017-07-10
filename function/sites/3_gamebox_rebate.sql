@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION "f_agent_rebate"(p_stat_month text, p_start_time text
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2017/03/03  younger  创建此函数: 返佣结算账单-入口
---v1.10  2017/03/30  Leisure  修复上月无响应gametype数据时本期无法累加等bug
+--v1.10  2017/03/30  Leisure  修复上月无相应gametype数据时本期无法累加等bug
 --v1.01  2017/06/05  Leisure  修复重跑会删除已结记录的bug
   -- p_stat_month 统计月份
   -- p_start_time 统计开始时间
