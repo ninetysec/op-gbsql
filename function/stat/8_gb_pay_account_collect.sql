@@ -28,9 +28,9 @@ BEGIN
                           CASE idc WHEN ''A'' THEN ip ELSE remote_ip END, CASE idc WHEN ''A'' THEN port ELSE remote_port END, dbname, username, password
                      FROM sys_site s, sys_datasource d where s.id = d.id
                     ORDER BY site_id')
-                   AS si( comp_id INT, master_id INT, site_id INT, site_name varchar(16),
-                          ip varchar(15), port int4, dbname varchar(32), username varchar(32), password varchar(128)
-                  )
+        AS si( comp_id INT, master_id INT, site_id INT, site_name varchar(16),
+               ip varchar(15), port int4, dbname varchar(32), username varchar(32), password varchar(128)
+             )
   LOOP
     site_url = 'host=' || rec_ds.ip || ' port=' || rec_ds.port || ' dbname=' || rec_ds.dbname || ' user=' || rec_ds.username || ' password=' || rec_ds.password;
 
