@@ -950,7 +950,10 @@ DECLARE
 	sid 	INT;
 
 BEGIN
-	FOR rec IN SELECT param_code, case when param_value ='' then '0' when param_value is null then '0' else param_value end FROM sys_param WHERE param_type = $1
+	FOR rec IN
+	  SELECT param_code, case when param_value ='' then '0' when param_value is null then '0' else param_value end
+	    FROM sys_param
+	   WHERE param_type = $1
 	LOOP
 		param = param||rec.param_code||'=>'||rec.param_value||',';
 	END LOOP;
