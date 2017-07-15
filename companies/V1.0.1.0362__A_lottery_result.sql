@@ -1,4 +1,4 @@
--- auto gen by cherry 2017-07-15 17:56:46
+-- auto gen by cherry 2017-07-15 18:34:25
  select redo_sqls($$
 	ALTER TABLE lottery_result ADD COLUMN origin varchar(2);
   $$);
