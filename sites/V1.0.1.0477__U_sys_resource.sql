@@ -4,7 +4,7 @@ update sys_resource set icon='icon-role' where id=2;
 update sys_resource set icon='icon-deal' where id=3;
 update sys_resource set icon='icon-marketing' where id=4;
 update sys_resource set icon='icon-log'    where id=5;
-update sys_resource set icon='icon-content-management' where
+update sys_resource set icon='icon-content-management' where id=6;
 update sys_resource set icon='icon-statistics' where id=7;
 update sys_resource set icon='icon-iconfontdeal' where id=8;
 update sys_resource set icon='icon-fenxi'  where id=9;
