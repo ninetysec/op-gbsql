@@ -1,4 +1,4 @@
 -- auto gen by cherry 2017-07-19 20:49:24
 INSERT INTO "task_schedule" ("job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class","belong_to_idc","scheduler")
-SELECT '彩票开奖结果初始化任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultInitJob', 'execute', 't', '1', '0 0/120 * * * ?', 't', '彩票开奖结果初始化任务', '2016-09-25 06:43:33.906', NULL, 'lotterResult_init', 'f', 'f', 'hklhc', 'java.lang.String','A','scheduler4Lottery'
+SELECT '彩票开奖结果初始化任务', NULL, NULL, 'so.wwb.gamebox.service.boss.lottery.LotteryResultInitJob', 'execute', 't', '1', '0 1/1200 * * * ?', 't', '彩票开奖结果初始化任务', '2016-09-25 06:43:33.906', NULL, 'lotterResult_init', 'f', 'f', 'hklhc', 'java.lang.String','A','scheduler4Lottery'
 where not EXISTS(SELECT id FROM task_schedule WHERE job_code='lotterResult_init');
