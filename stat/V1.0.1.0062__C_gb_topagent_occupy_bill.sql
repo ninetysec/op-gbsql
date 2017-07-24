@@ -2,7 +2,7 @@
 DROP FUNCTION IF EXISTS dblink_disconnect_all();
 CREATE OR REPLACE FUNCTION dblink_disconnect_all()
 returns TEXT as $$
-
+DECLARE linkname TEXT;
 BEGIN
 
   FOR linkname IN ( SELECT unnest(dblink_get_connections()) )
