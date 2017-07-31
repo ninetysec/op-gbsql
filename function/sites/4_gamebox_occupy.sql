@@ -697,7 +697,8 @@ BEGIN
 	raise info '取得运营商各API占成';
 	SELECT gamebox_operations_occupy(url, sid, stTime, edTime, category, is_max, key_type, 'Y') into operation_occupy_map;
 
-	raise info '取得当前返佣梯度设置信息';
+	--raise info '取得当前返佣梯度设置信息';
+	raise info '取得当前API占成比率设置信息';
 	SELECT gamebox_occupy_api_set() into occupy_map;
 
 	raise info '占成.总表新增';
@@ -1553,7 +1554,8 @@ BEGIN
 		occupy_value = 0.00;
 		retio 		 = 0.00;
 
-		IF exist(occupy_grads_map, key_name) THEN
+		--IF exist(occupy_grads_map, key_name) THEN
+		IF isexists(occupy_grads_map, key_name) THEN
 			retio = (occupy_grads_map->key_name)::FLOAT;
 			--v1.02  2016/05/23  Leisure
 			--occupy_value = (profit_amount - operation_occupy_value) * retio / 100;
@@ -2230,7 +2232,8 @@ BEGIN
 	raise info '取得运营商各API占成';
 	SELECT gamebox_operations_occupy(url, sid, stTime, edTime, category, is_max, key_type, 'Y') into operation_occupy_map;
 	*/--v1.01  2016/05/23  Leisure
-	raise info '取得当前返佣梯度设置信息';
+	--raise info '取得当前返佣梯度设置信息';
+	raise info '取得当前API占成比率设置信息';
   SELECT gamebox_occupy_api_set() into occupy_grads_map;
 
 	--raise info 'operation_occupy_map: %', operation_occupy_map;
