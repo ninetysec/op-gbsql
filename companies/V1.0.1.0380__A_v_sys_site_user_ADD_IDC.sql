@@ -11,8 +11,8 @@ CREATE or REPLACE VIEW v_sys_site_user AS SELECT site.id,
                                  site.main_language AS site_locale,
                                  site.timezone,
                                  ds.idc
-                               FROM sys_site site,
-                                 sys_user usr,
-                                 sys_datasource ds
-                               WHERE (site.sys_user_id = usr.id)
-                                     and (site.id = ds.id) ;
+                               FROM sys_site site
+                                 LEFT JOIN sys_datasource ds
+                                   on (site.id = ds.id),
+                                 sys_user usr
+                               WHERE (site.sys_user_id = usr.id);
