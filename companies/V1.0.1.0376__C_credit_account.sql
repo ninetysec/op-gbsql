@@ -83,17 +83,17 @@ COMMENT ON COLUMN "credit_account"."terminal" IS '支持终端：0-全部 1-pc 2
 
 COMMENT ON COLUMN "credit_account"."sort" IS '排序';
 
-CREATE INDEX "in_credit_account_account_type" ON "credit_account" USING btree (account_type);
+CREATE INDEX if not EXISTS "in_credit_account_account_type" ON "credit_account" USING btree (account_type);
 
-CREATE INDEX "in_credit_account_bank_code" ON "credit_account" USING btree (bank_code);
+CREATE INDEX if not EXISTS "in_credit_account_bank_code" ON "credit_account" USING btree (bank_code);
 
-CREATE INDEX "in_credit_account_create_time" ON "credit_account" USING btree (create_time);
+CREATE INDEX if not EXISTS "in_credit_account_create_time" ON "credit_account" USING btree (create_time);
 
-CREATE INDEX "in_credit_account_deposit_count" ON "credit_account" USING btree (deposit_count);
+CREATE INDEX if not EXISTS "in_credit_account_deposit_count" ON "credit_account" USING btree (deposit_count);
 
-CREATE INDEX "in_credit_account_deposit_total" ON "credit_account" USING btree (deposit_total);
+CREATE INDEX if not EXISTS "in_credit_account_deposit_total" ON "credit_account" USING btree (deposit_total);
 
-CREATE INDEX "in_credit_account_type" ON "credit_account" USING btree (type);
+CREATE INDEX if not EXISTS "in_credit_account_type" ON "credit_account" USING btree (type);
 
 CREATE TABLE IF not EXISTS credit_record(
 id serial4 not null PRIMARY key,
