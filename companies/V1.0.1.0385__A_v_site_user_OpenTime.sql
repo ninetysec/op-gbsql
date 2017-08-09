@@ -12,7 +12,8 @@ CREATE or REPLACE VIEW v_sys_site_user AS SELECT site.id,
                                             site.main_language AS site_locale,
                                             site.timezone,
                                             ds.idc,
-                                            site.opening_time
+                                            site.opening_time,
+                                            site.code
                                           FROM sys_site site
                                             LEFT JOIN sys_datasource ds
                                               on (site.id = ds.id),
