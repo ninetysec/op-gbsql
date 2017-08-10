@@ -1,11 +1,11 @@
-drop function if exists gb_rakeback_task(TEXT, TEXT, TEXT, TEXT, TEXT);
-create or replace function gb_rakeback_task(
+DROP FUNCTION IF EXISTS gb_rakeback_task(TEXT, TEXT, TEXT, TEXT, TEXT);
+CREATE OR REPLACE FUNCTION gb_rakeback_task(
   p_comp_url  TEXT,
 	p_period 	TEXT,
 	p_start_time 	TEXT,
 	p_end_time 	TEXT,
 	p_settle_flag 	TEXT
-) returns INT as $$
+) RETURNS INT as $$
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2017/06/17  Leisure   创建此函数: 返水结算账单.入口(调度)
@@ -437,62 +437,63 @@ IS 'Leisure-返水.玩家API返水';
 **/
 DROP FUNCTION IF EXISTS gb_rakeback_player(INT, TEXT);
 create or replace function gb_rakeback_player(
-	p_bill_id 	INT,
-	p_settle_flag 	TEXT
+  p_bill_id   INT,
+  p_settle_flag   TEXT
 ) returns void as $$
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2017/01/18  Leisure  创建此函数: 返水.玩家返水
+--v1.10  2017/07/01  Leisure  增加pending_lssuing字段，以支持返水重结
 */
 DECLARE
 
 BEGIN
 
-	IF p_settle_flag = 'Y' THEN--已出账
+  IF p_settle_flag = 'Y' THEN--已出账
 
-		INSERT INTO rakeback_player(
-		    rakeback_bill_id, player_id, username, rank_id, rank_name, risk_marker,
-		    rakeback_total, rakeback_actual, settlement_state, agent_id, top_agent_id, audit_num
-		)
-		SELECT p_bill_id, ut.id, ut.username, ut.rank_id, ut.rank_name, ut.risk_marker,
-		       ra.rakeback, ra.rakeback, 'pending_lssuing', ut.agent_id, ut.topagent_id, ra.audit_num
-		  FROM (
-		        SELECT player_id,
-		               CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN MIN(rakeback_limit) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
-		               MIN(audit_num) audit_num,
-		               SUM(effective_transaction) effective_transaction
-		          FROM rakeback_api
-		         WHERE rakeback_bill_id = p_bill_id
-		         GROUP BY player_id
-		      ) ra,
-		      v_sys_user_tier ut
-		 WHERE ra.player_id = ut."id"
-		 ORDER BY ra.rakeback DESC, ut.id;
+    INSERT INTO rakeback_player(
+        rakeback_bill_id, player_id, username, rank_id, rank_name, risk_marker, settlement_state,
+        agent_id, top_agent_id, audit_num, rakeback_total, rakeback_actual, rakeback_paid, rakeback_pending
+    )
+    SELECT p_bill_id, ut.id, ut.username, ut.rank_id, ut.rank_name, ut.risk_marker, 'pending_lssuing',
+           ut.agent_id, ut.topagent_id, ra.audit_num, ra.rakeback, ra.rakeback, 0, ra.rakeback
+      FROM (
+            SELECT player_id,
+                   CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN MIN(rakeback_limit) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
+                   MIN(audit_num) audit_num,
+                   SUM(effective_transaction) effective_transaction
+              FROM rakeback_api
+             WHERE rakeback_bill_id = p_bill_id
+             GROUP BY player_id
+          ) ra,
+          v_sys_user_tier ut
+     WHERE ra.player_id = ut."id"
+     ORDER BY ra.rakeback DESC, ut.id;
 
-	ELSEIF p_settle_flag = 'N' THEN--未出账
+  ELSEIF p_settle_flag = 'N' THEN--未出账
 
-		INSERT INTO rakeback_player_nosettled (
-		    rakeback_bill_nosettled_id, player_id, username, rank_id, rank_name, risk_marker,
-		    rakeback_total, agent_id, top_agent_id, audit_num
-		)
-		SELECT p_bill_id, ut.id, ut.username, ut.rank_id, ut.rank_name, ut.risk_marker,
-		       ra.rakeback, ut.agent_id, ut.topagent_id, ra.audit_num
-		  FROM (
-		        SELECT player_id,
-		               CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN MIN(rakeback_limit) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
-		               MIN(audit_num) audit_num,
-		               SUM(effective_transaction) effective_transaction
-		          FROM rakeback_api_nosettled
-		         WHERE rakeback_bill_nosettled_id = p_bill_id
-		         GROUP BY player_id
-		       ) ra,
-		       v_sys_user_tier ut,
-		       user_player up
-		 WHERE ra.player_id = ut.id
-		   AND ra.player_id = up."id"
-		 ORDER BY ra.rakeback DESC, ut.id;
+    INSERT INTO rakeback_player_nosettled (
+        rakeback_bill_nosettled_id, player_id, username, rank_id, rank_name, risk_marker,
+        agent_id, top_agent_id, audit_num, rakeback_total
+    )
+    SELECT p_bill_id, ut.id, ut.username, ut.rank_id, ut.rank_name, ut.risk_marker,
+           ut.agent_id, ut.topagent_id, ra.audit_num, ra.rakeback
+      FROM (
+            SELECT player_id,
+                   CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN MIN(rakeback_limit) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
+                   MIN(audit_num) audit_num,
+                   SUM(effective_transaction) effective_transaction
+              FROM rakeback_api_nosettled
+             WHERE rakeback_bill_nosettled_id = p_bill_id
+             GROUP BY player_id
+           ) ra,
+           v_sys_user_tier ut,
+           user_player up
+     WHERE ra.player_id = ut.id
+       AND ra.player_id = up."id"
+     ORDER BY ra.rakeback DESC, ut.id;
 
-	END IF;
+  END IF;
 
 END;
 
@@ -846,97 +847,100 @@ IS 'Lins-返水-玩家返水入口';
 **/
 DROP FUNCTION IF EXISTS gamebox_rakeback_bill(TEXT, TIMESTAMP, TIMESTAMP, INT, TEXT, TEXT);
 create or replace function gamebox_rakeback_bill (
-	name 			TEXT,
-	start_time 		TIMESTAMP,
-	end_time 		TIMESTAMP,
-	INOUT bill_id 	INT,
-	op 				TEXT,
-	flag 			TEXT
+  name       TEXT,
+  start_time     TIMESTAMP,
+  end_time     TIMESTAMP,
+  INOUT bill_id   INT,
+  op         TEXT,
+  flag       TEXT
 ) returns INT as $$
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 返水-返水周期主表
 --v1.01  2016/05/30  Leisure  改为returning，防止并发
---v1.01  2017/01/18  Leisure  没有返水玩家，依然保留返水总表记录
+--v1.02  2017/01/18  Leisure  没有返水玩家，依然保留返水总表记录
+--v1.10  2017/07/01  Leisure  增加pending_lssuing字段，以支持返水重结
 */
 DECLARE
-	pending_lssuing text:='pending_lssuing';
-	pending_pay 	text:='pending_pay';
-	rec 			record;
-	max_back_water 	float:=0.00;
-	backwater 		float:=0.00;
-	rp_count		INT:=0;	-- rakeback_player 条数
+  pending_lssuing text:='pending_lssuing';
+  pending_pay   text:='pending_pay';
+  rec       record;
+  max_back_water   float:=0.00;
+  backwater     float:=0.00;
+  rp_count    INT:=0;  -- rakeback_player 条数
 
 BEGIN
-	IF flag='Y' THEN--已出账
+  IF flag='Y' THEN--已出账
 
-		IF op='I' THEN
-			--先插入返水总记录并取得键值.
-			INSERT INTO rakeback_bill (
-			 	period, start_time, end_time,
-			 	player_count, player_lssuing_count, player_reject_count, rakeback_total, rakeback_actual,
-			 	create_time, lssuing_state
-			) VALUES (
-			 	name, start_time, end_time,
-			 	0, 0, 0, 0, 0,
-			 	now(), pending_pay
-			) returning id into bill_id;
+    IF op='I' THEN
+      --先插入返水总记录并取得键值.
+      INSERT INTO rakeback_bill (
+         period, start_time, end_time,
+         player_count, player_lssuing_count, player_reject_count, rakeback_total, rakeback_actual,
+         create_time, lssuing_state
+      ) VALUES (
+         name, start_time, end_time,
+         0, 0, 0, 0, 0,
+         now(), pending_pay
+      ) returning id into bill_id;
 
-			--改为returning，防止并发 Leisure 20160530
-			--SELECT currval(pg_get_serial_sequence('rakeback_bill',  'id')) into bill_id; --v1.01  2016/05/30  Leisure
+      --改为returning，防止并发 Leisure 20160530
+      --SELECT currval(pg_get_serial_sequence('rakeback_bill',  'id')) into bill_id; --v1.01  2016/05/30  Leisure
 
-		ELSE
-			SELECT COUNT(1) FROM rakeback_player WHERE rakeback_bill_id = bill_id INTO rp_count;
-			IF rp_count > 0 THEN
-				FOR rec IN
-					SELECT rakeback_bill_id,
-						   COUNT(DISTINCT player_id) 	as cl,
-						   SUM(rakeback_total) 			as sl
-					  FROM rakeback_player
-					 WHERE rakeback_bill_id = bill_id
-					 GROUP BY rakeback_bill_id
-				LOOP
-					UPDATE rakeback_bill SET player_count = rec.cl, rakeback_total = rec.sl WHERE id = bill_id;
-				END LOOP;
-			--ELSE
-				--DELETE FROM rakeback_bill WHERE id = bill_id;
-			END IF;
-		END IF;
+    ELSE
+      SELECT COUNT(1) FROM rakeback_player WHERE rakeback_bill_id = bill_id INTO rp_count;
+      IF rp_count > 0 THEN
+        FOR rec IN
+          SELECT rakeback_bill_id,
+               COUNT(DISTINCT player_id)   as cl,
+               SUM(rakeback_total)       as sl
+            FROM rakeback_player
+           WHERE rakeback_bill_id = bill_id
+           GROUP BY rakeback_bill_id
+        LOOP
+          --v1.10  2017/07/01  Leisure
+          UPDATE rakeback_bill SET player_count = rec.cl, rakeback_total = rec.sl, rakeback_pending = rec.sl WHERE id = bill_id;
+        END LOOP;
+      --ELSE
+        --DELETE FROM rakeback_bill WHERE id = bill_id;
+      END IF;
+    END IF;
 
-	ELSEIF flag='N' THEN--未出账
+  ELSEIF flag='N' THEN--未出账
 
-		IF op='I' THEN
-			--先插入返水总记录并取得键值.
-			INSERT INTO rakeback_bill_nosettled (
-			 	start_time, end_time, rakeback_total, create_time
-			) VALUES (
-			 	start_time, end_time, 0, now()
-			) returning id into bill_id;
+    IF op='I' THEN
+      --先插入返水总记录并取得键值.
+      INSERT INTO rakeback_bill_nosettled (
+         start_time, end_time, player_count, rakeback_total, create_time
+      ) VALUES (
+         start_time, end_time, 0, 0, now()
+      ) returning id into bill_id;
 
-			--改为returning，防止并发 Leisure 20160530
-			--SELECT currval(pg_get_serial_sequence('rakeback_bill_nosettled', 'id')) into bill_id;
-		ELSE
-			SELECT COUNT(1) FROM rakeback_player_nosettled WHERE rakeback_bill_nosettled_id = bill_id INTO rp_count;
-			-- raise info '---- rp_count = %', rp_count;
-			IF rp_count > 0 THEN
-				FOR rec in
-					SELECT rakeback_bill_nosettled_id,
-						   COUNT(DISTINCT player_id) 	as cl,
-						   SUM(rakeback_total) 			as sl
-					  FROM rakeback_player_nosettled
-					 WHERE rakeback_bill_nosettled_id = bill_id
-					 GROUP BY rakeback_bill_nosettled_id
-				LOOP
-					UPDATE rakeback_bill_nosettled SET rakeback_total = rec.sl WHERE id = bill_id;
-				END LOOP;
-				DELETE FROM rakeback_bill_nosettled WHERE id <> bill_id;
-			--ELSE
-				--DELETE FROM rakeback_bill_nosettled WHERE id = bill_id;
-			END IF;
-		END IF;
+      --改为returning，防止并发 Leisure 20160530
+      --SELECT currval(pg_get_serial_sequence('rakeback_bill_nosettled', 'id')) into bill_id;
+    ELSE
+      SELECT COUNT(1) FROM rakeback_player_nosettled WHERE rakeback_bill_nosettled_id = bill_id INTO rp_count;
+      -- raise info '---- rp_count = %', rp_count;
+      IF rp_count > 0 THEN
+        FOR rec in
+          SELECT rakeback_bill_nosettled_id,
+               COUNT(DISTINCT player_id)   as cl,
+               SUM(rakeback_total)       as sl
+            FROM rakeback_player_nosettled
+           WHERE rakeback_bill_nosettled_id = bill_id
+           GROUP BY rakeback_bill_nosettled_id
+        LOOP
+          --v1.10  2017/07/01  Leisure
+          UPDATE rakeback_bill_nosettled SET player_count = rec.cl, rakeback_total = rec.sl WHERE id = bill_id;
+        END LOOP;
+        DELETE FROM rakeback_bill_nosettled WHERE id <> bill_id;
+      --ELSE
+        --DELETE FROM rakeback_bill_nosettled WHERE id = bill_id;
+      END IF;
+    END IF;
 
-	END IF;
-	raise info 'rakeback_bill.完成.键值:%', bill_id;
+  END IF;
+  raise info 'rakeback_bill.完成.键值:%', bill_id;
 END;
 
 $$ language plpgsql;

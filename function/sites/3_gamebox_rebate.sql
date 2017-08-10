@@ -1,4 +1,3 @@
-
 DROP FUNCTION IF EXISTS f_agent_rebate(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text);
 CREATE OR REPLACE FUNCTION f_agent_rebate(p_stat_month text, p_start_time text, p_end_time text, p_api_type_order_json text, p_com_url text)
   RETURNS varchar AS $BODY$
@@ -6,8 +5,7 @@ CREATE OR REPLACE FUNCTION f_agent_rebate(p_stat_month text, p_start_time text, 
   版本   时间        作者     内容
 --v1.00  2017/03/03  younger  创建此函数: 返佣结算账单-入口
 --v1.10  2017/03/30  Leisure  修复上月无相应gametype数据时本期无法累加等bug
---v1.11  2017/06/05  Leisure  修复重跑会删除已结记录的bug，改由operate_agent统计
---v1.12  2017/07/26  Leisure  增加状态码，("4", "挂账")，累积的条件由0、1改为1、4
+--v1.01  2017/06/05  Leisure  修复重跑会删除已结记录的bug，改由operate_agent统计
 
   -- p_stat_month 统计月份
   -- p_start_time 统计开始时间
@@ -18,18 +16,18 @@ CREATE OR REPLACE FUNCTION f_agent_rebate(p_stat_month text, p_start_time text, 
   --运行函数
   --SELECT f_agent_rebate('2017-02','2017-01-31 16:00:00','2017-02-28 16:00:00','','url');
 
-  --rebate_status: ("0", "未处理"), ("1", "未达到门坎"), ("2", "清除"), ("3", "已结算"), ("4", "挂账");
+  --rebate_status: ("0", "未处理"), ("1", "未达到门坎"), ("2", "清除"), ("3", "已结算");
 */
 DECLARE
 
   t_start_time   TIMESTAMP;--查询开始时间
   t_end_time   TIMESTAMP;--查询结束时间
   t_start_date DATE;
-  v_last_rebate_month VARCHAR;
   t_end_date DATE;
+  v_last_rebate_month VARCHAR;
   b_need_history_count BOOLEAN :=false;--是否需要累计
-  n_year INT :=0; --统计年
-  n_month INT :=0;--统计月
+  v_year INT :=0; --统计年
+  v_month INT :=0;--统计月
   v_last_year INT :=0;--上期统计年
   v_last_month INT :=0;--上期统计月
   v_rebate_status VARCHAR;--佣统状态
@@ -84,10 +82,10 @@ BEGIN
   --raise notice 'p_api_type_order_json： %', p_api_type_order_json;
 
   --拆分统计年月
-  --SELECT substring(p_stat_month FROM 1 FOR 4) INTO n_year;
-  --SELECT substring(p_stat_month FROM 6 FOR 7) INTO n_month;
-  n_year = substr(p_stat_month, 1, 4);
-  n_month = substr(p_stat_month, 6, 2);
+  --SELECT substring(p_stat_month FROM 1 FOR 4) INTO v_year;
+  --SELECT substring(p_stat_month FROM 6 FOR 7) INTO v_month;
+  v_year = substr(p_stat_month, 1, 4);
+  v_month = substr(p_stat_month, 6, 2);
 
   --上月
   --SELECT to_char(to_date(p_stat_month,'yyyy-mm')+ interval '-1 months','yyyy-mm') INTO v_last_rebate_month;
@@ -114,16 +112,15 @@ BEGIN
   raise notice 't_end_date %', t_end_date;
 
   --1、判断统计月份是否存在，有存在，先删除
-  --v1.11  2017/06/05  Leisure
-  --DELETE FROM agent_rebate_player WHERE rebate_year=n_year AND rebate_month=n_month;
-  --DELETE FROM agent_rebate_grads WHERE rebate_year=n_year AND rebate_month=n_month;
-  --DELETE FROM agent_rebate WHERE rebate_year=n_year AND rebate_month=n_month;
+  --v1.01  2017/06/05  Leisure
+  --DELETE FROM agent_rebate_player WHERE rebate_year=v_year AND rebate_month=v_month;
+  --DELETE FROM agent_rebate_grads WHERE rebate_year=v_year AND rebate_month=v_month;
+  --DELETE FROM agent_rebate WHERE rebate_year=v_year AND rebate_month=v_month;
 
-  --仅删除未进行任何操作的数据
-  --rebate_status: ("0", "未处理"), ("1", "未达到门坎"), ("2", "清除"), ("3", "已结算"), ("4", "挂账");
-  DELETE FROM agent_rebate_player WHERE rebate_year=n_year AND rebate_month=n_month AND agent_id IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=n_year AND rebate_month=n_month AND rebate_status in('0','1'));
-  DELETE FROM agent_rebate_grads WHERE rebate_year=n_year AND rebate_month=n_month AND agent_id IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=n_year AND rebate_month=n_month AND rebate_status in('0','1'));
-  DELETE FROM agent_rebate WHERE rebate_year=n_year AND rebate_month=n_month AND rebate_status IN ('0','1');
+  --rebate_status: ("0", "未处理"), ("1", "未达到门坎"), ("2", "清除"), ("3", "已结算");
+  DELETE FROM agent_rebate_player WHERE rebate_year=v_year AND rebate_month=v_month AND agent_id IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=v_year AND rebate_month=v_month AND rebate_status in('0','1'));
+  DELETE FROM agent_rebate_grads WHERE rebate_year=v_year AND rebate_month=v_month AND agent_id IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=v_year AND rebate_month=v_month AND rebate_status in('0','1'));
+  DELETE FROM agent_rebate WHERE rebate_year=v_year AND rebate_month=v_month AND rebate_status IN ('0','1');
 
 --2、计算代理的承担费用（即生成agent_rebate_player）
   --SELECT CASE WHEN param_value is NULL THEN default_value ELSE param_value END FROM sys_param WHERE param_type = 'rebateSetting' AND param_code='settlement.deposit.fee' INTO n_deposit_radio;
@@ -136,7 +133,7 @@ BEGIN
     rebate_year,rebate_month,topagent_id,topagentusername,agent_id,agentusername,user_id,username,deposit_amount,
     deposit_radio,withdraw_amount,withdraw_radio,rakeback_amount,favorable_amount,recommend_amount
   )
-  SELECT n_year,n_month,d.id topagent_id,d.username topagentusername,c.id agent_id,c.username agentusername,player_id user_id,b.username username,
+  SELECT v_year,v_month,d.id topagent_id,d.username topagentusername,c.id agent_id,c.username agentusername,player_id user_id,b.username username,
          (SELECT COALESCE(sum(transaction_money),0) FROM player_transaction pt WHERE pt.player_id = a.player_id AND pt.transaction_type='deposit' AND pt.status = 'success' AND completion_time>=t_start_time AND completion_time<t_end_time) deposit_amount,
          COALESCE(n_deposit_radio,0) deposit_radio,
          (SELECT COALESCE(sum(-transaction_money),0) FROM player_transaction pt WHERE pt.player_id = a.player_id AND pt.transaction_type='withdrawals' AND pt.status = 'success' AND completion_time>=t_start_time AND completion_time<t_end_time) withdraw_amount,
@@ -152,13 +149,12 @@ BEGIN
 
   --3、每个代理生成一条主表数据
   FOR rec_agent IN
-    SELECT * FROM sys_user WHERE user_type='23' AND status IN ('1','3') AND id not IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=n_year AND rebate_month=n_month)
+    SELECT * FROM sys_user WHERE user_type='23' AND status IN ('1','3') AND id not IN (SELECT agent_id FROM agent_rebate WHERE rebate_year=v_year AND rebate_month=v_month)
   LOOP
 
     --是否需要累计
-    --v1.12  2017/07/26  Leisure
     SELECT rebate_status FROM agent_rebate WHERE rebate_year = v_last_year AND rebate_month = v_last_month AND agent_id=rec_agent.id INTO v_rebate_status;
-    IF v_rebate_status='1' or v_rebate_status='4' THEN
+    IF v_rebate_status='0' or v_rebate_status='1' THEN
       b_need_history_count = true;
     ELSE
       b_need_history_count = false;
@@ -225,8 +221,8 @@ BEGIN
            '0' rebate_status,    --返佣状态
            now()  --创建时间
       FROM agent_rebate_player arp
-     WHERE rebate_year = n_year
-       AND rebate_month = n_month
+     WHERE rebate_year = v_year
+       AND rebate_month = v_month
        AND agent_id = rec_agent.id
      GROUP BY topagent_id,topagentusername,agent_id,agentusername,rebate_year,rebate_month;
 
@@ -239,7 +235,7 @@ BEGIN
     INSERT INTO agent_rebate_grads(
       rebate_year,rebate_month,topagent_id,topagentusername,agent_id,agentusername,api_id,api_type_id,payout_amount_history,payout_amount,radio
     )
-    SELECT n_year,n_month,topagent_id,topagent_name,agent_id,agent_name,api_id,api_type_id,
+    SELECT v_year,v_month,topagent_id,topagent_name,agent_id,agent_name,api_id,api_type_id,
            COALESCE(
             (CASE
              WHEN b_need_history_count THEN
@@ -253,7 +249,7 @@ BEGIN
     INSERT INTO agent_rebate_grads (
       rebate_year, rebate_month, agent_id, agentusername, topagent_id, topagentusername, api_id, api_type_id, payout_amount_history, payout_amount, radio
     )
-    SELECT n_year, n_month,
+    SELECT v_year, v_month,
            arg.agent_id, ua.username agent_name, ut.id topagent_id, ut.username topagent_name,
            arg.api_id, arg.api_type_id, arg.payout_amount_history, arg.payout_amount, rga.ratio
       FROM
@@ -285,7 +281,7 @@ BEGIN
         LEFT JOIN sys_user ut ON ua.owner_id = ut."id" AND ut.user_type = '22'
     ;
 
-    v_temp_sql='SELECT * FROM agent_rebate WHERE rebate_status IN (''0'', ''1'') AND rebate_year ='|| n_year ||' AND rebate_month ='|| n_month ||' AND agent_id ='|| rec_agent.id;
+    v_temp_sql='SELECT * FROM agent_rebate WHERE rebate_status IN (''0'', ''1'') AND rebate_year ='|| v_year ||' AND rebate_month ='|| v_month ||' AND agent_id ='|| rec_agent.id;
     --raise notice 'v_temp_sql： %',v_temp_sql;
     open cur_agent_rebate FOR execute v_temp_sql;
     FETCH cur_agent_rebate INTO rec_api_rebate;
@@ -312,7 +308,7 @@ BEGIN
         SELECT v_api_json::json->>'rebate_order_num' INTO n_rebate_order_num;
         --raise notice 'n_api_id % n_api_type_id %', n_api_id,n_api_type_id;
         FOR rec_api_grads IN
-            SELECT * FROM agent_rebate_grads WHERE rebate_year = n_year AND rebate_month = n_month AND radio is not null AND radio>0 AND agent_id = rec_api_rebate.agent_id
+            SELECT * FROM agent_rebate_grads WHERE rebate_year = v_year AND rebate_month = v_month AND radio is not null AND radio>0 AND agent_id = rec_api_rebate.agent_id
         LOOP
             IF n_api_id = rec_api_grads.api_id AND n_api_type_id = rec_api_grads.api_type_id THEN
                 IF idx > 0 THEN
