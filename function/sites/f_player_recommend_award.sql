@@ -20,6 +20,8 @@ CREATE OR REPLACE FUNCTION f_player_recommend_award (
 --v1.03  2016/07/06  Leisure  修正推荐红利重复生成bug；
                               修正一个bug，begin_time改为start_time
 --v1.04  2016/07/14  Leisure  修正推荐红利-优惠稽核倍数不对的问题
+
+--订单类型: 01-充值, 02-优惠, 03-游戏API, 04-返水, 05-返佣, 06-玩家取款, 07-代理提现, 08-转账
 */
 	RETURNS INTEGER AS $BODY$
 DECLARE
