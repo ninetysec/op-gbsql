@@ -1,4 +1,25 @@
 -- auto gen by cherry 2017-08-16 10:28:53
+SELECT redo_sqls($$
+ALTER TABLE IF EXISTS rebate_agent_nosettled RENAME TO rebate_agent_nosettled_old;
+ALTER TABLE rebate_agent_nosettled_old RENAME CONSTRAINT rebate_agent_nosettled_id_pkey TO rebate_agent_nosettled_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_agent_nosettled_id_seq RENAME TO rebate_agent_nosettled_old_id_seq;
+
+ALTER TABLE IF EXISTS rebate_bill_nosettled RENAME TO rebate_bill_nosettled_old;
+ALTER TABLE rebate_bill_nosettled_old RENAME CONSTRAINT rebate_bill_nosettled_pkey TO rebate_bill_nosettled_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_bill_nosettled_id_seq RENAME TO rebate_bill_nosettled_old_id_seq;
+
+ALTER TABLE IF EXISTS rebate_agent_api RENAME TO rebate_agent_api_old;
+ALTER TABLE rebate_agent_api_old RENAME CONSTRAINT rebate_agent_api_pkey TO rebate_agent_api_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_agent_api_id_seq RENAME TO rebate_agent_api_old_id_seq;
+
+ALTER TABLE IF EXISTS rebate_agent RENAME TO rebate_agent_old;
+ALTER TABLE rebate_agent_old RENAME CONSTRAINT rebate_agent_pkey TO rebate_agent_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_agent_id_seq RENAME TO rebate_agent_old_id_seq;
+
+ALTER TABLE IF EXISTS rebate_bill RENAME TO rebate_bill_old;
+--ALTER TABLE rebate_bill_old RENAME CONSTRAINT rebate_bill_pkey TO rebate_bill_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_bill_id_seq RENAME TO rebate_bill_old_id_seq;
+$$);
 
 --DROP TABLE IF EXISTS rebate_agent_api_nosettled;
 CREATE TABLE IF NOT EXISTS rebate_agent_api_nosettled (
@@ -43,28 +64,7 @@ COMMENT ON COLUMN rebate_agent_api_nosettled.api_id IS 'API_ID';
 COMMENT ON COLUMN rebate_agent_api_nosettled.game_type IS '二级游戏类别:game.game_type';
 COMMENT ON COLUMN rebate_agent_api_nosettled.agent_array IS '贡献该API代理ID数组';
 COMMENT ON COLUMN rebate_agent_api_nosettled.effective_transaction IS '该分支总有效交易量';
-COMMENT redo_sqls($$
-ALTER TABLE IF EXISTS rebate_agent_nosettled RENAME TO rebate_agent_nosettled_old;
-ALTER TABLE rebate_agent_nosettled_old RENAME CONSTRAINT rebate_agent_nosettled_id_pkey TO rebate_agent_nosettled_old_pkey;
-ALTER SEQUENCE IF EXISTS rebate_agent_nosettled_id_seq RENAME TO rebate_agent_nosettled_old_id_seq;
-
-ALTER TABLE IF EXISTS rebate_bill_nosettled RENAME TO rebate_bill_nosettled_old;
-ALTER TABLE rebate_bill_nosettled_old RENAME CONSTRAINT rebate_bill_nosettled_pkey TO rebate_bill_nosettled_old_pkey;
-ALTER SEQUENCE IF EXISTS rebate_bill_nosettled_id_seq RENAME TO rebate_bill_nosettled_old_id_seq;
-
-ALTER TABLE IF EXISTS rebate_agent_api RENAME TO rebate_agent_api_old;
-ALTER TABLE rebate_agent_api_old RENAME CONSTRAINT rebate_agent_api_pkey TO rebate_agent_api_old_pkey;
-ALTER SEQUENCE IF EXISTS rebate_agent_api_id_seq RENAME TO rebate_agent_api_old_id_seq;
-
-ALTER TABLE IF EXISTS rebate_agent RENAME TO rebate_agent_old;
-ALTER TABLE rebate_agent_old RENAME CONSTRAINT rebate_agent_pkey TO rebate_agent_old_pkey;
-ALTER SEQUENCE IF EXISTS rebate_agent_id_seq RENAME TO rebate_agent_old_id_seq;
-
-ALTER TABLE IF EXISTS rebate_bill RENAME TO rebate_bill_old;
---ALTER TABLE rebate_bill_old RENAME CONSTRAINT rebate_bill_pkey TO rebate_bill_old_pkey;
-ALTER SEQUENCE IF EXISTS rebate_bill_id_seq RENAME TO rebate_bill_old_id_seq;
-$$);
-
+COMMENT ON COLUMN rebate_agent_api_nosettled.profit_loss IS '该分支总盈亏';
 --COMMENT ON COLUMN rebate_agent_api_nosettled.operation_retio IS '运营商占比';
 --COMMENT ON COLUMN rebate_agent_api_nosettled.operation_occupy IS '运营商占成';
 COMMENT ON COLUMN rebate_agent_api_nosettled.rebate_ratio IS '返佣比率';
@@ -537,7 +537,7 @@ INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_
 SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id FROM rebate_set ORDER BY rebate_grads_set_id
 ON CONFLICT (id) DO NOTHING;
 
-SELECT setval('rebate_grads_set_id_seq', (SELECT COALESCE(MAX(id), 0)+1 FROM rebate_grads_set), FALSE);
+SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
 
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
