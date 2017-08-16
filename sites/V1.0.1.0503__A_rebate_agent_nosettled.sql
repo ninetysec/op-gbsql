@@ -530,7 +530,8 @@ UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 UPDATE rebate_set rs SET rebate_grads_set_id = rownum
   FROM
     ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set WHERE id <> 0 ) t
- WHERE rs.id = t.id;
+ WHERE rs.id = t.id
+   AND rs.rebate_grads_set_id IS NULL;
 
 --TRUNCATE TABLE rebate_grads_set;
 INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id)
