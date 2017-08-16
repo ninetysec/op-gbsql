@@ -535,7 +535,7 @@ INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_
 SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id FROM rebate_set ORDER BY rebate_grads_set_id
 ON CONFLICT (id) DO NOTHING;
 
-SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
+SELECT setval('rebate_grads_set_id_seq', (SELECT COALESCE(MAX(id), 0)+1 FROM rebate_grads_set), FALSE);
 
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
