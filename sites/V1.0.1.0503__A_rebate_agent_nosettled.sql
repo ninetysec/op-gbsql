@@ -1,23 +1,25 @@
 -- auto gen by cherry 2017-08-16 10:28:53
- ALTER TABLE rebate_agent_nosettled RENAME TO rebate_agent_nosettled_old;
+SELECT redo_sqls($$
+ALTER TABLE IF EXISTS rebate_agent_nosettled RENAME TO rebate_agent_nosettled_old;
 ALTER TABLE rebate_agent_nosettled_old RENAME CONSTRAINT rebate_agent_nosettled_id_pkey TO rebate_agent_nosettled_old_pkey;
-ALTER SEQUENCE rebate_agent_nosettled_id_seq RENAME TO rebate_agent_nosettled_old_id_seq;
+ALTER SEQUENCE IF EXISTS rebate_agent_nosettled_id_seq RENAME TO rebate_agent_nosettled_old_id_seq;
 
-ALTER TABLE rebate_bill_nosettled RENAME TO rebate_bill_nosettled_old;
+ALTER TABLE IF EXISTS rebate_bill_nosettled RENAME TO rebate_bill_nosettled_old;
 ALTER TABLE rebate_bill_nosettled_old RENAME CONSTRAINT rebate_bill_nosettled_pkey TO rebate_bill_nosettled_old_pkey;
-ALTER SEQUENCE rebate_bill_nosettled_id_seq RENAME TO rebate_bill_nosettled_old_id_seq;
+ALTER SEQUENCE IF EXISTS rebate_bill_nosettled_id_seq RENAME TO rebate_bill_nosettled_old_id_seq;
 
-ALTER TABLE rebate_agent_api RENAME TO rebate_agent_api_old;
+ALTER TABLE IF EXISTS rebate_agent_api RENAME TO rebate_agent_api_old;
 ALTER TABLE rebate_agent_api_old RENAME CONSTRAINT rebate_agent_api_pkey TO rebate_agent_api_old_pkey;
-ALTER SEQUENCE rebate_agent_api_id_seq RENAME TO rebate_agent_api_old_id_seq;
+ALTER SEQUENCE IF EXISTS rebate_agent_api_id_seq RENAME TO rebate_agent_api_old_id_seq;
 
-ALTER TABLE if EXISTS  rebate_agent RENAME TO rebate_agent_old;
-ALTER TABLE if EXISTS rebate_agent_old RENAME CONSTRAINT rebate_agent_pkey TO rebate_agent_old_pkey;
-ALTER SEQUENCE  if EXISTS rebate_agent_id_seq RENAME TO rebate_agent_old_id_seq;
+ALTER TABLE IF EXISTS rebate_agent RENAME TO rebate_agent_old;
+ALTER TABLE rebate_agent_old RENAME CONSTRAINT rebate_agent_pkey TO rebate_agent_old_pkey;
+ALTER SEQUENCE IF EXISTS rebate_agent_id_seq RENAME TO rebate_agent_old_id_seq;
 
-ALTER TABLE if EXISTS rebate_bill RENAME TO rebate_bill_old;
+ALTER TABLE IF EXISTS rebate_bill RENAME TO rebate_bill_old;
 --ALTER TABLE rebate_bill_old RENAME CONSTRAINT rebate_bill_pkey TO rebate_bill_old_pkey;
-ALTER SEQUENCE if EXISTS rebate_bill_id_seq RENAME TO rebate_bill_old_id_seq;
+ALTER SEQUENCE IF EXISTS rebate_bill_id_seq RENAME TO rebate_bill_old_id_seq;
+$$);
 
 --DROP TABLE IF EXISTS rebate_agent_api_nosettled;
 CREATE TABLE IF NOT EXISTS rebate_agent_api_nosettled (
@@ -528,7 +530,8 @@ UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 UPDATE rebate_set rs SET rebate_grads_set_id = rownum
   FROM
     ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set WHERE id <> 0 ) t
- WHERE rs.id = t.id;
+ WHERE rs.id = t.id
+   AND rs.rebate_grads_set_id IS NULL;
 
 --TRUNCATE TABLE rebate_grads_set;
 INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id)
