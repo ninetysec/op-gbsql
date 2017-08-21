@@ -25,6 +25,5 @@ UNION
      LEFT JOIN player_transaction pt ON ((pf.player_transaction_id = pt.id)))
   WHERE (((pt.transaction_way)::text = 'manual_favorable'::text) AND ((pt.fund_type)::text = 'artificial_deposit'::text));
 
-ALTER TABLE "v_preferential_recode" OWNER TO "gb-site-1";
 
 COMMENT ON VIEW "v_preferential_recode" IS '优惠记录视图';
