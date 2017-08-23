@@ -515,7 +515,7 @@ ALTER TABLE user_agent ADD COLUMN agent_rank INT DEFAULT 1;
 COMMENT ON COLUMN user_agent.agent_rank IS '代理层级';
 
 ALTER TABLE user_agent ADD COLUMN parent_array INT[];
-COMMENT ON COLUMN user_agent.agent_rank IS '上级代理路径数组(不包括总代)';
+COMMENT ON COLUMN user_agent.parent_array IS '上级代理路径数组(不包括总代)';
 
 COMMENT ON COLUMN user_agent.parent_id IS '上级代理ID/总代ID';
 $$);
