@@ -525,6 +525,20 @@ CREATE INDEX IF NOT EXISTS rebate_grads_api_rgi_rsi_idx ON rebate_grads_api(reba
 CREATE INDEX IF NOT EXISTS user_agent_parent_array_idx ON user_agent USING GIN (parent_array);
 
 
+UPDATE user_agent ua SET agent_rank = 0, parent_id = NULL WHERE EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '22' AND su.id = ua.id);
+
+WITH recursive ur AS (
+SELECT id, agent_rank, parent_id, NULL::INT[] id_array FROM user_agent ua WHERE NOT EXISTS (SELECT 1 FROM user_agent WHERE ua.parent_id = id)
+  UNION ALL
+SELECT ua.id, ur.agent_rank + 1, ua.parent_id, COALESCE(id_array, ARRAY[]::INT[]) || ua.parent_id FROM ur, user_agent ua WHERE ua.parent_id = ur.id
+) --SELECT * FROM ur ORDER BY agent_rank, id_array;
+UPDATE user_agent ua
+   SET agent_rank = ur.agent_rank, parent_array = id_array
+  FROM ur
+ WHERE ua.id = ur.id
+   AND EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '23' AND su.id = ua.id);
+
+
 UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 
 UPDATE rebate_set rs SET rebate_grads_set_id = rownum 
@@ -554,20 +568,6 @@ UPDATE rebate_grads_api rga
    SET rebate_set_id = rs.id
   FROM rebate_set rs JOIN rebate_grads rg ON rs.id = rg.rebate_id
  WHERE rga.rebate_grads_id = rg.id;
-
-
-UPDATE user_agent ua SET agent_rank = 0, parent_id = NULL WHERE EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '22' AND su.id = ua.id);
-
-WITH recursive ur AS (
-SELECT id, agent_rank, parent_id, NULL::INT[] id_array FROM user_agent ua WHERE NOT EXISTS (SELECT 1 FROM user_agent WHERE ua.parent_id = id)
-  UNION ALL
-SELECT ua.id, ur.agent_rank + 1, ua.parent_id, COALESCE(id_array, ARRAY[]::INT[]) || ua.parent_id FROM ur, user_agent ua WHERE ua.parent_id = ur.id
-) --SELECT * FROM ur ORDER BY agent_rank, id_array;
-UPDATE user_agent ua
-   SET agent_rank = ur.agent_rank, parent_array = id_array
-  FROM ur
- WHERE ua.id = ur.id
-   AND EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '23' AND su.id = ua.id);
 
 
 ALTER TABLE rebate_set ALTER COLUMN rebate_grads_set_id SET NOT NULL;
