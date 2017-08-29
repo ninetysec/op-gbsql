@@ -527,9 +527,12 @@ CREATE INDEX IF NOT EXISTS user_agent_parent_array_idx ON user_agent USING GIN (
 
 UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 
-UPDATE rebate_set rs SET rebate_grads_set_id = rownum
+UPDATE rebate_set rs SET rebate_grads_set_id = rownum 
   FROM
-    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set WHERE id <> 0 ) t
+    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set 
+       WHERE id <> 0 
+         AND EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank = 1)
+    ) t
  WHERE rs.id = t.id
    AND rs.rebate_grads_set_id IS NULL;
 
