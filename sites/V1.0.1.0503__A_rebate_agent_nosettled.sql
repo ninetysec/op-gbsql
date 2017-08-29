@@ -543,7 +543,7 @@ UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 
 UPDATE rebate_set rs SET rebate_grads_set_id = rownum 
   FROM
-    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set 
+    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set rs 
        WHERE id <> 0 
          AND EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank = 1)
     ) t
