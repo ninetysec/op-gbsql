@@ -552,8 +552,12 @@ UPDATE rebate_set rs SET rebate_grads_set_id = rownum
 
 --TRUNCATE TABLE rebate_grads_set;
 INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id)
-SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id FROM rebate_set ORDER BY rebate_grads_set_id
-ON CONFLICT (id) DO NOTHING;
+SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id
+  FROM rebate_set rs
+ WHERE rebate_grads_set_id IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank > 1)
+ ORDER BY rebate_grads_set_id
+   ON CONFLICT (id) DO NOTHING;
 
 SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
 
