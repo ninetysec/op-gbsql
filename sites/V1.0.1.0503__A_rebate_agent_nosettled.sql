@@ -545,7 +545,7 @@ UPDATE rebate_set rs SET rebate_grads_set_id = rownum
   FROM
     ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set rs 
        WHERE id <> 0 
-         AND EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank = 1)
+         AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank > 1)
     ) t
  WHERE rs.id = t.id
    AND rs.rebate_grads_set_id IS NULL;
@@ -556,6 +556,22 @@ SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id FRO
 ON CONFLICT (id) DO NOTHING;
 
 SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
+
+UPDATE rebate_set rs SET rebate_grads_set_id = u.rebate_grads_set_id
+  FROM ( SELECT uar.rebate_id, t.rebate_grads_set_id
+           FROM user_agent_rebate uar, 
+                user_agent ua,
+                ( SELECT ua.id, rs.id rebate_id, rs.rebate_grads_set_id 
+                    FROM rebate_set rs, user_agent_rebate uar, user_agent ua 
+                   WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank = 1
+                ) t
+          WHERE uar.user_id = ua.id 
+            AND ua.parent_array[2] = t.id
+            AND uar.rebate_id <> t.rebate_id
+            AND ua.agent_rank > 1
+        ) u
+WHERE rs.id = u.rebate_id
+  AND rs.rebate_grads_set_id IS NULL;
 
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
