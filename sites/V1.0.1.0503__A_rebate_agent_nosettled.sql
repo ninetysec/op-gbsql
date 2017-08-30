@@ -538,6 +538,7 @@ UPDATE user_agent ua
  WHERE ua.id = ur.id
    AND EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '23' AND su.id = ua.id);
 
+UPDATE rebate_set SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS NOT NULL;
 
 UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 
@@ -550,13 +551,14 @@ UPDATE rebate_set rs SET rebate_grads_set_id = rownum
  WHERE rs.id = t.id
    AND rs.rebate_grads_set_id IS NULL;
 
---TRUNCATE TABLE rebate_grads_set;
+TRUNCATE TABLE rebate_grads_set;
+
 INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id)
-SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id
-  FROM rebate_set rs
+SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id 
+  FROM rebate_set rs 
  WHERE rebate_grads_set_id IS NOT NULL
-   AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank > 1)
- ORDER BY rebate_grads_set_id
+   AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND uar.rebate_id <> 0 AND ua.agent_rank > 1)
+ORDER BY rebate_grads_set_id 
    ON CONFLICT (id) DO NOTHING;
 
 SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
@@ -577,12 +579,17 @@ UPDATE rebate_set rs SET rebate_grads_set_id = u.rebate_grads_set_id
 WHERE rs.id = u.rebate_id
   AND rs.rebate_grads_set_id IS NULL;
 
+CREATE TABLE IF NOT EXISTS rebate_grads_bak AS SELECT * FROM rebate_grads;
+
+UPDATE rebate_grads SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS NOT NULL;
+
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
-  FROM rebate_set rs
- WHERE rg.rebate_id = rs.id
-   AND rg.rebate_grads_set_id IS NULL
-   AND rs.rebate_grads_set_id IS NOT NULL;
+  FROM rebate_set rs 
+ WHERE NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND uar.rebate_id <> 0 AND ua.agent_rank > 1)
+   AND rg.rebate_id = rs.id;
+
+CREATE TABLE IF NOT EXISTS rebate_grads_api_bak AS SELECT * FROM rebate_grads_api;
 
 UPDATE rebate_grads_api rga
    SET rebate_set_id = rs.id
