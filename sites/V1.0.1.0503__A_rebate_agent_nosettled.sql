@@ -539,6 +539,11 @@ UPDATE user_agent ua
    AND EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '23' AND su.id = ua.id);
 
 
+UPDATE rebate_set SET create_user_id = 0 WHERE id = 0;
+UPDATE rebate_set rs
+   SET owner_id = 0 
+ WHERE NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1);
+
 UPDATE rebate_set SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS NOT NULL;
 
 UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
