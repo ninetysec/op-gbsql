@@ -585,9 +585,11 @@ UPDATE rebate_grads SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS 
 
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
-  FROM rebate_set rs 
- WHERE EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND (uar.rebate_id = 0 OR ua.agent_rank = 1) )
+  FROM rebate_set rs
+ WHERE NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1) 
    AND rg.rebate_id = rs.id;
+
+UPDATE rebate_grads SET rebate_grads_set_id = -1 WHERE rebate_grads_set_id IS NULL;
 
 CREATE TABLE IF NOT EXISTS rebate_grads_api_bak AS SELECT * FROM rebate_grads_api;
 
