@@ -539,52 +539,69 @@ UPDATE user_agent ua
    AND EXISTS (SELECT 1 FROM sys_user su WHERE user_type = '23' AND su.id = ua.id);
 
 
+UPDATE rebate_set SET create_user_id = 0 WHERE id = 0;
+UPDATE rebate_set rs
+   SET owner_id = 0 
+ WHERE NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1);
+
+UPDATE rebate_set SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS NOT NULL;
+
 UPDATE rebate_set SET rebate_grads_set_id = 0 WHERE id = 0;
 
 UPDATE rebate_set rs SET rebate_grads_set_id = rownum 
   FROM
-    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set rs 
+    ( SELECT row_number() OVER (ORDER BY id) as rownum ,* from rebate_set rs
        WHERE id <> 0 
-         AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank > 1)
+         AND NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1)
     ) t
  WHERE rs.id = t.id
    AND rs.rebate_grads_set_id IS NULL;
 
---TRUNCATE TABLE rebate_grads_set;
-INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id)
-SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id
-  FROM rebate_set rs
- WHERE rebate_grads_set_id IS NOT NULL
-   AND NOT EXISTS (SELECT 1 FROM user_agent_rebate uar, user_agent ua WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank > 1)
- ORDER BY rebate_grads_set_id
-   ON CONFLICT (id) DO NOTHING;
-
-SELECT setval('rebate_grads_set_id_seq', (SELECT MAX(id) FROM rebate_grads_set) );
-
 UPDATE rebate_set rs SET rebate_grads_set_id = u.rebate_grads_set_id
-  FROM ( SELECT uar.rebate_id, t.rebate_grads_set_id
-           FROM user_agent_rebate uar, 
-                user_agent ua,
+  FROM ( SELECT rso.id rebate_id, t.rebate_grads_set_id
+           FROM rebate_set rso,
+                user_agent uao,
                 ( SELECT ua.id, rs.id rebate_id, rs.rebate_grads_set_id 
                     FROM rebate_set rs, user_agent_rebate uar, user_agent ua 
                    WHERE uar.rebate_id = rs.id AND uar.user_id = ua.id AND ua.agent_rank = 1
                 ) t
-          WHERE uar.user_id = ua.id 
-            AND ua.parent_array[2] = t.id
-            AND uar.rebate_id <> t.rebate_id
-            AND ua.agent_rank > 1
+          WHERE rso.owner_id = uao.id
+            AND (uao.id = t.id OR uao.parent_array[2] = t.id)
+            AND rso.id <> t.rebate_id
         ) u
 WHERE rs.id = u.rebate_id
   AND rs.rebate_grads_set_id IS NULL;
 
+TRUNCATE TABLE rebate_grads_set;
+
+INSERT INTO rebate_grads_set (id, status, valid_value, create_time, create_user_id, owner_id)
+SELECT rebate_grads_set_id, status, valid_value, create_time, create_user_id, owner_id 
+  FROM rebate_set rs 
+ WHERE rebate_grads_set_id IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1)
+ ORDER BY rebate_grads_set_id 
+    ON CONFLICT (id) DO NOTHING;
+
+SELECT setval('rebate_grads_set_id_seq', (SELECT COALESCE(MAX(id), 0)+1 FROM rebate_grads_set), FALSE);
+
+CREATE TABLE IF NOT EXISTS rebate_grads_bak AS SELECT * FROM rebate_grads;
+
+UPDATE rebate_grads SET rebate_grads_set_id = NULL WHERE rebate_grads_set_id IS NOT NULL;
+
 UPDATE rebate_grads rg
    SET rebate_grads_set_id = rs.rebate_grads_set_id
   FROM rebate_set rs
- WHERE rg.rebate_id = rs.id
-   AND rg.rebate_grads_set_id IS NULL
-   AND rs.rebate_grads_set_id IS NOT NULL;
+ WHERE NOT EXISTS (SELECT 1 FROM user_agent ua WHERE ua.id = rs.owner_id AND ua.agent_rank >= 1) 
+   AND rg.rebate_id = rs.id;
 
-UPDATE rebate_grads_api rga
+UPDATE rebate_grads SET rebate_grads_set_id = -1 WHERE rebate_grads_set_id IS NULL;
+
+CREATE TABLE IF NOT EXISTS rebate_grads_api_bak AS SELECT * FROM rebate_grads_api;
+
+--TRUNCATE TABLE rebate_grads_api;
+--INSERT INTO rebate_grads_api SELECT * FROM rebate_grads_api_bak;
+
+UPDATE rebate_grads_api rga 
    SET rebate_set_id = rs.id
   FROM rebate_set rs JOIN rebate_grads rg ON rs.id = rg.rebate_id
  WHERE rga.rebate_grads_id = rg.id;
