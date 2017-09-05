@@ -1,5 +1,7 @@
 -- auto gen by cherry 2017-08-30 09:43:29
-INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
+--多级代理功能不执行，需要站点申请再执行。
+
+/*INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
 
 	SELECT '20405', '添加子代理', 'userAgent/editAgent.html', '添加子代理', '204', '', '5', 'mcenter', 'role:agent_addsubagent', '2', '', 't', 'f', 't' where 20405 not in(SELECT id from sys_resource where id=20405);
 
@@ -102,5 +104,5 @@ update sys_resource set sort_num=6 where id=34;
 
 update sys_resource set sort_num=7 where id=35;
 
-update sys_resource set sort_num=8 where id=36;
+update sys_resource set sort_num=8 where id=36;*/
 
