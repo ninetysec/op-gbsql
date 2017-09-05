@@ -1,5 +1,4 @@
 -- auto gen by cherry 2017-09-04 19:12:19
--- auto gen by cherry 2017-08-28 11:47:50
 DROP FUNCTION if EXISTS "lottery_payout_k3"(lottery_expect text, lottery_code text, p_com_url text);
 DROP FUNCTION if EXISTS "lottery_payout_lhc"(lottery_expect text, lottery_code text, p_com_url text);
 DROP FUNCTION if EXISTS "lottery_payout_pk10"(lottery_expect text, lottery_code text, p_com_url text);
