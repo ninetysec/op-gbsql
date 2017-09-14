@@ -1,2 +1,0 @@
--- auto gen by cherry 2017-09-14 10:24:11
-INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status") SELECT '20210', '修改代理', '', '玩家管理-修改代理', '202', '', NULL, 'mcenter', 'role:update_agent', '2', '', 't', 'f', 't' WHERE 20210 NOT IN(SELECT id FROM sys_resource WHERE id=20210);
