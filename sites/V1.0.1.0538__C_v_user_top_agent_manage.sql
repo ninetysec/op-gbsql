@@ -1,4 +1,4 @@
--- auto gen by cherry 2017-09-27 16:56:42
+-- auto gen by cherry 2017-09-28 09:22:34
 DROP VIEW IF EXISTS v_user_top_agent_manage;
 CREATE OR REPLACE VIEW "v_user_top_agent_manage" AS
  SELECT ua.id,
