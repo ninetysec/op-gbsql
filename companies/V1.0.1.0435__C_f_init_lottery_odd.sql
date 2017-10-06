@@ -1,4 +1,5 @@
 -- auto gen by marz 2017-10-05 21:40:43
+DROP FUNCTION IF EXISTS "f_init_lottery_odd"(siteid int4);
 CREATE OR REPLACE FUNCTION "f_init_lottery_odd"(siteid int4)
   RETURNS "pg_catalog"."void" AS $BODY$
 declare
