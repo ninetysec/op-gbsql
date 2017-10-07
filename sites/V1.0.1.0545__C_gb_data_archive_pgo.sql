@@ -1,5 +1,5 @@
 -- auto gen by george 2017-10-07 10:36:58
-﻿DROP FUNCTION IF EXISTS gb_data_archive_pgo(TEXT, TIMESTAMP, TIMESTAMP);
+DROP FUNCTION IF EXISTS gb_data_archive_pgo(TEXT, TIMESTAMP, TIMESTAMP);
 CREATE OR REPLACE FUNCTION gb_data_archive_pgo(
   p_archive_month  TEXT,
   p_start_time   TIMESTAMP,
