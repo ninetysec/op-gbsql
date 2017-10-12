@@ -1,5 +1,5 @@
--- auto gen by marz 2017-10-09 16:21:20
-﻿CREATE TABLE IF NOT EXISTS  "lottery_report_profit" (
+-- auto gen by cherry 2017-10-12 09:58:24
+CREATE TABLE IF NOT EXISTS  "lottery_report_profit" (
 "id" SERIAL4 NOT NULL,
 "center_id" int4 NOT NULL,
 "site_id" int4 NOT NULL,
@@ -46,6 +46,6 @@ COMMENT ON COLUMN "lottery_report_profit"."static_end" IS '统计截止日期';
 
 
 
-CREATE INDEX "fk_lottery_report_profit_code" ON "lottery_report_profit" USING btree (code);
+CREATE INDEX IF not EXISTS "fk_lottery_report_profit_code" ON "lottery_report_profit" USING btree (code);
 
-CREATE INDEX "fk_lottery_report_profit_static_date" ON "lottery_report_profit" USING btree (static_date);
+CREATE INDEX IF not EXISTS "fk_lottery_report_profit_static_date" ON "lottery_report_profit" USING btree (static_date);
