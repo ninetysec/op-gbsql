@@ -8,14 +8,14 @@ AND dict_code='BTC');
 INSERT INTO "site_job" ("id", "prefix_job_id", "sub_job_code", "sub_job_name",
 "job_class", "job_method", "job_type", "status", "job_time_type", "job_time_unit",
 "fixed_month", "fixed_day", "fixed_hour", "fixed_minutes", "fixed_second", "period_value")
-SELECT '104', NULL, 'site_job_104', '数字货币获取历史记录任务', 'so.wwb.gamebox.service.master.DigiccyHistoryJob',
+SELECT '108', NULL, 'site_job_108', '数字货币获取历史记录任务', 'so.wwb.gamebox.service.master.DigiccyHistoryJob',
 'siteJob', '2', '1', '2', '2', NULL, NULL, NULL, NULL, NULL, '6'
-WHERE not EXISTS(SELECT id FROM site_job where sub_job_code='site_job_104');
+WHERE not EXISTS(SELECT id FROM site_job where sub_job_code='site_job_108');
 
 
 INSERT INTO "site_job" ("id", "prefix_job_id", "sub_job_code", "sub_job_name",
 "job_class", "job_method", "job_type", "status", "job_time_type", "job_time_unit",
 "fixed_month", "fixed_day", "fixed_hour", "fixed_minutes", "fixed_second", "period_value")
-SELECT '105', NULL, 'site_job_105', '数字货币超时订单任务', 'so.wwb.gamebox.service.master.DigiccyRechargeJob',
+SELECT '109', NULL, 'site_job_109', '数字货币超时订单任务', 'so.wwb.gamebox.service.master.DigiccyRechargeJob',
 'siteJob', '2', '1', '2', '2', NULL, NULL, NULL, NULL, NULL, '3'
-WHERE not EXISTS(SELECT id FROM site_job where sub_job_code='site_job_105');
+WHERE not EXISTS(SELECT id FROM site_job where sub_job_code='site_job_109');
