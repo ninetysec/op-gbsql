@@ -165,7 +165,3 @@ CREATE OR REPLACE VIEW "v_user_player" AS
 
 
 COMMENT ON VIEW "v_user_player" IS '玩家视图 - edit by Leo';
-
-
-INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status") SELECT '208', '模拟账号', 'simulationAccount/playerView.html', '模拟账号', '2', NULL, '8', 'mcenter', 'role:simulation', '1', 'icon-dailixinjin', 't', 'f', 't' WHERE NOT EXISTS(SELECT ID FROM sys_resource WHERE id='208');
-
