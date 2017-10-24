@@ -1,0 +1,2 @@
+-- auto gen by george 2017-10-23 21:08:42
+INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active") SELECT 'common', 'fund_type', 'digiccy_scan', '20', '资金类型：数字货币支付', NULL, 't'  WHERE 'digiccy_scan' NOT IN(SELECT dict_code FROM sys_dict WHERE dict_code='digiccy_scan');
