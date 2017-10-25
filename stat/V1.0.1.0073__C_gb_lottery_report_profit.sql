@@ -1,6 +1,6 @@
 -- auto gen by marz 2017-10-25 09:49:38
 ﻿DROP FUNCTION IF EXISTS  gb_lottery_report_profit(p_comp_url text, p_static_date text);
-CREATE OR REPLACE FUNCTION gb_lottery_report_profit(
+CREATE OR REPLACE FUNCTION gb_lottery_report_profit( 
   p_comp_url text,
   p_static_date text
 ) RETURNS INT AS $BODY$
