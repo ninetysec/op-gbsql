@@ -1,5 +1,5 @@
 -- auto gen by marz 2017-10-24 21:02:12
-﻿DROP FUNCTION IF EXISTS  lottery_payout_k3(lotteryresultjson text, lotteryparameter json);
+DROP FUNCTION IF EXISTS  lottery_payout_k3(lotteryresultjson text, lotteryparameter json);
 CREATE OR REPLACE FUNCTION lottery_payout_k3(lotteryresultjson text, lotteryparameter json)
   RETURNS "pg_catalog"."varchar" AS $BODY$
 /*版本更新说明
