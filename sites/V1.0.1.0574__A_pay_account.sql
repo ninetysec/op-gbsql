@@ -5,4 +5,4 @@
   $$);
 
 COMMENT on COLUMN pay_account.alias_name is '别名';
-COMMENT on COLUMN pay_account.support_atm_counter is '是否在柜台';
+COMMENT on COLUMN pay_account.support_atm_counter is '柜员机/柜台存款开关';
