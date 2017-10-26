@@ -84,4 +84,6 @@ INSERT INTO lottery_odd (code, bet_code, bet_num, odd,odd_limit, rebate, rebate_
 INSERT INTO lottery_odd (code, bet_code, bet_num, odd,odd_limit, rebate, rebate_limit,base_num) SELECT 'hbk3', 'k3_sanbutong', '三不同', '64.7993908629442','64.7993908629442','0','0.08','66.1218274111675'where not EXISTS (SELECT id FROM lottery_odd where code='hbk3' and bet_code='k3_sanbutong' and bet_num='三不同');
 
 
+SELECT redo_sqls($$
 select f_update_site_lottery_odd();
+$$);
