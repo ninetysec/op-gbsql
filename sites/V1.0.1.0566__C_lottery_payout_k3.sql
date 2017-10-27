@@ -60,10 +60,8 @@ IF p_bet_code='k3_danxuan_ertong' THEN
 	END IF;
 ELSEIF p_play_code='k3_diff_num' THEN
 IF p_bet_code='k3_erbutong' THEN
- winning_num_arr = regexp_split_to_array(p_winning_num,'s*');
-    p_winning_num = '%'||winning_num_arr[1]||',%'||winning_num_arr[2]||'%';
-raise notice '二不同中奖号码为:%', p_winning_num;
-UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE array_length(regexp_split_to_array(p_winning_num,'s*') ::INT[]  & string_to_array(bet_num, ',') :: INT[], 1)=2 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+UPDATE lottery_bet_order  SET payout =3*odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE array_length(regexp_split_to_array(p_winning_num,'s*') ::INT[]  & string_to_array(bet_num, ',') :: INT[], 1)=3 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 ELSEIF p_bet_code='k3_sanbutong' THEN
  winning_num_arr = regexp_split_to_array(p_winning_num,'s*');
     p_winning_num = '%'||winning_num_arr[1]||',%'||winning_num_arr[2]||',%'||winning_num_arr[3]||'%';
