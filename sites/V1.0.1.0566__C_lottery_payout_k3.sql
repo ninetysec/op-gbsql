@@ -1,6 +1,6 @@
 -- auto gen by marz 2017-10-24 21:02:12
 DROP FUNCTION IF EXISTS  lottery_payout_k3(lotteryresultjson text, lotteryparameter json);
-CREATE OR REPLACE FUNCTION lottery_payout_k3(lotteryresultjson text, lotteryparameter json)
+CREATE OR REPLACE FUNCTION "lottery_payout_k3"(lotteryresultjson text, lotteryparameter json)
   RETURNS "pg_catalog"."varchar" AS $BODY$
 /*版本更新说明
   -- lotteryResultJson 开奖结果
@@ -52,29 +52,31 @@ IF p_bet_code='k3_danxuan_ertong' THEN
     winning_num_arr = regexp_split_to_array(p_winning_num,'s*');
     p_winning_num = '%'||winning_num_arr[1]||winning_num_arr[2]||'%|%'||winning_num_arr[3]||'%';
     raise notice '二同号单选中奖号码为:%', p_winning_num;
-				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 			ELSEIF p_bet_code in ('k3_fuxuan_ertong','k3_danxuan_santong') THEN
-				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE POSITION(p_winning_num in bet_num ) > 0 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE POSITION(p_winning_num in bet_num ) > 0 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 			ELSEIF p_bet_code in ('k3_tongxuan_santong','k3_tongxuan_sanlian') THEN
-				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE p_winning_num = bet_num  and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+				UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE p_winning_num = bet_num  and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 	END IF;
 ELSEIF p_play_code='k3_diff_num' THEN
 IF p_bet_code='k3_erbutong' THEN
-UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE array_length(regexp_split_to_array(p_winning_num,'s*') ::INT[]  & string_to_array(bet_num, ',') :: INT[], 1)=2 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
-UPDATE lottery_bet_order  SET payout =3*odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE array_length(regexp_split_to_array(p_winning_num,'s*') ::INT[]  & string_to_array(bet_num, ',') :: INT[], 1)=3 and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+ winning_num_arr = regexp_split_to_array(p_winning_num,'s*');
+    p_winning_num = '%'||winning_num_arr[1]||',%'||winning_num_arr[2]||'%';
+raise notice '二不同中奖号码为:%', p_winning_num;
+UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 ELSEIF p_bet_code='k3_sanbutong' THEN
  winning_num_arr = regexp_split_to_array(p_winning_num,'s*');
     p_winning_num = '%'||winning_num_arr[1]||',%'||winning_num_arr[2]||',%'||winning_num_arr[3]||'%';
 raise notice '三不同中奖号码为:%', p_winning_num;
-UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+UPDATE lottery_bet_order  SET payout =odd*coalesce(multiple,1)/coalesce(bonus_model::INT,1)::NUMERIC(20,3),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE bet_num like p_winning_num and expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 END IF;
 ELSE
-		UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND bet_num=p_winning_num;
+		UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND bet_num=p_winning_num;
 END IF;
 END loop;
 
 --中奖记录之外的投注派彩全部为0
-UPDATE lottery_bet_order  SET payout =0,payout_time = now(), status='2',effective_trade_amount=bet_amount where expect=p_expect AND code=p_code AND status='1' ;
+UPDATE lottery_bet_order  SET payout =0,payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) where expect=p_expect AND code=p_code AND status='1' ;
 --派彩大于0的需要更新api余额，生成资金记录
 FOR lotteryBetOrder in SELECT * FROM lottery_bet_order WHERE expect = lottery_expect AND code=lottery_code AND status='2' AND payout>0
 loop
