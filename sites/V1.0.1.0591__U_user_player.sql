@@ -4,7 +4,7 @@ UPDATE user_player up
   FROM (
         SELECT player_id, SUM(recharge_amount) recharge_amount, count(id) num
           FROM player_recharge
-					WHERE recharge_status='2'
+					WHERE recharge_status='2' or recharge_status='5'
          GROUP BY player_id
         ) t
   WHERE up.id = t.player_id;
