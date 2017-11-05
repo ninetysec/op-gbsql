@@ -1,5 +1,5 @@
 -- auto gen by george 2017-11-03 15:41:11
-
+DROP  VIEW  if EXISTS  v_player_online;
 CREATE OR REPLACE VIEW "v_player_online" AS
  SELECT s.id,
     s.username,
