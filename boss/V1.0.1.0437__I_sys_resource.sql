@@ -12,6 +12,6 @@ INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT  '70103', '彩票玩法管理', 'lottery/manage/changeLotteryGenre.html', '彩票玩法管理', '701', '', '3', 'boss', 'lottery:change_lotterygenre', '2', '', 'f', 't', 't'  WHERE 70103 NOT IN(SELECT id FROM sys_resource WHERE id=70103);
 
 
-
+INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '70406', '开号', 'lotteryResult/saveOpenno.html', '开号', '704', '', '6', 'boss', 'lottery:openno_lottery', '2', '', 'f', 't', 't' WHERE 70406 NOT IN(SELECT id FROM sys_resource WHERE id=70406 )
 
 
