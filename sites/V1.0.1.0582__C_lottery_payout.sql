@@ -1,5 +1,7 @@
--- auto gen by marz 2017-10-31 17:58:41
-DROP FUNCTION IF EXISTS  "lottery_payout"(lottery_expect text, lottery_code text, p_com_url text);
+-- auto gen by cherry 2017-09-28 15:27:45
+DROP FUNCTION IF EXISTS gamebox_contract_scheme(int);
+DROP FUNCTION IF EXISTS lottery_payout(lottery_expect text, lottery_code text, p_com_url text);
+drop FUNCTION if exists lottery_payout(lottery_expect text, lottery_code text, p_com_url text);
 CREATE OR REPLACE FUNCTION "lottery_payout"(lottery_expect text, lottery_code text, p_com_url text)
   RETURNS "pg_catalog"."varchar" AS $BODY$
 /*版本更新说明
