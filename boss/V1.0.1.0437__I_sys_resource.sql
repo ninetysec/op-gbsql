@@ -9,8 +9,9 @@ INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT  '71006', '彩票维护', 'lotterySysTool/lotteryMaintain.html', '彩票维护', '710', '', '6', 'boss', 'lottery:lotterymaintain', '2', '', 'f', 't', 't' WHERE 71006 NOT IN(SELECT id FROM sys_resource WHERE id=71006);
 
 
+INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT  '70101', '彩票管理同步站点彩票', 'siteLottery/sync.html', '彩票管理同步站点彩票', '701', '', '1', 'boss', 'lottery:sync_lottery', '2', '', 'f', 't', 't'  WHERE 70101 NOT IN(SELECT id FROM sys_resource WHERE id=70101);
+INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT  '70102', '彩票管理下架站点彩票', 'siteLottery/takeOff.html', '彩票管理下架站点彩票', '701', '', '2', 'boss', 'lottery:takeOff_lottery', '2', '', 'f', 't', 't'  WHERE 70102 NOT IN(SELECT id FROM sys_resource WHERE id=70102);
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT  '70103', '彩票玩法管理', 'lottery/manage/changeLotteryGenre.html', '彩票玩法管理', '701', '', '3', 'boss', 'lottery:change_lotterygenre', '2', '', 'f', 't', 't'  WHERE 70103 NOT IN(SELECT id FROM sys_resource WHERE id=70103);
-
 
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '70406', '开号', 'lotteryResult/saveOpenno.html', '开号', '704', '', '6', 'boss', 'lottery:openno_lottery', '2', '', 'f', 't', 't' WHERE 70406 NOT IN(SELECT id FROM sys_resource WHERE id=70406 )
 
