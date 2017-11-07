@@ -5,7 +5,7 @@ AS $function$
 /*版本更新说明
 版本   时间        作者     内容
 v1.00  2015/01/01  Will     创建此函数
-v1.01  2016/05/12  Leisure  修改查询条件限制为当前Schema
+v1.01  2016/05/12  Laser  修改查询条件限制为当前Schema
 */
 DECLARE
   arr TEXT[];
