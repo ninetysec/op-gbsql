@@ -2,3 +2,5 @@
 UPDATE sys_resource SET  "name"='调盘', "remark"='调盘' WHERE "id"='70405';
 UPDATE sys_resource SET  "name"='撤单', "remark"='撤单' WHERE "id"='71001';
 UPDATE sys_resource SET  "name"='撤销', "remark"='撤销' WHERE "id"='71002';
+UPDATE sys_resource set url='lotterySysTool/heavy.html' WHERE id=71005;
+UPDATE sys_resource set url='lotterySysTool/payout.html' WHERE id=71004;
