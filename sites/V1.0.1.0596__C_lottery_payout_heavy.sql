@@ -57,7 +57,7 @@ loop
         now(),lotteryBetOrder.terminal,lotteryBetOrder.id,'重结扣款';
 END loop;
     --还原已派彩记录
-    UPDATE lottery_bet_order SET payout =null,payout_time =null, status='1',effective_trade_amount=null WHERE expect=lottery_expect AND code=lottery_code AND status='1';
+    UPDATE lottery_bet_order SET payout =null,payout_time =null, status='1',effective_trade_amount=null WHERE expect=lottery_expect AND code=lottery_code;
 
 
 if lottery_code like '%ssc' then
@@ -105,6 +105,7 @@ $BODY$
 ;
 
 COMMENT ON FUNCTION "lottery_payout_heavy"(lottery_expect text, lottery_code text, p_com_url text) IS '重结';
+
 ---------------------------------------------------------------------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS "lottery_payout"(lottery_expect text, lottery_code text, p_com_url text);
 CREATE OR REPLACE FUNCTION "lottery_payout"(lottery_expect text, lottery_code text, p_com_url text)
