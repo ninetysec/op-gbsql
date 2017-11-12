@@ -57,7 +57,7 @@ loop
         now(),lotteryBetOrder.terminal,lotteryBetOrder.id,'重结扣款';
 END loop;
     --还原已派彩记录
-    UPDATE lottery_bet_order SET payout =null,payout_time =null, status='1',effective_trade_amount=null WHERE expect=lottery_expect AND code=lottery_code;
+    UPDATE lottery_bet_order SET payout =null,payout_time =null, status='1',effective_trade_amount=null WHERE expect=lottery_expect AND code=lottery_code AND status='2';
 
 
 if lottery_code like '%ssc' then
