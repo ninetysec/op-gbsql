@@ -4,3 +4,4 @@ UPDATE sys_resource SET  "name"='撤单', "remark"='撤单' WHERE "id"='71001';
 UPDATE sys_resource SET  "name"='撤销', "remark"='撤销' WHERE "id"='71002';
 UPDATE sys_resource set url='lotterySysTool/heavy.html',permission='lottery:lottery_heavy' WHERE id=71005;
 UPDATE sys_resource set url='lotterySysTool/payout.html',permission='lottery:lottery_payout' WHERE id=71004;
+UPDATE sys_resource SET URL = 'lotterySysTool/collectOpenCode.html' ,  permission ='lottery:collect_opencode' WHERE  id = 71003
