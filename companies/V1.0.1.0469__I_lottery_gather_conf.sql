@@ -58,3 +58,7 @@ WHERE NOT EXISTS (SELECT ID FROM lottery_gather_conf WHERE code = 'tcpl3' AND co
 INSERT INTO lottery_gather_conf (abbr_name,name,code,type,url,method,request_content_type,response_content_type,json_param,conf_type,check_next)
 SELECT 'opencai', '六合彩彩票网', 'hklhc', 'lhc', 'http://3rd.game.api.com/open-ltapi/daily.do?token=8a5ec8717ed0efe6&code=hk6&format=json', 'GET', 'JSON', 'JSON', '', 'collection', 't'
 WHERE NOT EXISTS (SELECT ID FROM lottery_gather_conf WHERE code = 'hklhc' AND conf_type = 'collection');
+
+INSERT INTO lottery_gather_conf (abbr_name,name,code,type,url,method,request_content_type,response_content_type,json_param,conf_type,check_next)
+SELECT 'opencai', '幸运28彩票网', 'xy28', 'xy28', 'http://3rd.game.api.com/open-ltapi/daily.do?token=8a5ec8717ed0efe6&code=bjkl8&format=json', 'GET', 'JSON', 'JSON', '', 'collection', 't'
+WHERE NOT EXISTS (SELECT ID FROM lottery_gather_conf WHERE code = 'xy28' AND conf_type = 'collection');
