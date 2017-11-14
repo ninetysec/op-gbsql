@@ -36,7 +36,7 @@ loop
 			--获取player_api钱钱包余额
 	    	SELECT COALESCE(max(pa.money), 0) FROM player_api pa WHERE pa.api_id = lottery_api_id AND pa.player_id = lotteryBetOrder.user_id into api_balance;
 			--更新player_game_order对应资金记录数据状态
-			update player_game_order po set order_state='cancel' FROM lottery_bet_order lo  WHERE po.api_id=lottery_api_id AND po.bet_id=lo.id::VARCHAR AND lo.code=lottery_code AND lo.expect=lottery_expect AND order_state='pending_settle';
+      update player_game_order po set order_state='cancel' FROM lottery_bet_order lo  WHERE po.api_id=lottery_api_id AND po.bet_id=lotteryBetOrder.id::VARCHAR AND order_state='pending_settle';
 			--增加lottery资金记录  待结算
 			bet_money = lotteryBetOrder.bet_amount-TRUNC(lotteryBetOrder.bet_amount*COALESCE(lotteryBetOrder.rebate,0),3);
 			INSERT INTO lottery_transaction (user_id,username,transaction_type,money,balance,transaction_time,terminal,source_id,memo)
@@ -96,7 +96,7 @@ loop
 			--获取player_api钱钱包余额
 	    	SELECT COALESCE(max(pa.money), 0) FROM player_api pa WHERE pa.api_id = lottery_api_id AND pa.player_id = lotteryBetOrder.user_id into api_balance;
 			--更新player_game_order对应资金记录数据状态
-			update player_game_order po set order_state='cancel' FROM lottery_bet_order lo  WHERE po.api_id=lottery_api_id AND po.bet_id=lo.id::VARCHAR AND lo.code=lottery_code AND lo.expect=lottery_expect AND order_state='settle';
+			update player_game_order po set order_state='cancel' FROM lottery_bet_order lo  WHERE po.api_id=lottery_api_id AND po.bet_id=lotteryBetOrder.id::VARCHAR AND order_state='settle';
 			--增加lottery资金记录  已结算
 			bet_money = lotteryBetOrder.bet_amount-TRUNC(lotteryBetOrder.bet_amount*COALESCE(lotteryBetOrder.rebate,0),3);
 			IF lotteryBetOrder.payout > 0 THEN
