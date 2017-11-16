@@ -767,7 +767,6 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE COST 100
 ;
 
-ALTER FUNCTION "lottery_payout_pl3"(lotteryresultjson text, lotteryparameter json) OWNER TO "postgres";
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS "lottery_payout_pk10"(lotteryresultjson text, lotteryparameter json);
