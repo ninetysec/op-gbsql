@@ -1,0 +1,2 @@
+-- auto gen by marz 2017-11-13 15:00:52
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status") SELECT '100201', '派彩', 'lotteryResult/payout.html', '开奖结果-派彩', '1002', NULL, '1', 'mcenter', 'lottery:openresult_payout', '2', null, 't', 'f', 't' WHERE NOT EXISTS(SELECT ID FROM sys_resource WHERE id='100201');
