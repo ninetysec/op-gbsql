@@ -1,0 +1,8 @@
+-- auto gen by george 2017-11-17 15:05:30
+update game_api_interface_request set required='false' where id in ('914','917','934');
+
+
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") SELECT '922', 'end_date', 'end_date', 'f', NULL, NULL, '', '', '217', '', 'BB-结束日期', '', '' WHERE 922 NOT IN(SELECT id FROM game_api_interface_request WHERE id=922);
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") SELECT '923', 'start_date', 'start_date', 'f', NULL, NULL, '', '', '217', '', 'BB-开始日期', '', '' WHERE 923 NOT IN(SELECT id FROM game_api_interface_request WHERE id=923);
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") SELECT '924', 'action', 'action', 'f', NULL, NULL, '', '', '217', '', 'BB-结束日期', '', '' WHERE 924 NOT IN(SELECT id FROM game_api_interface_request WHERE id=924);
+INSERT INTO "game_api_interface_request" ("id", "api_field_name", "property_name", "required", "min_length", "max_length", "reg_exp", "default_value", "interface_id", "remarks", "comment", "min_value", "max_value") SELECT '940', 'action', 'action', 'f', NULL, NULL, '', '', '218', '', 'BB-结束日期', '', '' WHERE 940 NOT IN(SELECT id FROM game_api_interface_request WHERE id=940);
