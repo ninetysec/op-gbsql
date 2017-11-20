@@ -1,0 +1,2 @@
+-- auto gen by george 2017-11-20 11:46:44
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '805', '买分管理', 'vSysCredit/list.html', '买分管理', '8', '', '5', 'boss', 'system:vSysCredit', '1', '', 'f', 't', 't' WHERE 805 NOT IN(SELECT id FROM sys_resource WHERE id=805);
