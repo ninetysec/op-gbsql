@@ -25,6 +25,7 @@ CREATE OR REPLACE VIEW "v_credit_record" AS
     p.remark,
     m.pay_name
    FROM (credit_record p
-     LEFT JOIN credit_account m ON ((p.credict_account_id = m.id)));
+     LEFT JOIN credit_account m ON ((p.credict_account_id = m.id)))
+    ORDER BY p.create_time;
 
 COMMENT ON VIEW "v_credit_record" IS '充值记录查询视图--Leo';
