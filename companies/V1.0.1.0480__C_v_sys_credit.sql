@@ -29,6 +29,6 @@ CREATE OR REPLACE VIEW "v_sys_credit" AS
    FROM (sys_site ss
      LEFT JOIN sys_user su ON ((ss.sys_user_id = su.id)))
   WHERE ss.id>0
-  ORDER BY ss.id;
+  ORDER BY percent DESC;
 
 COMMENT ON VIEW "v_sys_credit" IS 'CREDIT视图 add by kobe';
