@@ -1,0 +1,2 @@
+-- auto gen by george 2017-11-27 17:41:22
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '521', '注单查询', 'apiOrderLog/otherQueryApiOrderLog.html', '注单查询', '5', '', '19', 'boss', 'maintenance:monitor:query', '1', '', 'f', 't', 't' WHERE '521' NOT IN(SELECT id FROM "sys_resource" WHERE id='521');
