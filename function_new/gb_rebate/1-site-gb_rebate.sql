@@ -6,10 +6,11 @@ CREATE OR REPLACE FUNCTION gb_rebate (
   p_settle_flag   text
 ) RETURNS INT AS $$
 /*版本更新说明
-  版本   时间        作者     内容
---v1.00  2016/10/08  Leisure   创建此函数: 返佣结算账单-入口（新）
---v1.10  2017/07/31  Leisure   增加多级代理返佣支持
---v1.11  2017/07/31  Leisure   改用返佣周期判重
+  版本   时间        作者    内容
+--v1.00  2016/10/08  Laser  创建此函数: 返佣结算账单-入口（新）
+--v1.10  2017/07/31  Laser  增加多级代理返佣支持
+--v1.11  2017/07/31  Laser  改用返佣周期判重
+--v1.12  2017/11/20  Laser  改由period来确定上期
 
 */
 DECLARE
@@ -37,7 +38,7 @@ BEGIN
     SELECT COUNT(*)
      INTO n_bill_count
       FROM rebate_bill rb
-     WHERE (rb.period = p_period OR rb."start_time" = t_start_time) --v1.11  2017/07/31  Leisure
+     WHERE (rb.period = p_period OR rb."start_time" = t_start_time) --v1.11  2017/07/31  Laser
        AND rb.lssuing_state <> 'pending_pay';
 
     IF n_bill_count = 0 THEN
@@ -68,7 +69,9 @@ BEGIN
   perform gb_rebate_player_fee(n_rebate_bill_id, t_start_time, t_end_time, p_settle_flag);
 
   raise notice '统计代理返佣';
-  perform gb_rebate_agent(n_rebate_bill_id, t_start_time, t_end_time, p_settle_flag);
+  --v1.12  2017/11/20  Laser
+  --perform gb_rebate_agent(n_rebate_bill_id, t_start_time, t_end_time, p_settle_flag);
+  perform gb_rebate_agent(n_rebate_bill_id, p_period, t_start_time, t_end_time, p_settle_flag);
 
   raise notice '更新返佣总表';
   perform gb_rebate_bill(n_rebate_bill_id, p_period, t_start_time, t_end_time, 'U', p_settle_flag);
@@ -94,4 +97,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_rebate(p_period text, p_start_time text, p_end_time text, p_settle_flag text)
-IS 'Leisure-返佣结算账单-入口（新）';
+IS 'Laser-返佣结算账单-入口（新）';
