@@ -5,7 +5,7 @@ WHERE NOT EXISTS(SELECT id  FROM  task_schedule where  job_code='lotteryReportJo
 
 
 INSERT INTO "task_schedule" ( "job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc","scheduler")
-SELECT '彩票开奖结果采集任务', NULL, NULL, 'so.wwb.gamebox.service.company.lottery.job.LotteryResultSubJob', 'execute', 't', '1', '* * * * * ? 2020', 't', '一次性任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultSubJob', 'f', 'f', 'ALL', 'java.lang.String', 'A','scheduler4LT'
+SELECT '彩票开奖结果采集任务', NULL, NULL, 'so.wwb.gamebox.service.company.lottery.job.LotteryResultSubJob', 'execute', 't', '1', '* * * * * ? 2020', 'f', '一次性任务', '2016-09-25 06:43:33.906', NULL, 'lotteryResultSubJob', 'f', 'f', 'ALL', 'java.lang.String', 'A','scheduler4LT'
 WHERE not EXISTS(SELECT id FROM task_schedule where job_code = 'lotteryResultSubJob' AND scheduler = 'scheduler4LT');
 
 
