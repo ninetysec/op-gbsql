@@ -1,4 +1,4 @@
--- auto gen by george 2017-11-29 15:00:54
+-- auto gen by george 2017-11-29 15:42:00
 SELECT redo_sqls($$
 
 ALTER TABLE rebate_agent RENAME COLUMN deposit_radio TO deposit_ratio;

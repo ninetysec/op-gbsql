@@ -1,4 +1,4 @@
--- auto gen by george 2017-11-29 15:03:16
+-- auto gen by george 2017-11-29 15:42:56
 DROP FUNCTION IF EXISTS gb_rebate(text, text, text, text);
 
 CREATE OR REPLACE FUNCTION gb_rebate (
