@@ -30,6 +30,4 @@ CREATE OR REPLACE VIEW "v_sys_credit" AS
 AND ss.status='1'
   ORDER BY ((((COALESCE(ss.has_use_profit, (0)::numeric) / (COALESCE(ss.max_profit, 0.01) + COALESCE(ss.credit_line, (0)::numeric))) * (100)::numeric))::numeric(38,2)) DESC;
 
-ALTER TABLE "v_sys_credit" OWNER TO postgres;
-
 COMMENT ON VIEW "v_sys_credit" IS 'CREDIT视图 add by pack1204改';
