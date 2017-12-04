@@ -1,0 +1,2 @@
+-- auto gen by cherry 2017-08-25 19:06:53
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status") SELECT '412', '转账检测', 'report/fundsTrans/apiTrans.html', '总控-报表-转账检测', '4', '', '12', 'boss', 'report:zjjc', '1', '', 'f', 't', 't' WHERE 412 NOT IN(SELECT id FROM sys_resource WHERE id=412);

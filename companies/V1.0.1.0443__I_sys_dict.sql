@@ -1,0 +1,2 @@
+-- auto gen by george 2017-10-19 15:02:31
+INSERT INTO "sys_dict" ( "module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active") SELECT  'player', 'player_status', '5', '5', '账号过期', NULL, 't' WHERE NOT EXISTS(SELECT ID FROM sys_dict WHERE module='player' AND dict_type='player_status' AND dict_code='5');

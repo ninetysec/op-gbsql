@@ -1,3 +1,5 @@
+-- auto gen by cherry 2017-08-23 11:52:09
+DROP FUNCTION if EXISTS "gb_data_archive_pgo"("p_archive_date" date, "p_start_time" timestamp, "p_end_time" timestamp);
 CREATE OR REPLACE FUNCTION "gb_data_archive_pgo"("p_archive_date" date, "p_start_time" timestamp, "p_end_time" timestamp)
   RETURNS "pg_catalog"."int4" AS $BODY$
 /*版本更新说明

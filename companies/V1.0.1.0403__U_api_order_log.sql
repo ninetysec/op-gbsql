@@ -1,0 +1,3 @@
+-- auto gen by cherry 2017-08-26 10:05:10
+update api_order_log set currency ='JPY' where api_id in ('27')  and currency is null;
+INSERT into api_order_log(api_id,start_id,update_time,"type",start_time,is_need_account,end_id,end_time,ext_json,gametype,currency)   select api_id,start_id,update_time,"type",start_time,is_need_account,end_id,end_time,ext_json,gametype,'CNY' from api_order_log where api_id in ('27') and currency='JPY' and NOT EXISTS (select * from  api_order_log where api_id in ('27') and  currency ='CNY' );

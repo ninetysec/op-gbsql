@@ -1,0 +1,4 @@
+-- auto gen by cherry 2017-09-28 11:56:30
+INSERT INTO "task_schedule" ("job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc", "scheduler")
+SELECT '盈利预警', NULL, NULL, 'so.wwb.gamebox.service.company.SiteQuotaWarningJob', 'execute', 't', '1', '0 0/30 * * * ?', 't', '全站任务', '2016-02-21 10:07:04.153', '2017-09-26 09:47:32.28', 'all-004', 'f', 'f', '', '', 'A', 'scheduler4Default'
+where not EXISTS (SELECT id FROM task_schedule WHERE job_code='all-004');
