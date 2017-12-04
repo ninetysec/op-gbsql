@@ -141,8 +141,9 @@ BEGIN
              rpf.other_amount, COALESCE(rg.other_ratio, rpf.other_ratio) other_ratio, (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio)/100 )::numeric(20,2) other_fee,
              --v1.12  2017/11/17  Laser
              --rpf.deposit_fee + rpf.withdraw_fee + rpf.rakeback_fee + rpf.favorable_fee + rpf.other_fee AS fee_amount,
-             rpf.deposit_fee + rpf.withdraw_fee + (rpf.rakeback_amount * COALESCE(rg.rakeback_ratio, rpf.rakeback_ratio))::numeric(20,2)
-             + (rpf.favorable_amount * COALESCE(rg.favorable_ratio, rpf.favorable_ratio))::numeric(20,2) + (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio))::numeric(20,2) AS fee_amount,
+             rpf.deposit_fee + rpf.withdraw_fee + (rpf.rakeback_amount * COALESCE(rg.rakeback_ratio, rpf.rakeback_ratio)/100)::numeric(20,2)
+             + (rpf.favorable_amount * COALESCE(rg.favorable_ratio, rpf.favorable_ratio)/100)::numeric(20,2)
+             + (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio)/100)::numeric(20,2) AS fee_amount,
              rah.fee_history
         FROM ua
             LEFT JOIN
@@ -270,8 +271,9 @@ BEGIN
              rpf.other_amount, COALESCE(rg.other_ratio, rpf.other_ratio) other_ratio, (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio)/100 )::numeric(20,2) other_fee,
              --v1.12  2017/11/17  Laser
              --rpf.deposit_fee + rpf.withdraw_fee + rpf.rakeback_fee + rpf.favorable_fee + rpf.other_fee AS fee_amount,
-             rpf.deposit_fee + rpf.withdraw_fee + (rpf.rakeback_amount * COALESCE(rg.rakeback_ratio, rpf.rakeback_ratio))::numeric(20,2)
-             + (rpf.favorable_amount * COALESCE(rg.favorable_ratio, rpf.favorable_ratio))::numeric(20,2) + (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio))::numeric(20,2) AS fee_amount,
+             rpf.deposit_fee + rpf.withdraw_fee + (rpf.rakeback_amount * COALESCE(rg.rakeback_ratio, rpf.rakeback_ratio)/100)::numeric(20,2)
+             + (rpf.favorable_amount * COALESCE(rg.favorable_ratio, rpf.favorable_ratio)/100)::numeric(20,2)
+             + (rpf.other_amount * COALESCE(rg.other_ratio, rpf.other_ratio)/100)::numeric(20,2) AS fee_amount,
              rah.fee_history
         FROM ua
             LEFT JOIN
