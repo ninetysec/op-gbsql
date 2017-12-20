@@ -1,5 +1,6 @@
 -- auto gen by water 2017-12-20 12:22:28
 
+DROP VIEW IF EXISTS v_user_player;
 CREATE OR REPLACE VIEW v_user_player AS SELECT a.id,
                                           a.rank_id,
                                           ((COALESCE(a.wallet_balance, (0)::numeric) + COALESCE(a.freezing_funds_balance, (0)::numeric)) + COALESCE(( SELECT sum(player_api.money) AS sum
@@ -156,7 +157,7 @@ CREATE OR REPLACE VIEW v_user_player AS SELECT a.id,
                                           -- is_on_line
                                           ((b.login_time > b.last_logout_time)
                                            OR (b.last_logout_time IS NULL))
-                                          AND (b.last_active_time > (now() - '00:30:00'::interval)) as is_on_line
+                                          AND (b.last_active_time > (now() - '00:30:00'::interval))::BOOLEAN as on_line
 
                                         FROM ((((((user_player a
                                           JOIN sys_user b ON ((a.id = b.id)))
