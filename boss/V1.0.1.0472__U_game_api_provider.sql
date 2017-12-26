@@ -1,0 +1,2 @@
+-- auto gen by george 2017-12-19 11:37:09
+UPDATE  game_api_provider SET  "ext_json"='{"MerchantID":"Dawoo","AccessKey":"3885731c-97ee-439c-8ea1-eedc0b3551e6","gameUrl":"gd.ampinplayopt0matrix.com","setNum":"500","search-minute":"10","supportReSend":"true","loginUrl":"https://{0}/main.php?OperatorCode={1}&lang={2}&playerid={3}&LoginTokenID={4}&Currency={5}&Key={6}&view={7}&mode={8}&nickname={9}&mobile={10}&PlayerGroup={11}"}' WHERE id='5';
