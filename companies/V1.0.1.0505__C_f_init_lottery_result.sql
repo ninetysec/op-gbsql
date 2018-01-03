@@ -2,6 +2,11 @@
 DROP FUNCTION IF EXISTS "f_init_lottery_result"(lottery_date date);
 CREATE OR REPLACE FUNCTION "f_init_lottery_result"(lottery_date date)
   RETURNS "pg_catalog"."void" AS $BODY$
+/*版本更新说明
+  版本   时间        作者   内容
+--v1.01  2018/01/01  Laser  修复六合彩初始化开奖结果的bug
+
+*/
 declare
 handicapRecord RECORD;--盘口信息集合
 handicapLhcRecord RECORD;--六合彩盘口信息集合
@@ -31,6 +36,8 @@ raise notice '当期福彩3D的开奖期数为 %', maxExpectFc3d;
 raise notice '当期体彩排列3的开奖期数为 %', maxExpectTtcpl3;
 
 --六合彩期数初始化
+-- modify by rambo 增加彩种判断
+-- FOR handicapLhcRecord in SELECT * FROM lottery_handicap_lhc h WHERE lottery_time >= lottery_date :: TIMESTAMP  AND NOT EXISTS (SELECT * FROM lottery_result  r WHERE  r.expect = h.expect) ORDER BY lottery_time
 FOR handicapLhcRecord in SELECT * FROM lottery_handicap_lhc h WHERE lottery_time >= lottery_date :: TIMESTAMP  AND NOT EXISTS (SELECT * FROM lottery_result  r WHERE  r.expect = h.expect and h.code=r.code) ORDER BY lottery_time
 loop
 IF NOT EXISTS (SELECT * FROM lottery_result WHERE expect = handicapLhcRecord.expect AND code = handicapLhcRecord.code) THEN
