@@ -1,0 +1,4 @@
+-- auto gen by george 2017-11-17 15:14:36
+INSERT INTO "task_schedule" ("job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class","belong_to_idc","scheduler")
+SELECT 'apiId-10-bb-中奖结果记录', NULL, NULL, 'so.wwb.gamebox.service.company.PlayerGameOrderJackpotJob', 'execute', 't', '2', '0 2/4 * * * ?', 't', 'api任务', now(), NULL, 'api-10-JACKPOT', 'f', 'f', '10', 'java.lang.Integer','A','scheduler4Api'
+where not EXISTS(SELECT id FROM task_schedule WHERE job_code='api-10-JACKPOT');

@@ -1,0 +1,4 @@
+-- auto gen by george 2017-11-20 11:04:16
+INSERT INTO "task_schedule" ("job_name", "alias_name", "job_group", "job_class", "job_method", "is_local", "status", "cronexpression", "is_sync", "description", "create_time", "update_time", "job_code", "is_system", "is_dynamic", "job_method_arg", "job_method_arg_class", "belong_to_idc", "scheduler")
+SELECT  '恢复所有站点买分默认额度', NULL, NULL, 'so.wwb.gamebox.service.company.CreditResetQuotaJob', 'execute', 't', '2', '1 0 0-23/1 1-2 * ?', 't', '全站任务', '2016-11-17 11:07:04.153', null, 'credit-reset', 'f', 'f', '', '', 'A', 'scheduler4Default'
+where NOT EXISTS (select job_class FROM task_schedule where job_class='so.wwb.gamebox.service.company.CreditResetQuotaJob');
