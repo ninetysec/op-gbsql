@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION "f_init_lottery_result"(lottery_date date)
   RETURNS "pg_catalog"."void" AS $BODY$
 /*版本更新说明
   版本   时间        作者   内容
---v1.01  2018/01/01  Laser  修复六合彩初始化开奖结果的bug
+--v1.01  2018/01/01  Marz  修复六合彩初始化开奖结果的bug
 
 */
 declare
