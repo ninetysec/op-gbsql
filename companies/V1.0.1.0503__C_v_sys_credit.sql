@@ -31,7 +31,7 @@ CREATE OR REPLACE VIEW "v_sys_credit" AS
 				CASE
 						WHEN ss.authorize_end_time IS NULL OR ss.authorize_end_time < now() THEN TRUE
 						ELSE FALSE
-				END AS authentication_status
+				END AS authorize_status
    FROM (sys_site ss
      LEFT JOIN sys_user su ON ((ss.sys_user_id = su.id)))
   WHERE ((ss.id > 0) AND ((ss.status)::text = '1'::text))
