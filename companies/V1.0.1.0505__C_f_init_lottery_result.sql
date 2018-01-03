@@ -35,8 +35,8 @@ raise notice '当期北京快乐8的开奖期数为 %', maxExpectBJKL8;
 raise notice '当期福彩3D的开奖期数为 %', maxExpectFc3d;
 raise notice '当期体彩排列3的开奖期数为 %', maxExpectTtcpl3;
 
+-- v1.01  2018/01/01 modify by rambo 增加彩种判断
 --六合彩期数初始化
--- modify by rambo 增加彩种判断
 -- FOR handicapLhcRecord in SELECT * FROM lottery_handicap_lhc h WHERE lottery_time >= lottery_date :: TIMESTAMP  AND NOT EXISTS (SELECT * FROM lottery_result  r WHERE  r.expect = h.expect) ORDER BY lottery_time
 FOR handicapLhcRecord in SELECT * FROM lottery_handicap_lhc h WHERE lottery_time >= lottery_date :: TIMESTAMP  AND NOT EXISTS (SELECT * FROM lottery_result  r WHERE  r.expect = h.expect and h.code=r.code) ORDER BY lottery_time
 loop
