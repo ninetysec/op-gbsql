@@ -3,7 +3,7 @@ select  redo_sqls ($$
     ALTER TABLE pay_log ADD COLUMN channel_code  varchar(32) ;
     ALTER TABLE pay_log ADD COLUMN merchant_code varchar(32);
     ALTER TABLE pay_log ADD COLUMN terminal varchar(2) ;
-    ALTER TABLE pay_log ADD COLUMN error_log varchar(255) ;
+    ALTER TABLE pay_log ADD COLUMN error_log TEXT;
     ALTER TABLE pay_log ADD COLUMN provider varchar(32);
 $$);
 
