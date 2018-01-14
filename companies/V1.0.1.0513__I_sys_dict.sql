@@ -20,13 +20,17 @@ INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark
 WHERE NOT EXISTS (select id from sys_dict where module = 'content' AND dict_type='account_type' AND dict_code = '5');
 
 INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active")
- SELECT 'content', 'account_type', '6', '6', '京东钱包', NULL, 't'
+ SELECT 'content', 'account_type', '6', '6', '数字货币', NULL, 't'
 WHERE NOT EXISTS (select id from sys_dict where module = 'content' AND dict_type='account_type' AND dict_code = '6');
 
 INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active")
- SELECT 'content', 'account_type', '7', '7', '百度钱包', NULL, 't'
+ SELECT 'content', 'account_type', '7', '7', '京东钱包', NULL, 't'
 WHERE NOT EXISTS (select id from sys_dict where module = 'content' AND dict_type='account_type' AND dict_code = '7');
 
 INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active")
- SELECT 'content', 'account_type', '8', '8', '银联扫码', NULL, 't'
+ SELECT 'content', 'account_type', '8', '8', '百度钱包', NULL, 't'
 WHERE NOT EXISTS (select id from sys_dict where module = 'content' AND dict_type='account_type' AND dict_code = '8');
+
+INSERT INTO "sys_dict" ("module", "dict_type", "dict_code", "order_num", "remark", "parent_code", "active")
+ SELECT 'content', 'account_type', '9', '9', '银联扫码', NULL, 't'
+WHERE NOT EXISTS (select id from sys_dict where module = 'content' AND dict_type='account_type' AND dict_code = '9');
