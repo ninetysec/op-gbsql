@@ -36,7 +36,7 @@ CREATE OR REPLACE VIEW "v_domain_check" AS
             sd.page_url,
             sd.domain AS sys_domain_url,
             dc.id,
-            dc.site_id,
+            sd.site_id,
             dc.sys_domain_id,
             dc.content_type,
             dc.publish_time,
@@ -47,16 +47,16 @@ CREATE OR REPLACE VIEW "v_domain_check" AS
             dc.check_time,
             dc.reason_title,
             dc.reason_content,
-            dc.domain,
+            sd.domain,
             dc.code,
             dc.site_name,
             dc.domain_platform,
-            dc.agent_id,
+            sd.agent_id,
             dc.publish_user_type,
             sd.resolve_status,
             sd.update_time,
             sd.subsys_code
-           FROM ( sys_domain sd
+           FROM (sys_domain sd
              LEFT JOIN sys_domain_check dc ON ((sd.id = dc.sys_domain_id)))) dm
   WHERE (dm.sys_domain_url IS NOT NULL);
 
