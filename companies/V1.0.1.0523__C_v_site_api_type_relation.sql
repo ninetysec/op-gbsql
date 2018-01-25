@@ -2,9 +2,7 @@
 select redo_sqls($$
     ALTER TABLE site_api_type_relation ADD COLUMN mobile_order_num INT;
 $$);
-COMMENT ON COLUMN site_api_type_relation.mobile_order_num IS '手机端顺序';
-
-UPDATE site_api_type_relation SET mobile_order_num=order_num;
+COMMENT ON COLUMN site_api_type_relation.mobile_order_num IS '手机端顺序 null代表总控中心第一次排序之后数据库才有顺序';
 
 DROP VIEW IF EXISTS v_site_api_type_relation;
 

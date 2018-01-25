@@ -3,9 +3,7 @@
 select redo_sqls($$
     ALTER TABLE site_api_type ADD COLUMN mobile_order_num INT;
 $$);
-COMMENT ON COLUMN site_api_type.mobile_order_num IS '手机端顺序';
-
-UPDATE site_api_type SET mobile_order_num=order_num;
+COMMENT ON COLUMN site_api_type.mobile_order_num IS '手机端顺序 null代表总控中心第一次排序之后数据库才有顺序';
 
 
 DROP VIEW IF EXISTS v_site_api_type;
@@ -20,7 +18,7 @@ CREATE OR REPLACE VIEW "v_site_api_type" AS
     t.order_num,
     t.status,
     t.api_type_id,
-	t.mobile_order_num
+  t.mobile_order_num
    FROM site_api_type t
   ORDER BY t.status DESC, t.order_num;
 
