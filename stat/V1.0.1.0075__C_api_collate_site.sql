@@ -1,4 +1,4 @@
--- auto gen by george 2018-01-28 10:10:34
+-- auto gen by linsen 2018-01-28 10:10:34
 CREATE TABLE IF NOT EXISTS "api_collate_site" (
 "id" serial4,
 "site_id" int4,
