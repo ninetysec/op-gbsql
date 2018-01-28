@@ -47,9 +47,11 @@ COMMENT ON COLUMN "gb-stat"."api_collate_site"."static_time_end" IS '统计截�
 COMMENT ON COLUMN "gb-stat"."api_collate_site"."winning_amount" IS '中奖金额';
 COMMENT ON COLUMN "gb-stat"."api_collate_site"."contribution_amount" IS '彩池共享金';
 
+SELECT redo_sqls($$
 CREATE INDEX "api_collate_site_api_id_idx" ON "gb-stat"."api_collate_site" USING btree ("api_id");
 CREATE INDEX "api_collate_site_api_type_id_idx" ON "gb-stat"."api_collate_site" USING btree ("api_type_id");
 CREATE INDEX "api_collate_site_center_id_idx" ON "gb-stat"."api_collate_site" USING btree ("center_id");
 CREATE INDEX "api_collate_site_master_id_idx" ON "gb-stat"."api_collate_site" USING btree ("master_id");
 CREATE INDEX "api_collate_site_site_id_idx" ON "gb-stat"."api_collate_site" USING btree ("site_id");
 CREATE INDEX "api_collate_site_static_time_idx" ON "gb-stat"."api_collate_site" USING btree ("static_time");
+$$);
