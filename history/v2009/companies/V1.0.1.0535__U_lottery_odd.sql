@@ -1,5 +1,7 @@
 -- auto gen by marz 2018-01-26 16:21:38
-alter TABLE lottery_odd add COLUMN play_code varchar(32) COLLATE "default"
+select redo_sqls($$
+  alter TABLE lottery_odd add COLUMN play_code varchar(32) COLLATE "default";
+$$);
 
 UPDATE lottery_odd SET  play_code='one_digital' WHERE bet_code = 'hundred' and bet_num='0';
 UPDATE lottery_odd SET  play_code='one_digital' WHERE bet_code = 'hundred' and bet_num='1';

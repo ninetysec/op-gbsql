@@ -64,6 +64,7 @@ COMMENT ON COLUMN "api_collate_player"."static_time_end" IS '统计截止时间'
 COMMENT ON COLUMN "api_collate_player"."winning_amount" IS '中奖金额';
 COMMENT ON COLUMN "api_collate_player"."contribution_amount" IS '彩池共享金';
 
+SELECT redo_sqls($$
 CREATE INDEX "api_collate_player_center_id_idx" ON "api_collate_player" USING btree ("center_id");
 CREATE INDEX "api_collate_player_master_id_idx" ON "api_collate_player" USING btree ("master_id");
 CREATE INDEX "api_collate_player_site_id_idx" ON "api_collate_player" USING btree ("site_id");
@@ -73,3 +74,4 @@ CREATE INDEX "api_collate_player_api_id_idx" ON "api_collate_player" USING btree
 CREATE INDEX "api_collate_player_api_type_id_idx" ON "api_collate_player" USING btree ("api_type_id");
 CREATE INDEX "api_collate_player_player_id_idx" ON "api_collate_player" USING btree ("player_id");
 CREATE INDEX "api_collate_player_static_time_idx" ON "api_collate_player" USING btree ("static_time");
+$$);
