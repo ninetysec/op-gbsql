@@ -5,8 +5,10 @@
      ADD COLUMN "cancel_user" int4,
      ADD COLUMN "cancel_user_name" varchar(32),
     ADD COLUMN "cancel_time" timestamp(6);
+
+    COMMENT ON COLUMN "credit_record"."cancel_user" IS '撤销用户ID';
+    COMMENT ON COLUMN "credit_record"."cancel_user_name" IS '撤销人账号';
+    COMMENT ON COLUMN "credit_record"."cancel_time" IS '撤销时间';
 $$);
 
-COMMENT ON COLUMN "credit_record"."cancel_user" IS '撤销用户ID';
-COMMENT ON COLUMN "credit_record"."cancel_user_name" IS '撤销人账号';
-COMMENT ON COLUMN "credit_record"."cancel_time" IS '撤销时间';
+
