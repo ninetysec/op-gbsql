@@ -1,5 +1,4 @@
 -- auto gen by marz 2018-02-05 14:20:24
-DROP FUNCTION IF EXISTS "lottery_payout"(lottery_expect text, lottery_code text, p_com_url text);
 DROP FUNCTION IF EXISTS "lottery_payout"(lottery_expect text, lottery_code text, opencode text, winRecordJson text);
 CREATE OR REPLACE FUNCTION "lottery_payout"(lottery_expect text, lottery_code text, opencode text, winRecordJson text)
   RETURNS "pg_catalog"."varchar" AS $BODY$
@@ -87,7 +86,6 @@ COMMENT ON FUNCTION "lottery_payout"(lottery_expect text, lottery_code text, ope
 
 
 --------------------------------------------------------------
-DROP FUNCTION IF EXISTS "lottery_payout_heavy"(lottery_expect text, lottery_code text, p_com_url text);
 DROP FUNCTION IF EXISTS "lottery_payout_heavy"(lottery_expect text, lottery_code text, opencode text, winRecordJson text);
 CREATE OR REPLACE FUNCTION "lottery_payout_heavy"(lottery_expect text, lottery_code text, opencode text, winRecordJson text)
   RETURNS "pg_catalog"."varchar" AS $BODY$
