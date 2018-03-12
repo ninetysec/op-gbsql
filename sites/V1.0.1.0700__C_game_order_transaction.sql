@@ -1,6 +1,5 @@
 -- auto gen by linsen 2018-03-09 14:50:09
 -- 注单资金记录表 by mical
-drop table IF EXISTS game_order_transaction;
 
 CREATE TABLE IF NOT EXISTS "game_order_transaction" (
 
