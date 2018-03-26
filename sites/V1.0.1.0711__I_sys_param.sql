@@ -14,5 +14,5 @@ WHERE 'is_telemarketing' not in (SELECT param_code FROM sys_param WHERE module='
 
 
 INSERT INTO "sys_param" ("module", "param_type", "param_code", "param_value", "default_value", "order_num", "remark", "parent_code", "active", "site_id", "is_switch", "operate")
-SELECT 'setting', 'parameter_setting', 'is_encryption', 'false', 'false', NULL, '电话加密开关', NULL, 't', NULL, 'f', '1'
+SELECT 'setting', 'parameter_setting', 'is_encryption', 'true', 'false', NULL, '电话加密开关', NULL, 't', NULL, 'f', '1'
 WHERE 'is_encryption' not in (SELECT param_code FROM sys_param WHERE module ='setting'  AND param_type='parameter_setting' AND param_code='is_encryption');
