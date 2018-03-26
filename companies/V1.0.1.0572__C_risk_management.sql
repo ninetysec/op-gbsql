@@ -42,8 +42,8 @@ COMMENT ON COLUMN "risk_management"."check_time" IS '审核时间';
 COMMENT ON COLUMN risk_management.check_remark IS '审核备注原因';
 
 
-CREATE INDEX "index_risk_management_create_time" ON "risk_management" USING btree ("create_time");
-CREATE INDEX "index_risk_management_data_type" ON "risk_management" USING btree ("data_type");
+CREATE INDEX IF not EXISTS "index_risk_management_create_time" ON "risk_management" USING btree ("create_time");
+CREATE INDEX IF not EXISTS "index_risk_management_data_type" ON "risk_management" USING btree ("data_type");
 
 
 
@@ -91,5 +91,5 @@ COMMENT ON COLUMN "risk_management_check"."check_time" IS '审核时间';
 COMMENT ON COLUMN risk_management_check.check_remark IS '审核备注原因';
 
 
-CREATE INDEX "index_risk_management_check_create_time" ON "risk_management_check" USING btree ("create_time");
-CREATE INDEX "index_risk_management_check_data_type" ON "risk_management_check" USING btree ("data_type");
+CREATE INDEX IF not EXISTS "index_risk_management_check_create_time" ON "risk_management_check" USING btree ("create_time");
+CREATE INDEX IF not EXISTS "index_risk_management_check_data_type" ON "risk_management_check" USING btree ("data_type");
