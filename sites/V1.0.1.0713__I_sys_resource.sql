@@ -5,7 +5,7 @@ INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structu
 SELECT '70104', '前端展示', 'param/frontEnd.html', '系统设置-前端展示', '701', NULL, NULL, 'mcenter', 'system:frontend_setting', '2', NULL, 't', 't', 't'
 WHERE NOT EXISTS( SELECT id FROM sys_resource WHERE id =70104);
 
-INSERT INTO "gb-site-1"."sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
 SELECT  '70105', '参数设置', 'param/parameterSetting.html', '系统设置-参数设置', '701', NULL, NULL, 'mcenter', 'system:parameter_setting', '2', NULL, 't', 't', 't'
 WHERE NOT EXISTS (SELECT id FROM sys_resource WHERE id=70105);
 

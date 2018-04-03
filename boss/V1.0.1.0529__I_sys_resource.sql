@@ -29,7 +29,7 @@ INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structu
 SELECT '21702', '删除', 'riskManagement/delete.html', '风控数据-删除', '217', '', NULL, 'boss', 'serve:risk_management_delete', '2', '', 'f', 't', 't'
 WHERE NOT EXISTS(SELECT id FROM sys_resource WHERE id=21702);
 
-INSERT INTO "gb-boss"."sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status")
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status")
 SELECT '21703', '编辑', 'riskManagement/edit.html', '风控数据-编辑', '217', NULL, NULL, 'boss', 'serve:risk_management_edit', '2', '', 'f', 't', 't'
 WHERE NOT EXISTS (SELECT id FROM sys_resource WHERE id=21703);
 
