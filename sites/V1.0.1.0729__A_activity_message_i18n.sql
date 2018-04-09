@@ -3,4 +3,4 @@
 select redo_sqls($$
   ALTER TABLE activity_message_i18n ADD COLUMN activity_terminal_type VARCHAR(8);
 $$);
-COMMENT ON COLUMN activity_message_i18n.activity_terminal_type IS '活动总段类型';
+COMMENT ON COLUMN activity_message_i18n.activity_terminal_type IS '活动终端类型';
