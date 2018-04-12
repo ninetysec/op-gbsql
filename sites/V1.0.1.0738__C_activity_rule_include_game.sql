@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "activity_rule_include_game" (
 "api_id" int4,
 "game_id" int4,
 "api_type_id" int4,
-"game_type" varchar(32) COLLATE "default"
+"game_type" varchar(32)
 )
 WITH (OIDS=FALSE)
 ;

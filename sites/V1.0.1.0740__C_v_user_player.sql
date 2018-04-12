@@ -1,4 +1,4 @@
--- auto gen by linsen 2018-04-10 21:28:26
+-- auto gen by linsen 2018-04-12 10:21:58
 --玩家视图增加玩家存送标志 modify by steffan
 DROP VIEW IF EXISTS v_user_player;
 CREATE OR REPLACE VIEW "v_user_player" AS
