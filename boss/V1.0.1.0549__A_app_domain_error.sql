@@ -8,3 +8,10 @@ SELECT redo_sqls($$
   alter table app_domain_error add COLUMN brand VARCHAR(24);
   alter table app_domain_error add COLUMN model VARCHAR(40);
 $$);
+
+COMMENT ON COLUMN app_domain_error.type IS '1: domain , 2:crash ';
+COMMENT ON COLUMN app_domain_error.version_name IS 'app version';
+COMMENT ON COLUMN app_domain_error.channel IS 'ios | android';
+COMMENT ON COLUMN app_domain_error.sys_code IS 'app os version';
+COMMENT ON COLUMN app_domain_error.brand IS '手机品牌';
+COMMENT ON COLUMN app_domain_error.model IS '手机型号';
