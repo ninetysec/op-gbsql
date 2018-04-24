@@ -1,4 +1,4 @@
--- auto gen by linsen 2018-04-24 14:41:18
+-- auto gen by linsen 2018-04-24 15:05:01
 -- 修改资金记录视图 by linsen
 DROP VIEW IF EXISTS v_player_funds_record;
 CREATE OR REPLACE VIEW  "v_player_funds_record" AS
