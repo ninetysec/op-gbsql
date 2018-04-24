@@ -29,7 +29,7 @@ CREATE OR REPLACE VIEW  "v_player_funds_record" AS
     pt.transaction_data,
     pt.origin,
     pt.rank_id,
-    pt.user_name AS username,
+    su.username,
     su.user_type,
     pt.agent_username AS agentname,
     pt.agent_id AS agentid,
