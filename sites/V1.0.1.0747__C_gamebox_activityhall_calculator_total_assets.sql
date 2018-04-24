@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:27:53
 -- 计算某玩家当前的总资产 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_total_assets;
+DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_total_assets(playerid int4);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_calculator_total_assets"(playerid int4)
   RETURNS "pg_catalog"."numeric" AS $BODY$ DECLARE
 

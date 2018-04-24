@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:20:15
 -- 立即计算优惠 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_calculator;
+DROP FUNCTION IF EXISTS gamebox_activityhall_calculator(activitymessage json, playerinfo json, applyresult json);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_calculator"(activitymessage json, playerinfo json, applyresult json)
   RETURNS "pg_catalog"."json" AS $BODY$
 

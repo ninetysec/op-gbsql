@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:31:37
 -- 有效交易量活动计算 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_preferential_effecttransaction;
+DROP FUNCTION IF EXISTS gamebox_activityhall_preferential_effecttransaction(activitymessageid int4, sitecode varchar);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_preferential_effecttransaction"(activitymessageid int4, sitecode varchar)
   RETURNS "pg_catalog"."void" AS $BODY$
 

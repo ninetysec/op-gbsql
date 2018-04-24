@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:36:48
 -- 查询活动的当前申请时间区间 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_query_applytime;
+DROP FUNCTION IF EXISTS gamebox_activityhall_query_applytime(activitymessageid int4);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_query_applytime"(activitymessageid int4)
   RETURNS "pg_catalog"."json" AS $BODY$
 DECLARE

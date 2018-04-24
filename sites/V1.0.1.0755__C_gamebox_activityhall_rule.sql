@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:37:51
 -- 优惠活动规则判断 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_rule;
+DROP FUNCTION IF EXISTS gamebox_activityhall_rule(activitymessage json, playerinfo json);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_rule"(activitymessage json, playerinfo json)
   RETURNS "pg_catalog"."json" AS $BODY$
 declare

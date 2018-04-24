@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:35:54
 -- 查询活动名称，包含所有语言版本 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_query_activityname;
+DROP FUNCTION IF EXISTS gamebox_activityhall_query_activityname(activitymessageid int4);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_query_activityname"(activitymessageid int4)
   RETURNS "pg_catalog"."text" AS $BODY$
 DECLARE

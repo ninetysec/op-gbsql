@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:32:57
 -- 周期性优惠活动计算入口 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_preferential_message;
+DROP FUNCTION IF EXISTS gamebox_activityhall_preferential_message(activitymessageid int4, sitecode varchar);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_preferential_message"(activitymessageid int4, sitecode varchar)
   RETURNS "pg_catalog"."void" AS $BODY$declare
 

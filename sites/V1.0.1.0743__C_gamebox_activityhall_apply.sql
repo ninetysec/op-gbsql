@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:18:25
 -- 优惠活动申请统一入口 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_apply;
+DROP FUNCTION IF EXISTS gamebox_activityhall_apply(activitymessage json, playerinfo json, terminaltype varchar);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_apply"(activitymessage json, playerinfo json, terminaltype varchar)
   RETURNS "pg_catalog"."json" AS $BODY$
 declare
