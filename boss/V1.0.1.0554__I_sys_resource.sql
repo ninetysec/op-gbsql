@@ -2,7 +2,7 @@
 -- API转账监控配置 by leo
 INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "privilege", "built_in", "status")
 SELECT '916', 'API转账监控配置', 'apiMonitorTransConf/list.html', 'API转账监控配置', '9', '', '16', 'boss', 'api:monitor_trans_conf', '1', '', 'f', 't', 't'
-WHERE NOT EXISTS (SELECT ID FROM sys_resource WHERE permission = 'api:monitor_trans_conf');
+WHERE NOT EXISTS (SELECT id FROM sys_resource WHERE id=916);
 
 
 
