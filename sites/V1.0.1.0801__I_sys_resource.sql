@@ -2,7 +2,7 @@
 --捷报数据中心菜单初使化脚本 by martin
 
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
-select '11', '捷报数据', '/mcenter/mreport', '捷报数据', NULL, '', '10', 'mcenter', 'mcenter:mreport', '1', 'icon-caipiao', 't', 'f', 't'
+select '11', '捷报数据', '/mcenter/mreport', '捷报数据', NULL, '', '10', 'mcenter', 'mcenter:mreport', '1', 'icon-caipiao', 't', 'f', 'f'
 where not exists(select id from sys_resource where id=11);
 
 INSERT INTO sys_resource ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
