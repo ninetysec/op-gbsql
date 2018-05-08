@@ -45,7 +45,7 @@ BEGIN
     	-- 计算玩家该申领周期内的盈利亏损情况
     	SELECT gamebox_activityhall_calculator_profit_loss(rec_apply.user_id, rec_apply.start_time, rec_apply.end_time,activitymessageid) INTO preferential_value_temp;
     	raise notice '查询玩家盈利亏损情况,结果:%',preferential_value_temp;
-      preferentialdata = '{' || ''' profitLoss'':'  || '''' || preferential_value_temp || '''' || '}';
+      preferentialdata = '{' || '''profitLoss'':'  || '''' || preferential_value_temp || '''' || '}';
 
     	-- 负数需要取绝对值后计算当前规则满足的优惠档次
     	IF preferential_value_temp < 0 THEN

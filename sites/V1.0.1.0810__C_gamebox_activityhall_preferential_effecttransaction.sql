@@ -49,7 +49,7 @@ BEGIN
 		-- 计算玩家该申领周期内的总有效交易量
 		SELECT gamebox_activityhall_calculator_effective_transaction(rec_apply.user_id,rec_apply.start_time,rec_apply.end_time,activitymessageid) INTO preferential_value_temp;
 		raise notice '查询玩家的总有效交易量, 结果:%', preferential_value_temp;
-    preferentialdata = '{' || ''' effective'':'  || '''' || preferential_value_temp || '''' || '}';
+    preferentialdata = '{' || '''effective'':'  || '''' || preferential_value_temp || '''' || '}';
 
 		-- 计算玩家能获取的优惠奖励档次
 		SELECT order_column

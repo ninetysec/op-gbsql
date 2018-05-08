@@ -82,7 +82,7 @@ END IF;
 			order_num=0;
 		END IF;
 	END IF;
-  preferentialdata = '{' || ''' relief'':'  || '''' || profitloss || '''' || ',' || '''assets'':' || '''' || totalassets || '''' || '}';
+  preferentialdata = '{' || '''relief'':'  || '''' || profitloss || '''' || ',' || '''assets'':' || '''' || totalassets || '''' || '}';
 	RETURN json_build_object( 'resultcode',code_effective_transaction || code_loss || code_total_assets,'ordernum',order_num,'preferentialdata',preferentialdata);
 
 END

@@ -85,7 +85,6 @@ registTime =  (playerInfo ->> 'registertime')::TIMESTAMP;
   preferentialdata = preferentialdata || '''registerIp'':'  || '''' || registerip || '''';
 	END IF;
 	preferentialdata = preferentialdata || '}';
-  raise info 'bankcardnumber:%,realName:%,registerIp:%preferentialdata:%',bankcardnumber,realName,registerIp,preferentialdata;
 	RETURN json_build_object( 'resultcode',ACTIVITY_MEET,'ordernum',1,'preferentialdata',preferentialdata);
 END
 $BODY$
