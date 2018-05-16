@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:25:11
 -- 计算时间范围内某玩家的有效交易量 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_effective_transaction;
+DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_effective_transaction(playerid int4, starttime timestamp, endtime timestamp, activitymessageid int4);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_calculator_effective_transaction"(playerid int4, starttime timestamp, endtime timestamp, activitymessageid int4)
   RETURNS "pg_catalog"."numeric" AS $BODY$ DECLARE
 

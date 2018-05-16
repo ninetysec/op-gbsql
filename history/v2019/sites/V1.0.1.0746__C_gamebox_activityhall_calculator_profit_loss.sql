@@ -1,6 +1,6 @@
 -- auto gen by linsen 2018-04-15 21:26:18
 -- 计算时间范围内某玩家的盈亏情况 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_profit_loss;
+DROP FUNCTION IF EXISTS gamebox_activityhall_calculator_profit_loss(playerid int4, starttime timestamp, endtime timestamp, activitymessageid int4);
 CREATE OR REPLACE FUNCTION "gamebox_activityhall_calculator_profit_loss"(playerid int4, starttime timestamp, endtime timestamp, activitymessageid int4)
   RETURNS "pg_catalog"."numeric" AS $BODY$ DECLARE
 

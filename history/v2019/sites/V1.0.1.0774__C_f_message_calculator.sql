@@ -1,8 +1,12 @@
--- auto gen by linsen 2018-04-15 21:20:15
--- 立即计算优惠 by kobe
-DROP FUNCTION IF EXISTS gamebox_activityhall_calculator;
-CREATE OR REPLACE FUNCTION "gamebox_activityhall_calculator"(activitymessage json, playerinfo json, applyresult json)
+-- auto gen by linsen 2018-04-24 11:28:36
+-- player_transaction新增记录时，插入代理线相关信息 by linsen
+DROP FUNCTION IF EXISTS "f_message_calculator"(activitymessage json, playerinfo json, applyresult json);
+CREATE OR REPLACE FUNCTION "f_message_calculator"(activitymessage json, playerinfo json, applyresult json)
   RETURNS "pg_catalog"."json" AS $BODY$
+/*版本更新说明
+  版本   时间        作者     内容
+--v1.01  2018/04/23  Linsen   player_transaction新增记录时，插入代理线相关信息 agent_id，agent_username，topagent_id，topagent_username，user_name
+*/
 
 declare
 	--优惠活动信息
@@ -34,6 +38,12 @@ declare
 	APPLY_CHECK_STATUS_SUCCESS VARCHAR := '2';--申请审核状态-成功
 	PREFERETIAL_FORM_PERCENTAGE varchar := 'percentage_handsel';--优惠形式:比例彩金
 	PREFERETIAL_FORM_REGULAR varchar := 'regular_handsel';--优惠形式:固定彩金
+--v1.01  2018/04/23  Linsen
+	user_name VARCHAR ; ---玩家账号
+	agent_id INT ; ---代理id
+	agent_username VARCHAR ; ---代理账号
+	topagent_id INT ; ---总代id
+	topagent_username VARCHAR ; ---总代账号
 BEGIN
 --信息初始化
 activitymessageid =  activitymessage ->> 'activitymessageid';
@@ -57,8 +67,11 @@ ELSEIF activitytype = TYPE_RELIEF_FUND THEN
 	favorableremark = '赠送救济金';
 END IF;
 
-SELECT * from gamebox_activityhall_query_activityname(activitymessageid) INTO activityname_json;
+SELECT * from f_message_query_activityname(activitymessageid) INTO activityname_json;
 SELECT is_audit FROM activity_rule  where activity_message_id = activitymessageid INTO isaudit;
+--v1.01  2018/04/23  Linsen
+SELECT username FROM sys_user  where id = playerid INTO user_name;
+SELECT user_agent_id,agent_name,general_agent_id,general_agent_name FROM user_player  where id = playerid INTO agent_id,agent_username,topagent_id,topagent_username;
 raise info '该活动的优惠是否需要审核状态为:%',isaudit;
 FOR rec_way in SELECT * FROM activity_way_relation WHERE activity_message_id = activitymessageid AND order_column = ordernum
 loop
@@ -92,9 +105,10 @@ loop
 		SELECT id FROM favorable INTO favorable_id_temp;
 		raise info '自动生成优惠记录:%',favorable_id_temp;
 		--自动生成交易订单
+--v1.01  2018/04/23  Linsen
 		WITH playtransaction AS (
-			INSERT INTO player_transaction (transaction_no, create_time, transaction_type, remark, transaction_money, balance, status, player_id, source_id, favorable_audit_points, is_satisfy_audit, is_clear_audit, fund_type, transaction_way, transaction_data,origin,rank_id,completion_time) VALUES
-			(orderNo, applytime, 'favorable', favorableremark, rec_way.preferential_value, rec_way.preferential_value + (SELECT wallet_balance FROM user_player WHERE id = playerid), 'success',playerid, favorable_id_temp, auditPoints, false, false, 'favourable', activitytype, activityname_json,'PC',(SELECT rank_id FROM user_player WHERE id = playerid),applytime)
+			INSERT INTO player_transaction (transaction_no, create_time, transaction_type, remark, transaction_money, balance, status, player_id, source_id, favorable_audit_points, is_satisfy_audit, is_clear_audit, fund_type, transaction_way, transaction_data,origin,rank_id,completion_time,agent_id,agent_username,topagent_id,topagent_username,user_name) VALUES
+			(orderNo, applytime, 'favorable', favorableremark, rec_way.preferential_value, rec_way.preferential_value + (SELECT wallet_balance FROM user_player WHERE id = playerid), 'success',playerid, favorable_id_temp, auditPoints, false, false, 'favourable', activitytype, activityname_json,'PC',(SELECT rank_id FROM user_player WHERE id = playerid),applytime,agent_id,agent_username,topagent_id,topagent_username,user_name)
 			RETURNING id
 		)
 		SELECT id FROM playtransaction INTO transaction_id_temp;
@@ -115,4 +129,4 @@ $BODY$
 ;
 
 
-COMMENT ON FUNCTION "gamebox_activityhall_calculator"(activitymessage json, playerinfo json, applyresult json) IS '立即计算优惠';
+COMMENT ON FUNCTION "f_message_calculator"(activitymessage json, playerinfo json, applyresult json) IS '立即计算优惠';
