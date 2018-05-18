@@ -697,7 +697,8 @@ BEGIN
 	raise info '取得运营商各API占成';
 	SELECT gamebox_operations_occupy(url, sid, stTime, edTime, category, is_max, key_type, 'Y') into operation_occupy_map;
 
-	raise info '取得当前返佣梯度设置信息';
+	--raise info '取得当前返佣梯度设置信息';
+	raise info '取得当前API占成比率设置信息';
 	SELECT gamebox_occupy_api_set() into occupy_map;
 
 	raise info '占成.总表新增';
@@ -1553,7 +1554,8 @@ BEGIN
 		occupy_value = 0.00;
 		retio 		 = 0.00;
 
-		IF exist(occupy_grads_map, key_name) THEN
+		--IF exist(occupy_grads_map, key_name) THEN
+		IF isexists(occupy_grads_map, key_name) THEN
 			retio = (occupy_grads_map->key_name)::FLOAT;
 			--v1.02  2016/05/23  Leisure
 			--occupy_value = (profit_amount - operation_occupy_value) * retio / 100;
@@ -1694,9 +1696,13 @@ create or replace function gamebox_expense_calculate(
 	sys_map 	hstore,
 	category TEXT
 ) returns hstore as $$
-
+/*版本更新说明
+  版本   时间        作者     内容
+--v1.00  2015/01/01  Lins     创建此函数: 总代占成-分摊费用
+--v1.01  2017/03/29  Leisure  分摊费用改为全部由代理承担 by Shook
+*/
 DECLARE
-  	keys 		text[];
+	keys 		text[];
 	mhash 		hstore;
 	keyname 	text:='';
 	val 		text:='';
@@ -1706,15 +1712,14 @@ DECLARE
 	backwater_apportion 	float:=0.00;
 
 	favourable 				float:=0.00;	-- 优惠 = (优惠 + 推荐 + 手动存入优惠)
-  	--recommend 				float:=0.00;
-  	--artificial_depositfavorable		float:=0.00;	-- 手动存入优惠
+	--recommend 				float:=0.00;
+	--artificial_depositfavorable		float:=0.00;	-- 手动存入优惠
 	favourable_apportion 	float:=0.00;
 
-  	refund_fee 				float:=0.00;	-- 手续费
+	refund_fee 				float:=0.00;	-- 手续费
 	refund_fee_apportion 	float:=0.00;
 
-
-  	rebate 					float:=0.00;	-- 返佣
+	rebate 					float:=0.00;	-- 返佣
 	rebate_apportion 		float:=0.00;
 
 	apportion 				FLOAT:=0.00;	-- 总分摊费用
@@ -1734,18 +1739,18 @@ BEGIN
 	rs = sys_config->'row_split';
 	cs = sys_config->'col_split';
 
-	 IF cost_map is null THEN
+	IF cost_map is null THEN
 		RETURN cost_map;
-	 END IF;
-	 keys = akeys(cost_map);
-	 FOR i in 1..array_length(keys, 1)
-	 LOOP
+	END IF;
+	keys = akeys(cost_map);
+	FOR i in 1..array_length(keys, 1)
+	LOOP
 		keyname = keys[i];
 		val = cost_map->keyname;
 		tmp = val;
 		--转换成hstore数据格式:key1=>value1, key2=>value2
 		tmp = replace(tmp, rs,',');
-	    tmp = replace(tmp, cs,'=>');
+		tmp = replace(tmp, cs,'=>');
 		SELECT tmp into mhash;
 
 		backwater = 0.00;--返水
@@ -1762,7 +1767,9 @@ BEGIN
 		IF exist(mhash, 'refund_fee') THEN
 			refund_fee = (mhash->'refund_fee')::float;
 		END IF;
-		/* 优惠/推荐已全部归入favorable
+
+		/*
+		\* 优惠/推荐已全部归入favorable
 		recommend = 0.00;--推荐
 		IF exist(mhash, 'recommend') THEN
 			recommend = (mhash->'recommend')::float;
@@ -1772,7 +1779,7 @@ BEGIN
 		IF exist(mhash, 'artificial_depositfavorable') THEN
 			artificial_depositfavorable = (mhash->'artificial_depositfavorable')::float;
 		END IF;
-		*/
+		*\
 		rebate = 0.00;
 		IF exist(mhash, 'rebate') THEN
 			rebate=(mhash->'rebate')::float;
@@ -1786,17 +1793,17 @@ BEGIN
 		rebate 		= COALESCE(rebate, 0);
 
 		--计算各种优惠.
-		/*
+		\*
 			计算各种优惠.
 			1、返水承担费用=赠送给体系下玩家的返水 * 代理承担比例；
 			2、优惠承担费用=赠送给体系下玩家的优惠 * 代理承担比例；
 			3、返还手续费承担费用=返还给体系下玩家的手续费 * 代理承担比例；
-		*/
+		*\
 		--优惠与推荐分摊
 		retio2 = 0.00;
 		retio = 0.00;
 
-	  	IF isexists(sys_map, 'agent.preferential.percent') THEN
+		IF isexists(sys_map, 'agent.preferential.percent') THEN
 			retio2 = (sys_map->'agent.preferential.percent')::float;--代理分摊比例
 		END IF;
 
@@ -1822,7 +1829,7 @@ BEGIN
 		END IF;
 
 		IF isexists(sys_map, 'topagent.rakeback.percent') THEN
-		retio = (sys_map->'topagent.rakeback.percent')::float;
+			retio = (sys_map->'topagent.rakeback.percent')::float;
 		END IF;
 
 		IF category = 'OCCUPY' THEN
@@ -1861,6 +1868,13 @@ BEGIN
 			retio = (sys_map->'topagent.rebate.percent')::float;
 			rebate_apportion = rebate * retio / 100;
 		END IF;
+		*/
+
+		--v1.01  2017/03/29
+		rebate_apportion = rebate;
+		favourable_apportion = favourable;
+		backwater_apportion = backwater;
+		refund_fee_apportion = refund_fee;
 
 		apportion = favourable_apportion + backwater_apportion + refund_fee_apportion;
 
@@ -1870,9 +1884,9 @@ BEGIN
 		val = val||rs||'backwater_apportion'||cs||backwater_apportion;
 		val = val||rs||'refund_fee_apportion'||cs||refund_fee_apportion;
 		cost_map = cost_map||(SELECT (keyname||'=>'||val)::hstore);
-	 END LOOP;
+	END LOOP;
 
-   	RETURN cost_map;
+	RETURN cost_map;
 END;
 
 $$ language plpgsql;
@@ -2230,7 +2244,8 @@ BEGIN
 	raise info '取得运营商各API占成';
 	SELECT gamebox_operations_occupy(url, sid, stTime, edTime, category, is_max, key_type, 'Y') into operation_occupy_map;
 	*/--v1.01  2016/05/23  Leisure
-	raise info '取得当前返佣梯度设置信息';
+	--raise info '取得当前返佣梯度设置信息';
+	raise info '取得当前API占成比率设置信息';
   SELECT gamebox_occupy_api_set() into occupy_grads_map;
 
 	--raise info 'operation_occupy_map: %', operation_occupy_map;
