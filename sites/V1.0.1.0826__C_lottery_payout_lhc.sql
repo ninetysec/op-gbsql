@@ -1,4 +1,3 @@
--- auto gen by marz 2018-05-18 17:34:50
 CREATE OR REPLACE FUNCTION "lottery_payout_lhc"(lotteryresultjson text, lotteryparameter json)
   RETURNS "pg_catalog"."varchar" AS $BODY$
 /*版本更新说明
@@ -49,7 +48,7 @@ loop
     select resultJson::json->>'winning_num' into p_winning_num;
     IF p_winning_num='平局' THEN
 			IF p_bet_code = 'special_a' THEN
-				UPDATE lottery_bet_order  SET payout =bet_amount - bet_amount * rebate,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
+				UPDATE lottery_bet_order  SET payout =trunc(bet_amount-bet_amount*coalesce(rebate,0),2),payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 			ELSE
 				UPDATE lottery_bet_order  SET payout =bet_amount,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code;
 			END IF;
@@ -101,12 +100,17 @@ ELSEIF p_play_code = 'lhc_six_no_in' THEN
 ELSEIF p_play_code = 'lhc_five_no_in' THEN
       UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND array_length(string_to_array(bet_num, ',') ::INT[]  & string_to_array(p_winning_num, ',') :: INT[], 1) = 5;
     ELSE
-    UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND bet_num=p_winning_num;
+			IF p_bet_code = 'special_a' THEN
+				UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND bet_num=p_winning_num;
+			ELSE
+				UPDATE lottery_bet_order  SET payout =bet_amount*odd,payout_time = now(), status='2',effective_trade_amount=bet_amount WHERE expect=p_expect AND code=p_code AND status='1' AND play_code= p_play_code AND bet_code=p_bet_code AND bet_num=p_winning_num;
+			END IF;
     END IF;
   END loop;
 
 --中奖记录之外的投注派彩全部为0
-UPDATE lottery_bet_order  SET payout =0,payout_time = now(), status='2',effective_trade_amount=bet_amount where expect=p_expect AND code=p_code AND status='1' ;
+UPDATE lottery_bet_order  SET payout =0,payout_time = now(), status='2',effective_trade_amount=trunc(bet_amount-bet_amount*coalesce(rebate,0),2) where expect=p_expect AND code=p_code AND status='1' AND bet_code='special_a';
+UPDATE lottery_bet_order  SET payout =0,payout_time = now(), status='2',effective_trade_amount=bet_amount where expect=p_expect AND code=p_code AND status='1' AND bet_code <> 'special_a';
 
 return MSG_SUCCESS;
 END;
