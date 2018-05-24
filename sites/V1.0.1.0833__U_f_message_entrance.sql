@@ -47,7 +47,7 @@ BEGIN
     RETURN applyresult;
   END IF;
   --计算活动优惠
-  SELECT * FROM f_message_calculator(activitymessage, playerinfo, applyresult) INTO resultjson;
+  SELECT * FROM f_message_calculator(activitymessage, playerinfo, applyresult,terminaltype ) INTO resultjson;
   raise info '计算活动优惠的结果:%',resultjson;
   RETURN resultjson;
 END
