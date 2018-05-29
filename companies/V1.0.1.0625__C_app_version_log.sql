@@ -46,4 +46,3 @@ COMMENT ON COLUMN "app_version_log"."create_time" IS '更新时间';
 
 COMMENT ON COLUMN "app_version_log"."is_force" IS '是否强制升级';
 
-ALTER SEQUENCE app_version_log_id_seq MINVALUE 500;
