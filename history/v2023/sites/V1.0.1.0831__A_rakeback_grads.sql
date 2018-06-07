@@ -32,13 +32,14 @@ COMMENT ON VIEW "v_rebate_agent" IS '代理返佣younger';
 DROP VIEW IF EXISTS v_player_rank_statistics;
 DROP VIEW IF EXISTS v_pay_account;
 DROP VIEW IF EXISTS v_pay_rank;
-select redo_sqls($$
-	ALTER TABLE "player_rank" ALTER COLUMN "online_pay_min" TYPE int8;
-	ALTER TABLE "player_rank" ALTER COLUMN "online_pay_max" TYPE int8;
+drop view if exists vv_pay_account;
 
-	ALTER TABLE "pay_account" ALTER COLUMN "single_deposit_min" TYPE int8;
-	ALTER TABLE "pay_account" ALTER COLUMN "single_deposit_max" TYPE int8;
-$$);
+ALTER TABLE "player_rank" ALTER COLUMN "online_pay_min" TYPE int8;
+ALTER TABLE "player_rank" ALTER COLUMN "online_pay_max" TYPE int8;
+
+ALTER TABLE "pay_account" ALTER COLUMN "single_deposit_min" TYPE int8;
+ALTER TABLE "pay_account" ALTER COLUMN "single_deposit_max" TYPE int8;
+
 
 CREATE OR REPLACE VIEW "v_player_rank_statistics" AS
  SELECT pr.id,
@@ -222,3 +223,36 @@ CREATE OR REPLACE VIEW "v_agent_rebate_scheme" AS
              LEFT JOIN rebate_grads_api rga ON ((rg_1.id = rga.rebate_grads_id)))) api ON ((rg.id = api.rebate_grads_id)))
   ORDER BY rg.id, api.api_id, api.game_type;
 COMMENT ON VIEW "v_agent_rebate_scheme" IS '代理返佣方案视图 - Fly';
+
+
+CREATE OR REPLACE VIEW vv_pay_account AS
+ SELECT pay_account.id,
+    pay_account.pay_name,
+    pay_account.account,
+    pay_account.full_name,
+    pay_account.pay_key,
+    pay_account.status,
+    pay_account.create_time,
+    pay_account.create_user,
+    pay_account.type,
+    pay_account.account_type,
+    pay_account.bank_code,
+    pay_account.pay_url,
+    pay_account.code,
+    pay_account.deposit_count,
+    pay_account.deposit_total,
+    pay_account.deposit_default_count,
+    pay_account.deposit_default_total,
+    pay_account.effective_minutes,
+    pay_account.single_deposit_min,
+    pay_account.single_deposit_max,
+    pay_account.frozen_time,
+    md5(pay_account.channel_json) AS channel_json,
+    pay_account.full_rank,
+    pay_account.custom_bank_name,
+    pay_account.open_acount_name,
+    pay_account.qr_code_url,
+    pay_account.remark,
+    pay_account.terminal,
+    pay_account.disable_amount
+   FROM pay_account;
