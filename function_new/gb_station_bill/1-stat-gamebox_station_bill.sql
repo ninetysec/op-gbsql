@@ -9,10 +9,10 @@ create or replace function gamebox_station_bill(
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 账务(站长、总代)-入口
---v1.01  2016/06/04  Leisure  取dict_map之前，先同步site_info表,
+--v1.01  2016/06/04  Laser    取dict_map之前，先同步site_info表,
                               如果账务日期不为1号，则取1号日期
---v1.10  2017/07/05  Leisure  改变sys_site_info同步方式
---v1.11  2017/07/10  Leisure  修改DBLINK连接方式，回收SU
+--v1.10  2017/07/05  Laser    改变sys_site_info同步方式
+--v1.11  2017/07/10  Laser    修改DBLINK连接方式，回收SU
 */
 DECLARE
   rec     record;
@@ -47,7 +47,7 @@ BEGIN
   END IF;
 
   perform dblink_disconnect_all();
-  --v1.11  2017/07/10  Leisure
+  --v1.11  2017/07/10  Laser
   perform dblink_connect_u('master',  master_url);
 
   SELECT  * FROM dblink(
@@ -58,12 +58,12 @@ BEGIN
 
   sid = (sys_map->'site_id')::INT;
 
-  --v1.01  2016/06/04  Leisure
-  --v1.10  2017/07/05  Leisure
+  --v1.01  2016/06/04  Laser
+  --v1.10  2017/07/05  Laser
   --perform gamebox_collect_site_infor(main_url);
   SELECT gamebox_site_map(sid) INTO dict_map;
 
-  --v1.01  2016/06/04  Leisure
+  --v1.01  2016/06/04  Laser
   date_time = start_time::TIMESTAMP;
   IF extract(day FROM date_time) <> '1' THEN
     date_time = date_time + '1 day';

@@ -2,15 +2,15 @@ DROP FUNCTION IF EXISTS gamebox_operations_statement(text,int,text,text,text);
 CREATE OR REPLACE FUNCTION gamebox_operations_statement(
   mainhost   text,
   sid     int,
-  curday   text, --v1.01  2016/05/31  Leisure
+  curday   text, --v1.01  2016/05/31  Laser  
   start_time   text,
   end_time   text
 ) RETURNS TEXT AS $$
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 经营报表-入口
---v1.01  2016/05/31  Leisure  统计日期由current_date，改为参数获取
---v1.02  2016/07/08  Leisure  优化输出日志
+--v1.01  2016/05/31  Laser    统计日期由current_date，改为参数获取
+--v1.02  2016/07/08  Laser    优化输出日志
 */
 DECLARE
   --curday   TEXT;
@@ -21,7 +21,7 @@ DECLARE
   vname   text:='vp_site_game';
   cnum   int:=0;
 BEGIN
-  --v1.01  2016/05/31  Leisure
+  --v1.01  2016/05/31  Laser  
   --设置当前日期.
   --SELECT CURRENT_DATE::TEXT into curday;
 
@@ -50,12 +50,12 @@ BEGIN
   --统一执行代理以上的经营报表
   --执行代理经营报表
   rtn = rtn||chr(13)||chr(10)||'        ┣2.正在执行代理经营报表';
-  --SELECT gamebox_operations_agent(curday, rec) into tmp; --v1.01  2016/05/31  Leisure
+  --SELECT gamebox_operations_agent(curday, rec) into tmp; --v1.01  2016/05/31  Laser  
   SELECT gamebox_operations_agent(start_time, end_time, curday, rec) into tmp;
   rtn = rtn||'||'||tmp;
   --执行总代经营报表
   rtn = rtn||chr(13)||chr(10)||'        ┣3.正在执行总代经营报表';
-  --SELECT gamebox_operations_topagent(curday, rec) into tmp; --v1.01  2016/05/31  Leisure
+  --SELECT gamebox_operations_topagent(curday, rec) into tmp; --v1.01  2016/05/31  Laser  
   SELECT gamebox_operations_topagent(start_time, end_time, curday, rec) into tmp;
   rtn = rtn||'||'||tmp;
 

@@ -8,10 +8,10 @@ create or replace function gamebox_operations_topagent(
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 经营报表-总代报表
---v1.01  2016/05/31  Leisure  统计日期由current_date，改为参数获取;
+--v1.01  2016/05/31  Laser    统计日期由current_date，改为参数获取;
                               经营报表增加字段static_date统计日期
---v1.02  2016/07/08  Leisure  优化输出日志
---v1.03  2016/09/18  Leisure  增加彩金字段统计
+--v1.02  2016/07/08  Laser    优化输出日志
+--v1.03  2016/09/18  Laser    增加彩金字段统计
 */
 DECLARE
   rtn     text:='';
@@ -24,7 +24,7 @@ DECLARE
   c_name     TEXT:='';
   d_static_date DATE; --v1.01  2016/05/31
 BEGIN
-  --v1.01  2016/05/31  Leisure
+  --v1.01  2016/05/31  Laser  
   d_static_date := to_date(curday, 'YYYY-MM-DD');
   --清除当天的统计信息，保证每天只作一次统计信息
   rtn = rtn||'|清除当天的统计信息，保证每天只作一次统计信息||';
@@ -47,7 +47,7 @@ BEGIN
     center_id, center_name, master_id, master_name,
     site_id, site_name, topagent_id, topagent_name,
     api_id, api_type_id, game_type,
-    --static_time, create_time, --v1.01  2016/05/31  Leisure
+    --static_time, create_time, --v1.01  2016/05/31  Laser  
     static_date, static_time, static_time_end, create_time,
     player_num, transaction_order, transaction_volume, effective_transaction,
     profit_loss, winning_amount, contribution_amount
@@ -55,7 +55,7 @@ BEGIN
       c_id, c_name, m_id, m_name,
       s_id, s_name, topagent_id, topagent_name,
       api_id, api_type_id, game_type,
-      --now(), now(), --v1.01  2016/05/31  Leisure
+      --now(), now(), --v1.01  2016/05/31  Laser  
       d_static_date, start_time::TIMESTAMP, end_time::TIMESTAMP, now(),
       SUM (player_num)                as player_num,
       COALESCE(SUM (transaction_order), 0)       as transaction_order,
@@ -66,7 +66,7 @@ BEGIN
       COALESCE(SUM(contribution_amount), 0.00) as contribution_amount
     FROM operate_agent
    --WHERE to_char(static_time,  'YYYY-MM-dd') = curday
-   WHERE static_date = d_static_date --v1.01  2016/05/31  Leisure
+   WHERE static_date = d_static_date --v1.01  2016/05/31  Laser  
    GROUP BY topagent_id, topagent_name, api_id, api_type_id, game_type;
 
   GET DIAGNOSTICS v_COUNT = ROW_COUNT;

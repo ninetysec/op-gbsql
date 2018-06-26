@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION gamebox_site_map(
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 收集站点相关信息
---v1.01  2017/08/01  Leisure  TRUNCATE改为DELETE
+--v1.01  2017/08/01  Laser    TRUNCATE改为DELETE
 */
 DECLARE
   rec     record;

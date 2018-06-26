@@ -11,7 +11,7 @@ CREATE OR REPLACE FUNCTION gb_task_infomation_site(
 ) RETURNS INT as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/06/17  Leisure   创建此函数: 任务信息日志-站点
+--v1.00  2017/06/17  Laser     创建此函数: 任务信息日志-站点
 
   返回值说明：0成功，1警告，2错误
 */
@@ -56,4 +56,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_task_infomation_site( p_site_id INT, p_task_type TEXT, p_task_name TEXT,	p_task_period TEXT, p_task_status TEXT, p_start_time TEXT, p_end_time TEXT, p_remark TEXT)
-IS 'Leisure-任务信息日志-站点';
+IS 'Laser-任务信息日志-站点';

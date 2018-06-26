@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION gb_topagent_occupy_gather(
 --费用类型(以player_transaction为准): backwater, favorable, recommend, refund_fee, rebate 佣金, poundage 存取款手续费
 DECLARE
 
-  --v1.01  2017/08/21  Leisure
+  --v1.01  2017/08/21  Laser  
   h_apportion_setting hstore;
   --n_refund_fee_ratio FLOAT := 0.00;
   n_favorable_ratio FLOAT := 0.00;
@@ -23,7 +23,7 @@ DECLARE
 
 BEGIN
 
-  --v1.01  2017/08/21  Leisure
+  --v1.01  2017/08/21  Laser  
   SELECT gamebox_sys_param('apportionSetting') INTO h_apportion_setting;
 
   --n_refund_fee_ratio = h_apportion_setting->'topagent.poundage.percent';
@@ -34,7 +34,7 @@ BEGIN
   v_period = to_char( to_date( p_occupy_year::TEXT||'-'||p_occupy_month::TEXT, 'YYYY-MM'), 'YYYY-MM');
 
   --插入总代API占成表
-  --v1.01  2017/08/21  Leisure
+  --v1.01  2017/08/21  Laser  
   INSERT INTO topagent_occupy ( occupy_bill_no, occupy_year, occupy_month, topagent_id, topagent_name, profit_amount, operation_occupy, topagent_occupy,
       favorable, favorable_ratio, rakeback, rakeback_ratio, rebate, rebate_ratio, apportion_value)
   SELECT p_occupy_bill_no, p_occupy_year, p_occupy_month, ut.topagent_id, ut.topagent_name,
@@ -71,7 +71,7 @@ BEGIN
      GROUP BY topagent_id
   ) toi
   ON ut.topagent_id = toi.topagent_id
-  --v1.01  2017/08/21  Leisure
+  --v1.01  2017/08/21  Laser  
   LEFT JOIN
   (
     SELECT su.owner_id                           AS topagent_id,
@@ -88,7 +88,7 @@ BEGIN
   ON ut.topagent_id = ar.topagent_id
    WHERE (toi.topagent_id IS NOT NULL OR ar.topagent_id IS NOT NULL)
   ;
-  /*--v1.01  2017/08/21  Leisure
+  /*--v1.01  2017/08/21  Laser  
   LEFT JOIN
   (
     SELECT topagent_id,
@@ -112,4 +112,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_topagent_occupy_gather( p_occupy_bill_no TEXT, p_occupy_year INT, p_occupy_month INT)
-IS 'Leisure-总代占成账单-总代汇总';
+IS 'Laser-总代占成账单-总代汇总';

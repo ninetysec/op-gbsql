@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION gb_rebate_player_fee(
 ) RETURNS VOID AS $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/07/31  Leisure  创建此函数: 返佣结算账单.玩家费用
+--v1.00  2017/07/31  Laser    创建此函数: 返佣结算账单.玩家费用
 
 */
 DECLARE
@@ -185,4 +185,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_rebate_player_fee( p_bill_id INT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_settle_flag TEXT)
-IS 'Leisure-返佣结算账单.玩家费用';
+IS 'Laser-返佣结算账单.玩家费用';

@@ -76,4 +76,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_topagent_occupy_api( p_occupy_bill_no TEXT, p_occupy_year INT, p_occupy_month INT, p_net_maps hstore[])
-IS 'Leisure-总代占成账单-API占成';
+IS 'Laser-总代占成账单-API占成';

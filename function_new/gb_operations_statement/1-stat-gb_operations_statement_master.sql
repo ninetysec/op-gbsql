@@ -12,9 +12,9 @@ create or replace function gb_operations_statement_master(
 ) returns text as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/02/23  Leisure  创建此函数: 经营报表-入口
---v1.10  2017/06/29  Leisure  改变sys_site_info同步方式
---v1.20  2017/08/01  Leisure  不再搜集站长，运营商报表
+--v1.00  2017/02/23  Laser    创建此函数: 经营报表-入口
+--v1.10  2017/06/29  Laser    改变sys_site_info同步方式
+--v1.20  2017/08/01  Laser    不再搜集站长，运营商报表
 */
 DECLARE
   v_site_urls     varchar[];
@@ -42,7 +42,7 @@ BEGIN
 
   --关闭所有链接.
   perform dblink_disconnect_all();
-  --v1.10  2017/06/29  Leisure
+  --v1.10  2017/06/29  Laser  
   --收集当前所有运营站点相关信息.
   --perform gamebox_collect_site_infor(p_comp_url);
 
@@ -78,12 +78,12 @@ BEGIN
         rtn = rtn || tmp;
       END LOOP;
 
-      --v1.20  2017/08/01  Leisure
+      --v1.20  2017/08/01  Laser  
       --rtn = rtn||chr(13)||chr(10)||' ┣2.开始执行站长经营报表  ';
       --SELECT gamebox_operation_master(p_master_id, v_static_date) into tmp;
       --rtn = rtn||'||'||tmp;
 
-      --v1.20  2017/08/01  Leisure
+      --v1.20  2017/08/01  Laser  
       --rtn = rtn||chr(13)||chr(10)||' ┗3.开始执行运营商经营报表';
       --SELECT gamebox_operation_company(n_center_id::TEXT, v_static_date) into tmp;
       --rtn = rtn||'||'||tmp||chr(13)||chr(10);
@@ -99,4 +99,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_operations_statement_master(p_comp_url text, p_master_id text, p_static_date  text, p_site_urls text, p_start_times text, p_end_times text, p_siteids text, p_splitchar text, p_stat_days  int)
-IS 'Leisure-经营报表-入口';
+IS 'Laser-经营报表-入口';

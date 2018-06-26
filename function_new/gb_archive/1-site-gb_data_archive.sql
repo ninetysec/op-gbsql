@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS gb_data_archive(TEXT, TEXT, TEXT, TEXT, TIMESTAMP, TIMESTAMP, INT);
+DROP FUNCTION IF EXISTS gb_data_archive( TEXT, TEXT, TEXT, TEXT, TIMESTAMP, TIMESTAMP, INT);
 CREATE OR REPLACE FUNCTION gb_data_archive(
   p_table_names    TEXT,
   p_time_column    TEXT,
@@ -11,16 +11,18 @@ CREATE OR REPLACE FUNCTION gb_data_archive(
 /*版本更新说明
   版本   时间        作者    内容
 --v1.00  2017/11/21  Laser   创建此函数:数据归档-通用
+--v1.01  2018/06/01  Laser   增加v_condition初始化
 */
 DECLARE
 
   d_archive_month DATE;
   v_target_name    VARCHAR;
   arr_table_name  VARCHAR[];
-  v_condition  TEXT;
+  v_condition  TEXT := ''; --v1.01  2018/06/01  Laser
   v_source_name VARCHAR;
   n_rel_count   INT;
   n_count  INT;
+  v_sql TEXT;
 
 BEGIN
 
@@ -55,16 +57,18 @@ BEGIN
        AND pg_catalog.pg_table_is_visible(c.oid);
 
     IF n_rel_count = 0 THEN
-      EXECUTE 'CREATE TABLE ' || v_target_name || ' ( LIKE '|| v_source_name || ' INCLUDING COMMENTS )';
+      v_sql = 'CREATE TABLE ' || v_target_name || ' ( LIKE '|| v_source_name || ' INCLUDING COMMENTS )';
+      EXECUTE v_sql;
     END IF;
 
-    EXECUTE 'WITH t AS ' ||
+    v_sql = 'WITH t AS ' ||
             '( DELETE FROM ' || v_source_name || ' pgo '||
             '   WHERE '|| p_time_column ||' >= ''' || p_start_time::TEXT || '''' ||
             '     AND '|| p_time_column ||' < ''' || p_end_time::TEXT || ''' ' ||
             v_condition ||
             '   RETURNING * ) ' ||
             'INSERT INTO ' || v_target_name || ' SELECT * FROM t';
+    EXECUTE v_sql;
 
     GET DIAGNOSTICS n_count = ROW_COUNT;
     RAISE NOTICE '% 本次归档记录数 %', v_target_name, n_count;
@@ -84,5 +88,5 @@ BEGIN
 END;
 
 $$ language plpgsql;
-COMMENT ON FUNCTION gb_data_archive(p_table_names TEXT, p_time_column TEXT, p_condition TEXT, d_archive_month TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_limit_days INT)
+COMMENT ON FUNCTION gb_data_archive( p_table_names TEXT, p_time_column TEXT, p_condition TEXT, d_archive_month TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_limit_days INT)
 IS 'Laser-数据归档-通用';

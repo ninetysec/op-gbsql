@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION gb_rakeback_task(
 ) RETURNS INT as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/06/17  Leisure   创建此函数: 返水结算账单.入口(调度)
+--v1.00  2017/06/17  Laser     创建此函数: 返水结算账单.入口(调度)
 
   返回值说明：0成功，1警告，2错误
 */
@@ -74,4 +74,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_rakeback_task( p_comp_url  TEXT, p_period TEXT, p_start_time TEXT, p_end_time TEXT, p_settle_flag TEXT)
-IS 'Leisure-返水结算账单.入口(调度)';
+IS 'Laser-返水结算账单.入口(调度)';

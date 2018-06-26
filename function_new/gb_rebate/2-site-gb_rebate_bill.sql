@@ -10,8 +10,8 @@ CREATE OR REPLACE FUNCTION gb_rebate_bill(
 RETURNS INT as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2016/10/08  Leisure   创建此函数: 返佣结算账单-入口（新）
---v1.00  2017/07/31  Leisure   增加多级代理返佣支持
+--v1.00  2016/10/08  Laser     创建此函数: 返佣结算账单-入口（新）
+--v1.00  2017/07/31  Laser     增加多级代理返佣支持
 
 */
 DECLARE
@@ -110,4 +110,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_rebate_bill( p_bill_id INT, p_period TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_operation TEXT, p_flag TEXT)
-IS 'Leisure-返佣结算账单.返佣主表';
+IS 'Laser-返佣结算账单.返佣主表';
