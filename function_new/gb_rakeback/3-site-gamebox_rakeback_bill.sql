@@ -10,9 +10,9 @@ create or replace function gamebox_rakeback_bill (
 /*版本更新说明
   版本   时间        作者     内容
 --v1.00  2015/01/01  Lins     创建此函数: 返水-返水周期主表
---v1.01  2016/05/30  Leisure  改为returning，防止并发
---v1.02  2017/01/18  Leisure  没有返水玩家，依然保留返水总表记录
---v1.10  2017/07/01  Leisure  增加pending_lssuing字段，以支持返水重结
+--v1.01  2016/05/30  Laser    改为returning，防止并发
+--v1.02  2017/01/18  Laser    没有返水玩家，依然保留返水总表记录
+--v1.10  2017/07/01  Laser    增加pending_lssuing字段，以支持返水重结
 */
 DECLARE
   pending_lssuing text:='pending_lssuing';
@@ -37,8 +37,8 @@ BEGIN
          now(), pending_pay
       ) returning id into bill_id;
 
-      --改为returning，防止并发 Leisure 20160530
-      --SELECT currval(pg_get_serial_sequence('rakeback_bill',  'id')) into bill_id; --v1.01  2016/05/30  Leisure
+      --改为returning，防止并发 Laser   20160530
+      --SELECT currval(pg_get_serial_sequence('rakeback_bill',  'id')) into bill_id; --v1.01  2016/05/30  Laser  
 
     ELSE
       SELECT COUNT(1) FROM rakeback_player WHERE rakeback_bill_id = bill_id INTO rp_count;
@@ -51,7 +51,7 @@ BEGIN
            WHERE rakeback_bill_id = bill_id
            GROUP BY rakeback_bill_id
         LOOP
-          --v1.10  2017/07/01  Leisure
+          --v1.10  2017/07/01  Laser  
           UPDATE rakeback_bill SET player_count = rec.cl, rakeback_total = rec.sl, rakeback_pending = rec.sl WHERE id = bill_id;
         END LOOP;
       --ELSE
@@ -69,7 +69,7 @@ BEGIN
          start_time, end_time, 0, 0, now()
       ) returning id into bill_id;
 
-      --改为returning，防止并发 Leisure 20160530
+      --改为returning，防止并发 Laser   20160530
       --SELECT currval(pg_get_serial_sequence('rakeback_bill_nosettled', 'id')) into bill_id;
     ELSE
       SELECT COUNT(1) FROM rakeback_player_nosettled WHERE rakeback_bill_nosettled_id = bill_id INTO rp_count;
@@ -83,7 +83,7 @@ BEGIN
            WHERE rakeback_bill_nosettled_id = bill_id
            GROUP BY rakeback_bill_nosettled_id
         LOOP
-          --v1.10  2017/07/01  Leisure
+          --v1.10  2017/07/01  Laser  
           UPDATE rakeback_bill_nosettled SET player_count = rec.cl, rakeback_total = rec.sl WHERE id = bill_id;
         END LOOP;
         DELETE FROM rakeback_bill_nosettled WHERE id <> bill_id;

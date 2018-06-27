@@ -38,7 +38,7 @@ BEGIN
     RAISE EXCEPTION '-1, 站点库URL为空';
   END IF;
 
-  --v1.01  2017/07/22  Leisure
+  --v1.01  2017/07/22  Laser
   -- 删除重复运行记录.
   DELETE FROM station_bill_other WHERE station_bill_id IN (SELECT id FROM station_bill WHERE site_id = p_site_id AND bill_year = p_occupy_year AND bill_month = p_occupy_month AND bill_type = '2');
   DELETE FROM station_profit_loss WHERE station_bill_id IN (SELECT id FROM station_bill WHERE site_id = p_site_id AND bill_year = p_occupy_year AND bill_month = p_occupy_month AND bill_type = '2');
@@ -61,7 +61,7 @@ BEGIN
   --h_station_bill = h_station_bill || ('year=>'||p_occupy_year)::hstore||('month=>'||p_occupy_month)::hstore;
 
   perform dblink_disconnect_all();
-  --v1.11  2017/07/10  Leisure
+  --v1.11  2017/07/10  Laser
   perform dblink_connect_u('master',  p_site_url);
   --总代账单流水号
   SELECT gamebox_generate_order_no('B', p_site_id::TEXT, '04', 'master') INTO n_occupy_bill_no;
@@ -116,4 +116,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_topagent_occupy_bill( p_comp_url TEXT, p_site_url TEXT, p_site_id INT, p_occupy_year INT, p_occupy_month INT)
-IS 'Leisure-总代占成账单-入口';
+IS 'Laser-总代占成账单-入口';

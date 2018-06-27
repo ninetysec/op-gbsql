@@ -6,10 +6,11 @@ CREATE OR REPLACE FUNCTION gb_rakeback_api(
   p_end_time   TIMESTAMP
 ) returns void as $$
 /*版本更新说明
-  版本   时间        作者     内容
---v1.00  2017/01/15  Leisure  创建此函数: 返水结算账单.玩家API返水.NEW
---v1.01  2017/01/22  Leisure  针对1万个玩家以上返水较慢问题，重写此过程以优化性能。
+  版本   时间        作者   内容
+--v1.00  2017/01/15  Laser  创建此函数: 返水结算账单.玩家API返水.NEW
+--v1.01  2017/01/22  Laser  针对1万个玩家以上返水较慢问题，重写此过程以优化性能。
                               变化和影响: 新版要求每个玩家必须设置返水方案
+--v1.02  2018/01/08  Laser  记录投注大于0，但是没有产生返水的记录，便于排查
 */
 DECLARE
 
@@ -20,7 +21,8 @@ BEGIN
   IF p_settle_flag = 'Y' THEN
 
     WITH
-    p_grad AS (
+    p_grad AS --返水梯度
+    (
       SELECT su."id"                   as player_id,
              su.username               as player_name,
              up.rakeback_id            as rakeback_id,
@@ -35,18 +37,18 @@ BEGIN
              rg.id rakeback_grads_id,
              rg.max_rakeback
         FROM
-      (
-        SELECT player_id,
-               COALESCE( SUM(pg.effective_trade_amount), 0.00) as effective_transaction,
-               COALESCE( SUM(pg.profit_amount), 0.00) as profit_amount
-            FROM player_game_order pg
-         WHERE pg.order_state = 'settle'
-           --AND pgo.is_profit_loss = TRUE
-           AND pg.payout_time >= p_start_time
-           AND pg.payout_time < p_end_time
-         GROUP BY player_id
-        --HAVING SUM(pg.effective_trade_amount) > 100
-      ) pgo
+        (
+          SELECT player_id,
+                 COALESCE( SUM(pg.effective_trade_amount), 0.00) as effective_transaction,
+                 COALESCE( SUM(pg.profit_amount), 0.00) as profit_amount
+              FROM player_game_order pg
+           WHERE pg.order_state = 'settle'
+             --AND pgo.is_profit_loss = TRUE
+             AND pg.payout_time >= p_start_time
+             AND pg.payout_time < p_end_time
+           GROUP BY player_id
+          --HAVING SUM(pg.effective_trade_amount) > 100
+        ) pgo
           LEFT JOIN user_player up ON pgo.player_id = up."id"
           LEFT JOIN sys_user su ON up.id = su."id"  AND su.user_type = '24'
           --LEFT JOIN sys_user ua ON su.owner_id = ua.id AND ua.user_type = '23'
@@ -62,7 +64,8 @@ BEGIN
        WHERE rg.id IS NOT NULL
        ORDER BY effective_transaction DESC, su."id"
     ),
-    pag AS (
+    pag AS --注单信息
+    (
       SELECT pgo.player_id,
              pgo.api_id,
              pgo.game_type,
@@ -80,7 +83,7 @@ BEGIN
          --AND su."id" = n_player_id
        GROUP BY pgo.player_id, pgo.api_id, pgo.game_type
     ),
-    ra AS
+    ra AS --玩家返水
     (
       SELECT
           pag.player_id,
@@ -102,7 +105,7 @@ BEGIN
                                                   AND api_id = pag.api_id
                                                   AND game_type = pag.game_type
                                                 LIMIT 1)
-       WHERE ratio > 0
+       --WHERE ratio > 0 --v1.01  2018/01/08  Laser
        ORDER BY pag.effective_transaction DESC
      )
      INSERT INTO rakeback_api ( rakeback_bill_id, player_id, api_id, game_type, rakeback, effective_transaction,
@@ -129,18 +132,18 @@ BEGIN
              rg.id rakeback_grads_id,
              rg.max_rakeback
         FROM
-      (
-        SELECT player_id,
-               COALESCE( SUM(pg.effective_trade_amount), 0.00) as effective_transaction,
-               COALESCE( SUM(pg.profit_amount), 0.00) as profit_amount
-            FROM player_game_order pg
-         WHERE pg.order_state = 'settle'
-           --AND pgo.is_profit_loss = TRUE
-           AND pg.payout_time >= p_start_time
-           AND pg.payout_time < p_end_time
-         GROUP BY player_id
-        --HAVING SUM(pg.effective_trade_amount) > 100
-      ) pgo
+        (
+          SELECT player_id,
+                 COALESCE( SUM(pg.effective_trade_amount), 0.00) as effective_transaction,
+                 COALESCE( SUM(pg.profit_amount), 0.00) as profit_amount
+              FROM player_game_order pg
+           WHERE pg.order_state = 'settle'
+             --AND pgo.is_profit_loss = TRUE
+             AND pg.payout_time >= p_start_time
+             AND pg.payout_time < p_end_time
+           GROUP BY player_id
+          --HAVING SUM(pg.effective_trade_amount) > 100
+        ) pgo
           LEFT JOIN user_player up ON pgo.player_id = up."id"
           LEFT JOIN sys_user su ON up.id = su."id"  AND su.user_type = '24'
           --LEFT JOIN sys_user ua ON su.owner_id = ua.id AND ua.user_type = '23'
@@ -196,7 +199,7 @@ BEGIN
                                                   AND api_id = pag.api_id
                                                   AND game_type = pag.game_type
                                                 LIMIT 1)
-       WHERE ratio > 0
+       --WHERE ratio > 0 --v1.01  2018/01/08  Laser
        ORDER BY pag.effective_transaction DESC
      )
      INSERT INTO rakeback_api_nosettled ( rakeback_bill_nosettled_id, player_id, api_id, game_type, rakeback, effective_transaction,
@@ -213,4 +216,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_rakeback_api(p_bill_id INT, p_settle_flag TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP)
-IS 'Leisure-返水结算账单.玩家API返水.NEW';
+IS 'Laser-返水结算账单.玩家API返水.NEW';

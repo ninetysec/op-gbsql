@@ -35,7 +35,7 @@ BEGIN
   DELETE FROM topagent_occupy_api WHERE occupy_year = p_occupy_year AND occupy_month = p_occupy_month;
 
   --判断返佣账单是否已生成
-  --v1.02  2017/08/21  Leisure
+  --v1.02  2017/08/21  Laser  
   /*
   SELECT count(*)
     INTO n_count_rebate
@@ -78,4 +78,4 @@ END;
 
 $$ language plpgsql;
 COMMENT ON FUNCTION gb_topagent_occupy( p_comp_url TEXT, p_occupy_bill_no TEXT, p_occupy_year INT, p_occupy_month INT)
-IS 'Leisure-总代占成账单-站点入口(外调)';
+IS 'Laser-总代占成账单-站点入口(外调)';

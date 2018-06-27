@@ -19,4 +19,4 @@ END;
 
 $$ LANGUAGE plpgsql;
 COMMENT ON FUNCTION dblink_disconnect_all()
-IS 'Leisure-断开所有dblink连接';
+IS 'Laser-断开所有dblink连接';

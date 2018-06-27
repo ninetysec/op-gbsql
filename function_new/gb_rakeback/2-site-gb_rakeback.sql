@@ -7,8 +7,8 @@ create or replace function gb_rakeback(
 ) returns void as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/01/15  Leisure  创建此函数: 返水结算账单.入口
---v1.01  2017/07/24  Leisure  修改判断账单是否已生成的逻辑
+--v1.00  2017/01/15  Laser    创建此函数: 返水结算账单.入口
+--v1.01  2017/07/24  Laser    修改判断账单是否已生成的逻辑
 */
 DECLARE
 
@@ -36,7 +36,7 @@ BEGIN
     SELECT COUNT("id")
       INTO n_bill_count
       FROM rakeback_bill rb
-      --v1.01  2017/07/24  Leisure
+      --v1.01  2017/07/24  Laser  
      --WHERE rb.period = p_period
        --AND rb."start_time" = t_start_time
        --AND rb."end_time" = t_end_time
@@ -45,7 +45,7 @@ BEGIN
        AND rb.lssuing_state <> 'pending_pay';
 
     IF n_bill_count = 0 THEN
-      --v1.01  2017/07/24  Leisure
+      --v1.01  2017/07/24  Laser  
       --DELETE FROM rakeback_api ra WHERE ra.rakeback_bill_id IN (SELECT "id" FROM rakeback_bill WHERE period = p_period AND "start_time" = t_start_time AND "end_time" = t_end_time);
       --DELETE FROM rakeback_player rp WHERE rp.rakeback_bill_id IN (SELECT "id" FROM rakeback_bill WHERE period = p_period AND "start_time" = t_start_time AND "end_time" = t_end_time);
       --DELETE FROM rakeback_bill rb WHERE "id" IN (SELECT "id" FROM rakeback_bill WHERE period = p_period AND "start_time" = t_start_time AND "end_time" = t_end_time);
@@ -82,4 +82,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_rakeback(p_period TEXT, p_start_time TEXT, p_end_time TEXT, p_settle_flag TEXT)
-IS 'Leisure-返水结算账单.入口';
+IS 'Laser-返水结算账单.入口';

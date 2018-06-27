@@ -5,8 +5,8 @@ create or replace function gb_rakeback_player(
 ) returns void as $$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2017/01/18  Leisure  创建此函数: 返水.玩家返水
---v1.10  2017/07/01  Leisure  增加pending_lssuing字段，以支持返水重结
+--v1.00  2017/01/18  Laser    创建此函数: 返水.玩家返水
+--v1.10  2017/07/01  Laser    增加pending_lssuing字段，以支持返水重结
 */
 DECLARE
 
@@ -63,4 +63,4 @@ END;
 $$ language plpgsql;
 
 COMMENT ON FUNCTION gb_rakeback_player(p_bill_id INT, p_settle_flag TEXT)
-IS 'Leisure-返水.玩家返水';
+IS 'Laser-返水.玩家返水';
