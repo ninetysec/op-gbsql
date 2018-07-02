@@ -179,9 +179,9 @@ INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_
 
 INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_id, maintain_start_time, maintain_end_time, support_terminal, can_try) select '430018','43','Fish','1','','normal','43009','2',NULL,NULL,'2',NULL where not exists (select id from game where id=430018);
 
-INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_id, maintain_start_time, maintain_end_time, support_terminal, can_try) select '430019','43','Casino','1','','normal','43010','2',NULL,NULL,'1',NULL where not exists (select id from game where id=430019);
+INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_id, maintain_start_time, maintain_end_time, support_terminal, can_try) select '430019','43','Chess','1','','normal','43010','2',NULL,NULL,'1',NULL where not exists (select id from game where id=430019);
 
-INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_id, maintain_start_time, maintain_end_time, support_terminal, can_try) select '430020','43','Casino','1','','normal','43010','2',NULL,NULL,'2',NULL where not exists (select id from game where id=430020);
+INSERT INTO game (id, api_id, game_type, order_num, url, status, code, api_type_id, maintain_start_time, maintain_end_time, support_terminal, can_try) select '430020','43','Chess','1','','normal','43010','2',NULL,NULL,'2',NULL where not exists (select id from game where id=430020);
 
 
 
