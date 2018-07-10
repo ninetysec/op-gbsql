@@ -218,7 +218,6 @@ BEGIN
   GET DIAGNOSTICS n_count_player = ROW_COUNT;
   raise notice 'analyze_player新增统计记录数 %', n_count_player;
 
-
   raise info 'analyze_agent 清除 % 号统计数据...', p_stat_date;
   DELETE FROM analyze_agent WHERE static_date = p_stat_date;
   GET DIAGNOSTICS n_count = ROW_COUNT;
