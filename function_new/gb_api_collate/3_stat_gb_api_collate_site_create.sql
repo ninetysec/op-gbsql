@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION gb_api_collate_site_create(
   版本   时间        作者     内容
 --v1.00  2018/01/19  Laser    创建此函数: API注单核对-站点报表
 --v1.01  2018/01/19  Laser    增加时间分组条件，删除无用参数start_time、end_time
---v1.02  2018/02/28  Laser   增加currency字段
+--v1.02  2018/02/28  Laser    增加currency字段
 */
 DECLARE
   rtn   text:='';
@@ -78,4 +78,4 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION gb_api_collate_site_create( p_conn TEXT, p_siteid TEXT, p_curday TEXT)
-IS 'Lins-经营报表-站点报表';
+IS 'Laser-API核对报表-站点报表';
