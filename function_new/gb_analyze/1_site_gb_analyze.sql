@@ -42,6 +42,76 @@ BEGIN
       LEFT JOIN  sys_user ut ON ut.user_type= '22' AND ua.owner_id = ut."id"
      WHERE su.user_type = '24'
   ),
+
+  pr AS (
+          --存款
+           SELECT player_id,
+                  --'deposit' AS transaction_type,
+                  COUNT(id) deposit_count,
+                  SUM(recharge_amount) deposit_amount
+             FROM player_recharge
+            WHERE recharge_status IN ('2', '5')
+              AND create_time >= p_start_time AND create_time < p_end_time
+            GROUP BY player_id
+  ),
+
+  pw AS (
+           --取款
+           SELECT player_id,
+                  --'withdrawal' AS transaction_type,
+                  COUNT(id) withdraw_count,
+                  --v1.03  2017/10/17  Laser --SUM(withdraw_actual_amount)
+                  SUM(withdraw_amount) withdraw_amount
+             FROM player_withdraw
+            WHERE withdraw_type IN ('manual_deposit', 'first', 'normal')
+              AND withdraw_status = '4'
+              AND create_time >= p_start_time AND create_time < p_end_time
+            GROUP BY player_id
+  ),
+
+  pgo AS (
+    SELECT player_id,
+           COUNT(id) transaction_order,
+           SUM(single_amount) transaction_volume,
+           SUM(effective_trade_amount) effective_amount,
+           SUM(profit_amount) payout_amount
+      FROM player_game_order
+     WHERE order_state = 'settle'
+       --v1.02  2017/01/19  Laser
+       --AND is_profit_loss = TRUE
+       AND payout_time >= p_start_time
+       AND payout_time < p_end_time
+     GROUP BY player_id
+  )
+
+  INSERT INTO analyze_player (
+      player_id,
+      user_name,
+      agent_id,
+      agent_name,
+      topagent_id,
+      topagent_name,
+      promote_link,
+      is_new_player,
+      deposit_amount,
+      deposit_count,
+      withdraw_amount,
+      withdraw_count,
+      transaction_order,
+      transaction_volume,
+      effective_amount,
+      payout_amount,
+      static_date,
+      static_time,
+      static_time_end
+  )
+  SELECT up.*, pr.deposit_amount, pr.deposit_count, pw.withdraw_amount, pw.withdraw_count,
+         pgo.transaction_order, pgo.transaction_volume, pgo.effective_amount, pgo.payout_amount,
+         p_stat_date, p_start_time, p_end_time
+    FROM up
+    LEFT JOIN pr ON up.player_id = pr.player_id
+    LEFT JOIN pw ON up.player_id = pw.player_id
+    LEFT JOIN pgo ON up.player_id = pgo.player_id;
 */
 
  --存取款改为player_transaction交易表，内有存款时的代理信息
@@ -136,37 +206,6 @@ BEGIN
 
      GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name
   )
-
-  /*
-  INSERT INTO analyze_player (
-      player_id,
-      user_name,
-      agent_id,
-      agent_name,
-      topagent_id,
-      topagent_name,
-      promote_link,
-      is_new_player,
-      deposit_amount,
-      deposit_count,
-      withdraw_amount,
-      withdraw_count,
-      transaction_order,
-      transaction_volume,
-      effective_amount,
-      payout_amount,
-      static_date,
-      static_time,
-      static_time_end
-  )
-  SELECT up.*, pr.deposit_amount, pr.deposit_count, pw.withdraw_amount, pw.withdraw_count,
-         pgo.transaction_order, pgo.transaction_volume, pgo.effective_amount, pgo.payout_amount,
-         p_stat_date, p_start_time, p_end_time
-    FROM up
-    LEFT JOIN pr ON up.player_id = pr.player_id
-    LEFT JOIN pw ON up.player_id = pw.player_id
-    LEFT JOIN pgo ON up.player_id = pgo.player_id;
-  */
 
   --插入analyze_player，
   INSERT INTO analyze_player (
