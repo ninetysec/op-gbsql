@@ -1,7 +1,5 @@
--- auto gen by steffan 2018-07-05 17:05:54
-DROP FUNCTION IF EXISTS gb_analyze ( p_stat_date date, p_start_time timestamp, p_end_time timestamp);
-CREATE OR REPLACE FUNCTION gb_analyze ( p_stat_date date, p_start_time timestamp, p_end_time timestamp)
-  RETURNS int AS $BODY$
+ CREATE OR REPLACE FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp)
+  RETURNS "pg_catalog"."int4" AS $BODY$
 /*版本更新说明
   版本   时间        作者    内容
 --v1.00  2016/12/10  Laser   创建此函数: 经营分析-玩家
@@ -30,13 +28,21 @@ BEGIN
   WITH up AS
   (
     SELECT su."id" player_id,
-           su.username user_name,
-           ua."id" agent_id,
-           ua.username agent_name,
-           ut."id" topagent_id,
-           ut.username topagent_name,
-           su.register_site,
-           su.create_time >= p_start_time AND su.create_time < p_end_time is_new_player
+								su.username user_name,
+								ua."id" agent_id,
+								ua.username agent_name,
+								ut."id" topagent_id,
+								ut.username topagent_name,
+								su.register_site promote_link,
+								su.create_time >= p_start_time AND su.create_time < p_end_time is_new_player,
+								0 deposit_count,
+								0 deposit_amount,
+								0 withdraw_count,
+								0 withdraw_amount,
+								0 transaction_order,
+								0 transaction_volume,
+								0 effective_amount,
+								0 payout_amount
       FROM sys_user su
       LEFT JOIN  sys_user ua ON ua.user_type= '23' AND su.owner_id = ua."id"
       LEFT JOIN  sys_user ut ON ut.user_type= '22' AND ua.owner_id = ut."id"
@@ -47,72 +53,81 @@ BEGIN
  --存取款改为player_transaction交易表，内有存款时的代理信息
   pr AS (
           --存款
-           SELECT player_id,
-                  user_name user_name,
-                  agent_id agent_id,
-                  agent_username agent_name,
-                  topagent_id topagent_id,
-                   topagent_username topagent_name,
-                  COUNT(id) deposit_count,
-                  SUM(transaction_money) deposit_amount,
-                  0 withdraw_count,
-                  0 withdraw_amount,
-                  0 transaction_order,
-                  0 transaction_volume,
-                  0 effective_amount,
-                  0 payout_amount
-             FROM player_transaction
-            WHERE status = 'success'
+           SELECT  player_id,
+												user_name user_name,
+												agent_id agent_id,
+												agent_username agent_name,
+												topagent_id topagent_id,
+												topagent_username topagent_name,
+												su.register_site promote_link,
+												su.create_time >= p_start_time AND su.create_time < p_end_time is_new_player,
+												COUNT(pt.id) deposit_count,
+												SUM(transaction_money) deposit_amount,
+												0 withdraw_count,
+												0 withdraw_amount,
+												0 transaction_order,
+												0 transaction_volume,
+												0 effective_amount,
+												0 payout_amount
+             FROM player_transaction pt
+       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = '24'
+            WHERE pt.status = 'success'
               AND transaction_type = 'deposit'
               AND completion_time >= p_start_time AND completion_time < p_end_time
-            GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name
+            GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   ),
 
   pw AS (
            --取款
            SELECT player_id,
-                  user_name user_name,
-                  agent_id agent_id,
-                  agent_username agent_name,
-                  topagent_id topagent_id,
-                   topagent_username topagent_name,
-                  0 deposit_count,
-                  0 deposit_amount,
-                  COUNT(id) withdraw_count,
-                  SUM(transaction_money) withdraw_amount,
-                  0 transaction_order,
-                  0 transaction_volume,
-                  0 effective_amount,
-                  0 payout_amount
-             FROM player_transaction
-            WHERE  status = 'success'
+												user_name user_name,
+												agent_id agent_id,
+												agent_username agent_name,
+												topagent_id topagent_id,
+												topagent_username topagent_name,
+												su.register_site promote_link,
+												su.create_time >= p_start_time AND su.create_time < p_end_time is_new_player,
+												0 deposit_count,
+												0 deposit_amount,
+												COUNT(pt.id) withdraw_count,
+												SUM(transaction_money) withdraw_amount,
+												0 transaction_order,
+												0 transaction_volume,
+												0 effective_amount,
+												0 payout_amount
+             FROM player_transaction pt
+       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = '24'
+            WHERE pt.status = 'success'
               AND transaction_type = 'withdrawals'
               AND completion_time >= p_start_time AND completion_time < p_end_time
-            GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name
+            GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   ),
 
   pgo AS (
-    SELECT player_id,
-           username user_name,
-           agentid agent_id,
-           agentusername agent_name,
-           topagentid topagent_id,
-           topagentusername topagent_name,
-           0 deposit_count,
-           0 deposit_amount,
-           0 withdraw_count,
-           0 withdraw_amount,
-           COUNT(id) transaction_order,
-           SUM(single_amount) transaction_volume,
-           SUM(effective_trade_amount) effective_amount,
-           SUM(profit_amount) payout_amount
-      FROM player_game_order
-     WHERE order_state = 'settle'
-       --v1.02  2017/01/19  Laser
-       --AND is_profit_loss = TRUE
-       AND payout_time >= p_start_time
-       AND payout_time < p_end_time
-     GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name
+					SELECT player_id,
+											pgorder.username user_name,
+											agentid agent_id,
+											agentusername agent_name,
+											topagentid topagent_id,
+											topagentusername topagent_name,
+											su.register_site promote_link,
+											su.create_time >= p_start_time AND su.create_time < p_end_time is_new_player,
+											0 deposit_count,
+											0 deposit_amount,
+											0 withdraw_count,
+											0 withdraw_amount,
+											COUNT(pgorder.id) transaction_order,
+											SUM(single_amount) transaction_volume,
+											SUM(effective_trade_amount) effective_amount,
+											SUM(profit_amount) payout_amount
+						FROM player_game_order pgorder
+						 LEFT JOIN sys_user su on pgorder.player_id = su.id and su.user_type = '24'
+					 WHERE order_state = 'settle'
+						 --v1.02  2017/01/19  Laser
+						 --AND is_profit_loss = TRUE
+						 AND payout_time >= p_start_time
+						 AND payout_time < p_end_time
+					 GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   ),
 
   -- 玩家的存款，取款，投注分别是三条数据，聚合成一条后插入analyze_player
@@ -123,6 +138,8 @@ BEGIN
            agent_name,
            topagent_id,
            topagent_name,
+           promote_link,
+           is_new_player,
            sum(deposit_count) deposit_count,
            sum(deposit_amount) deposit_amount,
            sum(withdraw_count) withdraw_count,
@@ -132,8 +149,8 @@ BEGIN
            sum(effective_amount) effective_amount,
            sum(payout_amount) payout_amount
       FROM
-           ( SELECT * FROM pr union all SELECT * FROM pw union all SELECT * FROM pgo ) rwo
-     GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name
+           ( SELECT * FROM pr union all SELECT * FROM pw union all SELECT * FROM pgo union all select * from up ) rwo
+     GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   )
 
   /*
@@ -189,27 +206,27 @@ BEGIN
       static_time,
       static_time_end
   )
-  SELECT up.player_id,
-         up.user_name,
-         coalesce(prwgo.agent_id,up.agent_id),
-         coalesce(prwgo.agent_name,up.agent_name),
-         coalesce(prwgo.topagent_id,up.topagent_id),
-         coalesce(prwgo.topagent_name,up.topagent_name),
-         up.register_site,
-         up.is_new_player,
-         prwgo.deposit_amount,
-         prwgo.deposit_count,
-         prwgo.withdraw_amount,
-         prwgo.withdraw_count,
-         prwgo.transaction_order,
-         prwgo.transaction_volume,
-         prwgo.effective_amount,
-         prwgo.payout_amount,
-         p_stat_date,
-         p_start_time,
-         p_end_time
-    FROM up
-         LEFT JOIN prwgo ON up.player_id = prwgo.player_id;
+  SELECT
+							player_id,
+							user_name,
+							agent_id,
+							agent_name,
+							topagent_id,
+							topagent_name,
+							promote_link,
+							is_new_player,
+							deposit_amount,
+							deposit_count,
+							withdraw_amount,
+							withdraw_count,
+							transaction_order,
+							transaction_volume,
+							effective_amount,
+							payout_amount,
+							p_stat_date,
+							p_start_time,
+							p_end_time
+    FROM prwgo;
 
 
   GET DIAGNOSTICS n_count_player = ROW_COUNT;
@@ -427,4 +444,5 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE COST 100
 ;
 
-COMMENT ON FUNCTION gb_analyze ( p_stat_date date, p_start_time timestamp, p_end_time timestamp) IS 'steffan-经营分析-玩家';
+
+COMMENT ON FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp) IS 'steffan-经营分析-玩家(代理新进)';
