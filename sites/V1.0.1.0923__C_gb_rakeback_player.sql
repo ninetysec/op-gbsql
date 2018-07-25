@@ -1,4 +1,4 @@
--- auto gen by linsen 2018-07-25 16:07:46
+-- auto gen by linsen 2018-07-25 16:13:41
 
 DROP FUNCTION IF EXISTS gb_rakeback_player(INT, TEXT);
 create or replace function gb_rakeback_player(
@@ -30,7 +30,7 @@ BEGIN
 									 agent_username,
 									 topagent_id,
 									 topagent_username,
-                   CASE WHEN SUM(rakeback) > rakeback_limit THEN COALESCE(MIN(rakeback_limit),0) ELSE COALESCE(SUM(rakeback),0) END rakeback, --顺序不能改，因为返水上限可能为NULL
+                   CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN COALESCE(MIN(rakeback_limit),0) ELSE COALESCE(SUM(rakeback),0) END rakeback, --顺序不能改，因为返水上限可能为NULL
                    MIN(audit_num) audit_num,
                    SUM(effective_transaction) effective_transaction
               FROM rakeback_api
@@ -56,7 +56,7 @@ BEGIN
 									 agent_username,
 									 topagent_id,
 									 topagent_username,
-                   CASE WHEN SUM(rakeback) > rakeback_limit THEN COALESCE(MIN(rakeback_limit), 0) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
+                   CASE WHEN SUM(rakeback) > MIN(rakeback_limit) THEN  COALESCE(MIN(rakeback_limit), 0) ELSE SUM(rakeback) END rakeback, --顺序不能改，因为返水上限可能为NULL
                    MIN(audit_num) audit_num,
                    SUM(effective_transaction) effective_transaction
               FROM rakeback_api_nosettled
