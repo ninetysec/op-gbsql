@@ -15,6 +15,8 @@ create or replace function gamebox_rakeback_bill (
 --v1.01  2016/05/30  Laser    改为returning，防止并发
 --v1.02  2017/01/18  Laser    没有返水玩家，依然保留返水总表记录
 --v1.10  2017/07/01  Laser    增加pending_lssuing字段，以支持返水重结
+--v1.11  2018/07/26  linsen   根据player_id统计player_count时，去掉DISTINCT
+
 */
 DECLARE
   pending_lssuing text:='pending_lssuing';
@@ -47,7 +49,7 @@ BEGIN
       IF rp_count > 0 THEN
         FOR rec IN
           SELECT rakeback_bill_id,
-               COUNT(player_id)   as cl,
+               COUNT(player_id)   as cl,  --v1.11  2018/07/26  linsen
                SUM(rakeback_total)       as sl
             FROM rakeback_player
            WHERE rakeback_bill_id = bill_id
@@ -79,7 +81,7 @@ BEGIN
       IF rp_count > 0 THEN
         FOR rec in
           SELECT rakeback_bill_nosettled_id,
-               COUNT(player_id)   as cl,
+               COUNT(player_id)   as cl,  --v1.11  2018/07/26  linsen
                SUM(rakeback_total)       as sl
             FROM rakeback_player_nosettled
            WHERE rakeback_bill_nosettled_id = bill_id
