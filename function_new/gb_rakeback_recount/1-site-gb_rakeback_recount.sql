@@ -15,6 +15,7 @@ CREATE OR REPLACE FUNCTION gb_rakeback_recount(
 --v1.04  2017/09/18  Laser   修正某些情况下rakeback_bill.lssuing_state统计错误的问题
 --v1.05  2017/10/05  Laser   增加对重结出现新的游戏类型的支持
 --v1.06  2018/03/11  Laser   增加对玩家层级改变的处理
+--v1.07  2018/06/28  Linsen  添加代理线
 
   返回值说明：0成功，1警告，2错误
 */
@@ -124,24 +125,27 @@ BEGIN
                           FROM rakeback_api_nosettled
                          WHERE rakeback_bill_nosettled_id = rec_rbn.id
                            AND player_id = ra.player_id
+                           AND agent_id = ra.agent_id --v1.07  2018/06/28  Linsen
                            AND api_id = ra.api_id
                            AND game_type = ra.game_type
                            AND rakeback = ra.rakeback ) --重结后没有这条记录，或者返水值不相等
        AND NOT EXISTS ( SELECT 1
                           FROM rakeback_player rp RIGHT JOIN rakeback_player_nosettled rpn
-                            ON rp.rakeback_bill_id = rec_rb.id AND rpn.rakeback_bill_nosettled_id = rec_rbn.id AND rp.player_id=rpn.player_id
+                            ON rp.rakeback_bill_id = rec_rb.id AND rpn.rakeback_bill_nosettled_id = rec_rbn.id AND rp.player_id=rpn.player_id AND rp.agent_id=rpn.agent_id --v1.07  2018/06/28  Linsen
                          WHERE rpn.rakeback_total - COALESCE(rp.rakeback_total, 0) + COALESCE(rp.rakeback_pending, 0) < 0 --最终得到的返水未结值不能小于0
                            AND rpn.player_id = ra.player_id
+                           AND rpn.agent_id = ra.agent_id --v1.07  2018/06/28  Linsen
                       ); --重结后没有这个玩家、或者重结后的返水未结值>=0
-
+    --v1.07  2018/06/28  Linsen
     INSERT INTO rakeback_api (
-        rakeback_bill_id, player_id, api_id, game_type, effective_transaction, profit_loss, rakeback, api_type_id, audit_num, rakeback_limit)
-    SELECT rec_rb.id, player_id, api_id, game_type, effective_transaction, profit_loss, rakeback, api_type_id, audit_num, rakeback_limit
+        rakeback_bill_id, player_id, api_id, game_type, effective_transaction, profit_loss, rakeback, api_type_id, audit_num, rakeback_limit, agent_id, agent_username, topagent_id, topagent_username)
+    SELECT rec_rb.id, player_id, api_id, game_type, effective_transaction, profit_loss, rakeback, api_type_id, audit_num, rakeback_limit, agent_id, agent_username, topagent_id, topagent_username
       FROM rakeback_api_nosettled
      WHERE rakeback_bill_nosettled_id = rec_rbn.id
     --v1.02  2017/07/26  Laser
     --ON CONFLICT ON CONSTRAINT rakeback_api_rpag_uc
-    ON CONFLICT (rakeback_bill_id, player_id, api_id, game_type)
+    --v1.07  2018/06/28  Linsen
+    ON CONFLICT (rakeback_bill_id, agent_id, player_id, api_id, game_type)
     DO NOTHING;
 
     --更新Player反水表
@@ -157,24 +161,27 @@ BEGIN
           COALESCE(rp.rakeback_paid, 0) rakeback_paid, --已付返水
           rpn.rakeback_total - COALESCE(rp.rakeback_total, 0) + COALESCE(rp.rakeback_pending, 0) rakeback_pending --返水差额 +此前未结
         FROM rpn
-        LEFT JOIN rp ON rpn.player_id = rp.player_id
+        --v1.07  2018/06/28  Linsen
+        LEFT JOIN rp ON rpn.player_id = rp.player_id AND rpn.agent_id=rp.agent_id
        --v1.03  2017/07/28  Laser
        --WHERE rpn.rakeback_total > COALESCE(rp.rakeback_total, 0)
        WHERE rpn.rakeback_total <> COALESCE(rp.rakeback_total, 0)
          AND rpn.rakeback_total - COALESCE(rp.rakeback_total, 0) + COALESCE(rp.rakeback_pending, 0) >= 0 --最终得到的返水未结值不能小于0
     )
     --SELECT * FROM rpj
+    --v1.07  2018/06/28  Linsen
     INSERT INTO rakeback_player (
         rakeback_bill_id, player_id, username, rank_id, rank_name, risk_marker, settlement_state, remark,
-        agent_id, top_agent_id, audit_num, rakeback_total, rakeback_actual, rakeback_paid, rakeback_pending
+        agent_id, top_agent_id, audit_num, rakeback_total, rakeback_actual, rakeback_paid, rakeback_pending, agent_username, topagent_username
     )
     SELECT rec_rb.id, player_id, username, rank_id, rank_name, risk_marker, 'pending_lssuing', '返水补差',
-           agent_id, top_agent_id, audit_num, rakeback_total, rakeback_pending, rakeback_paid, rakeback_pending
+           agent_id, top_agent_id, audit_num, rakeback_total, rakeback_pending, rakeback_paid, rakeback_pending, agent_username, topagent_username
       FROM rpj
      --WHERE rakeback_total <> 0
     --v1.02  2017/07/26  Laser
     --ON CONFLICT ON CONSTRAINT rakeback_player_rp_uc
-    ON CONFLICT (rakeback_bill_id, player_id)
+    --v1.07  2018/06/28  Linsen
+    ON CONFLICT (rakeback_bill_id, agent_id, player_id)
     DO UPDATE SET rank_id          = excluded.rank_id, --v1.06  2018/03/11  Laser
                   rank_name        = excluded.rank_name,
                   risk_marker      = excluded.risk_marker,
