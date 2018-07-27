@@ -50,8 +50,7 @@ BEGIN
              WHERE rakeback_bill_nosettled_id = p_bill_id
              GROUP BY player_id
            ) ra,
-           v_sys_user_tier ut,
-           user_player up
+           v_sys_user_tier ut
      WHERE ra.player_id = ut.id
        AND ra.player_id = up."id"
      ORDER BY ra.rakeback DESC, ut.id;
