@@ -18,12 +18,12 @@ DECLARE
 
 BEGIN
 
-  raise info '清除 % 号统计数据...', p_stat_date;
+  raise info ''清除 % 号统计数据...'', p_stat_date;
   DELETE FROM analyze_player WHERE static_date = p_stat_date;
   GET DIAGNOSTICS n_count = ROW_COUNT;
-  raise notice 'analyze_player 本次删除记录数 %', n_count;
+  raise notice ''analyze_player 本次删除记录数 %'', n_count;
 
-  raise info '统计 % 号经营数据.START', p_stat_date;
+  raise info ''统计 % 号经营数据.START'', p_stat_date;
 
 
   WITH up AS
@@ -45,9 +45,9 @@ BEGIN
 								0 effective_amount,
 								0 payout_amount
       FROM sys_user su
-      LEFT JOIN  sys_user ua ON ua.user_type= '23' AND su.owner_id = ua."id"
-      LEFT JOIN  sys_user ut ON ut.user_type= '22' AND ua.owner_id = ut."id"
-     WHERE su.user_type = '24'
+      LEFT JOIN  sys_user ua ON ua.user_type= ''23'' AND su.owner_id = ua."id"
+      LEFT JOIN  sys_user ut ON ut.user_type= ''22'' AND ua.owner_id = ut."id"
+     WHERE su.user_type = ''24''
   ),
 
 
@@ -71,9 +71,9 @@ BEGIN
 												0 effective_amount,
 												0 payout_amount
              FROM player_transaction pt
-       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = '24'
-            WHERE pt.status = 'success'
-              AND transaction_type = 'deposit'
+       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = ''24''
+            WHERE pt.status = ''success''
+              AND transaction_type = ''deposit''
               AND completion_time >= p_start_time AND completion_time < p_end_time
             GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   ),
@@ -91,15 +91,15 @@ BEGIN
 												0 deposit_count,
 												0 deposit_amount,
 												COUNT(pt.id) withdraw_count,
-												abs(SUM(transaction_money)) withdraw_amount,
+												abs(SUM(COALESCE(transaction_money,0))) withdraw_amount,
 												0 transaction_order,
 												0 transaction_volume,
 												0 effective_amount,
 												0 payout_amount
              FROM player_transaction pt
-       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = '24'
-            WHERE pt.status = 'success'
-              AND transaction_type = 'withdrawals'
+       LEFT JOIN sys_user su on pt.player_id = su.id and su.user_type = ''24''
+            WHERE pt.status = ''success''
+              AND transaction_type = ''withdrawals''
               AND completion_time >= p_start_time AND completion_time < p_end_time
             GROUP BY player_id,user_name,agent_id,agent_name,topagent_id,topagent_name,promote_link,is_new_player
   ),
@@ -122,8 +122,8 @@ BEGIN
 											SUM(effective_trade_amount) effective_amount,
 											SUM(profit_amount) payout_amount
 						FROM player_game_order pgorder
-						 LEFT JOIN sys_user su on pgorder.player_id = su.id and su.user_type = '24'
-					 WHERE order_state = 'settle'
+						 LEFT JOIN sys_user su on pgorder.player_id = su.id and su.user_type = ''24''
+					 WHERE order_state = ''settle''
 						 --v1.02  2017/01/19  Laser
 						 --AND is_profit_loss = TRUE
 						 AND payout_time >= p_start_time
@@ -231,15 +231,15 @@ BEGIN
 
 
   GET DIAGNOSTICS n_count_player = ROW_COUNT;
-  raise notice 'analyze_player新增统计记录数 %', n_count_player;
+  raise notice ''analyze_player新增统计记录数 %'', n_count_player;
 
 
-  raise info 'analyze_agent 清除 % 号统计数据...', p_stat_date;
+  raise info ''analyze_agent 清除 % 号统计数据...'', p_stat_date;
   DELETE FROM analyze_agent WHERE static_date = p_stat_date;
   GET DIAGNOSTICS n_count = ROW_COUNT;
-  raise notice 'analyze_agent 本次删除记录数 %', n_count;
+  raise notice ''analyze_agent 本次删除记录数 %'', n_count;
 
-  raise info '统计 % 号经营数据.END', p_stat_date;
+  raise info ''统计 % 号经营数据.END'', p_stat_date;
 
   INSERT INTO analyze_agent (
       agent_id,
@@ -331,20 +331,20 @@ BEGIN
             COALESCE(SUM(ra.rebate_actual), 0.00) rebate_amount
        FROM rebate_agent ra
       WHERE ra.settlement_time >= p_start_time AND ra.settlement_time < p_end_time
-        AND ra.settlement_state = 'lssuing'
+        AND ra.settlement_state = ''lssuing''
       GROUP BY agent_id
     ) ra
     ON ap.agent_id = ra.agent_id;
 
   GET DIAGNOSTICS n_count = ROW_COUNT;
-  raise notice 'analyze_agent新增记录数 %', n_count;
+  raise notice ''analyze_agent新增记录数 %'', n_count;
 
-  raise info 'analyze_agent_domain 清除 % 号统计数据...', p_stat_date;
+  raise info ''analyze_agent_domain 清除 % 号统计数据...'', p_stat_date;
   DELETE FROM analyze_agent_domain WHERE static_date = p_stat_date;
   GET DIAGNOSTICS n_count = ROW_COUNT;
-  raise notice 'analyze_agent_domain 本次删除记录数 %', n_count;
+  raise notice ''analyze_agent_domain 本次删除记录数 %'', n_count;
 
-  raise info '统计 % 号经营数据.END', p_stat_date;
+  raise info ''统计 % 号经营数据.END'', p_stat_date;
 
   INSERT INTO analyze_agent_domain (
       promote_link,
@@ -436,14 +436,14 @@ BEGIN
     ON ap.agent_id = apn.agent_id AND ap.promote_link = apn.promote_link;
 
   GET DIAGNOSTICS n_count = ROW_COUNT;
-  raise notice 'analyze_agent_domain新增记录数 %', n_count;
+  raise notice ''analyze_agent_domain新增记录数 %'', n_count;
 
   RETURN n_count_player;
 END;
 
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE COST 100
+  LANGUAGE ''plpgsql'' VOLATILE COST 100
 ;
 
- 
-COMMENT ON FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp) IS 'steffan-经营分析-玩家(代理新进)';
+
+COMMENT ON FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp) IS ''steffan-经营分析-玩家(代理新进)'';
