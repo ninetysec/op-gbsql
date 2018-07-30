@@ -6,11 +6,12 @@ CREATE OR REPLACE FUNCTION gb_rakeback_api(
   p_end_time   TIMESTAMP
 ) returns void as $$
 /*版本更新说明
-  版本   时间        作者   内容
---v1.00  2017/01/15  Laser  创建此函数: 返水结算账单.玩家API返水.NEW
---v1.01  2017/01/22  Laser  针对1万个玩家以上返水较慢问题，重写此过程以优化性能。
-                              变化和影响: 新版要求每个玩家必须设置返水方案
---v1.02  2018/01/08  Laser  记录投注大于0，但是没有产生返水的记录，便于排查
+  版本   时间        作者    内容
+--v1.00  2017/01/15  Laser   创建此函数: 返水结算账单.玩家API返水.NEW
+--v1.01  2017/01/22  Laser   针对1万个玩家以上返水较慢问题，重写此过程以优化性能。
+                               变化和影响: 新版要求每个玩家必须设置返水方案
+--v1.02  2018/01/08  Laser   记录投注大于0，但是没有产生返水的记录，便于排查
+--v1.03  2018/06/28  Linsen  添加代理线
 */
 DECLARE
 
@@ -69,6 +70,10 @@ BEGIN
       SELECT pgo.player_id,
              pgo.api_id,
              pgo.game_type,
+						 pgo.agentid, --v1.03  2018/06/28  Linsen
+						 pgo.agentusername,
+             pgo.topagentid,
+						 pgo.topagentusername,
              COALESCE(SUM(effective_trade_amount), 0.00) as effective_transaction,
              COALESCE(SUM(-pgo.profit_amount), 0.00)  as profit_amount
         FROM player_game_order pgo
@@ -81,7 +86,8 @@ BEGIN
          AND su.user_type = '24'
          --AND ua.user_type = '23'
          --AND su."id" = n_player_id
-       GROUP BY pgo.player_id, pgo.api_id, pgo.game_type
+       --v1.03  2018/06/28  Linsen
+       GROUP BY pgo.player_id, pgo.api_id, pgo.game_type, pgo.agentid, pgo.topagentid, pgo.agentusername, pgo.topagentusername
     ),
     ra AS --玩家返水
     (
@@ -91,6 +97,10 @@ BEGIN
           pag.game_type,
           pag.effective_transaction,
           pag.profit_amount profit_loss,
+					pag.agentid, --v1.03  2018/06/28  Linsen
+					pag.agentusername,
+          pag.topagentid,
+					pag.topagentusername,
           --rga.ratio,
           (pag.effective_transaction * rga.ratio/100)::NUMERIC(20, 2) rakeback,
           p_grad.audit_num,
@@ -108,10 +118,11 @@ BEGIN
        --WHERE ratio > 0 --v1.01  2018/01/08  Laser
        ORDER BY pag.effective_transaction DESC
      )
+     --v1.03  2018/06/28  Linsen
      INSERT INTO rakeback_api ( rakeback_bill_id, player_id, api_id, game_type, rakeback, effective_transaction,
-         profit_loss, audit_num, rakeback_limit )
+         profit_loss, audit_num, rakeback_limit, agent_id, agent_username, topagent_id, topagent_username)
      SELECT p_bill_id, player_id, api_id, game_type, rakeback, effective_transaction,
-         profit_loss, audit_num, rakeback_limit
+         profit_loss, audit_num, rakeback_limit, agentid, agentusername, topagentid, topagentusername
        FROM ra;
 
   ELSEIF p_settle_flag = 'N' THEN
@@ -163,6 +174,10 @@ BEGIN
       SELECT pgo.player_id,
              pgo.api_id,
              pgo.game_type,
+					   pgo.agentid, --v1.03  2018/06/28  Linsen
+						 pgo.agentusername,
+             pgo.topagentid,
+						 pgo.topagentusername,
              COALESCE(SUM(effective_trade_amount), 0.00) as effective_transaction,
              COALESCE(SUM(-pgo.profit_amount), 0.00)  as profit_amount
         FROM player_game_order pgo
@@ -175,7 +190,8 @@ BEGIN
          AND su.user_type = '24'
          --AND ua.user_type = '23'
          --AND su."id" = n_player_id
-       GROUP BY pgo.player_id, pgo.api_id, pgo.game_type
+       --v1.03  2018/06/28  Linsen
+       GROUP BY pgo.player_id, pgo.api_id, pgo.game_type, pgo.agentid, pgo.topagentid, pgo.agentusername, pgo.topagentusername
     ),
     ra AS
     (
@@ -185,6 +201,10 @@ BEGIN
           pag.game_type,
           pag.effective_transaction,
           pag.profit_amount profit_loss,
+					pag.agentid, --v1.03  2018/06/28  Linsen
+					pag.agentusername,
+          pag.topagentid,
+					pag.topagentusername,
           --rga.ratio,
           (pag.effective_transaction * rga.ratio/100)::NUMERIC(20, 2) rakeback,
           p_grad.audit_num,
@@ -202,10 +222,11 @@ BEGIN
        --WHERE ratio > 0 --v1.01  2018/01/08  Laser
        ORDER BY pag.effective_transaction DESC
      )
+     --v1.03  2018/06/28  Linsen
      INSERT INTO rakeback_api_nosettled ( rakeback_bill_nosettled_id, player_id, api_id, game_type, rakeback, effective_transaction,
-         profit_loss, audit_num, rakeback_limit )
+         profit_loss, audit_num, rakeback_limit, agent_id, agent_username, topagent_id, topagent_username )
      SELECT p_bill_id, player_id, api_id, game_type, rakeback, effective_transaction,
-         profit_loss, audit_num, rakeback_limit
+         profit_loss, audit_num, rakeback_limit, agentid, agentusername, topagentid, topagentusername
        FROM ra;
 
   END IF;
