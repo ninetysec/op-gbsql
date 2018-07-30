@@ -19,7 +19,7 @@ CONSTRAINT "unique_payout_hash" UNIQUE ("payout_hash")
 )
 WITH (OIDS=FALSE)
 ;
-COMMENT ON TABLE "lottery_payout_log" IS '站点派彩记录表';
+COMMENT ON TABLE "lottery_payout_log" IS '站点派彩记录表 create by marz';
 COMMENT ON COLUMN "lottery_payout_log"."id" IS '主键';
 COMMENT ON COLUMN "lottery_payout_log"."expect" IS '开奖期数';
 COMMENT ON COLUMN "lottery_payout_log"."code" IS '彩种代号';
