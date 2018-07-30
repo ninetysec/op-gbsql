@@ -1,4 +1,6 @@
-
+drop FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp);
+CREATE OR REPLACE FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp)
+  RETURNS "pg_catalog"."int4" AS $BODY$
 /*版本更新说明
   版本   时间        作者    内容
 --v1.00  2016/12/10  Laser   创建此函数: 经营分析-玩家
@@ -89,7 +91,7 @@ BEGIN
 												0 deposit_count,
 												0 deposit_amount,
 												COUNT(pt.id) withdraw_count,
-												SUM(transaction_money) withdraw_amount,
+												abs(SUM(transaction_money)) withdraw_amount,
 												0 transaction_order,
 												0 transaction_volume,
 												0 effective_amount,
@@ -439,3 +441,9 @@ BEGIN
   RETURN n_count_player;
 END;
 
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+;
+
+ 
+COMMENT ON FUNCTION "gb_analyze"(p_stat_date date, p_start_time timestamp, p_end_time timestamp) IS 'steffan-经营分析-玩家(代理新进)';
