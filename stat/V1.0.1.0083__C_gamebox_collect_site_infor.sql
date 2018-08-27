@@ -1,6 +1,6 @@
 -- auto gen by steffan 2018-08-22 14:23:06
 drop function IF EXISTS gamebox_collect_site_infor(text);
- CREATE OR REPLACE FUNCTION "gb-stat"."gamebox_collect_site_infor"("hostinfo" text)
+ CREATE OR REPLACE FUNCTION "gamebox_collect_site_infor"("hostinfo" text)
   RETURNS "pg_catalog"."void" AS $BODY$
 /*版本更新说明
   版本   时间        作者    内容
@@ -58,7 +58,7 @@ BEGIN
 
   perform dblink_disconnect('mainsite');
 END;
-
-$$ language plpgsql;
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE COST 100;
 COMMENT ON FUNCTION gamebox_collect_site_infor(hostinfo text)
 IS 'Lins-经营报表-收集站点相关信息';
