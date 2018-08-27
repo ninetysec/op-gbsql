@@ -100,6 +100,4 @@ INSERT INTO game_i18n (name, locale, game_id, cover, introduce_status, game_intr
 -- 8. api_order_log
 
 INSERT INTO "api_order_log" ("api_id", "start_id", "update_time", "type", "start_time", "is_need_account", "end_id", "end_time", "ext_json", "gametype") SELECT '46', '0', now(), '0', now(), 'f', NULL, NULL, NULL, NULL WHERE not EXISTS(SELECT id FROM api_order_log where api_id=46 and type='0');
-INSERT INTO "api_order_log" ("api_id", "start_id", "update_time", "type", "start_time", "is_need_account", "end_id", "end_time", "ext_json", "gametype") SELECT '46', '0', now(), '1', now(), 'f', NULL, NULL, NULL, NULL WHERE not EXISTS(SELECT id FROM api_order_log where api_id=46 and type='1');
 INSERT INTO "api_order_log" ("api_id", "start_id", "update_time", "type", "start_time", "is_need_account", "end_id", "end_time", "ext_json", "gametype") SELECT '46', '0', now(), '2', now(), 'f', NULL, NULL, NULL, NULL WHERE not EXISTS(SELECT id FROM api_order_log where api_id=46 and type='2');
-INSERT INTO "api_order_log" ("api_id", "start_id", "update_time", "type", "start_time", "is_need_account", "end_id", "end_time", "ext_json", "gametype") SELECT '46', '0', now(), '3', now(), 'f', NULL, NULL, NULL, NULL WHERE not EXISTS(SELECT id FROM api_order_log where api_id=46 and type='3');

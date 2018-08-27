@@ -6,6 +6,10 @@ INSERT INTO task_schedule (job_name, alias_name, job_group, job_class, job_metho
   SELECT 'apiId-46-leg-对单记录', NULL, NULL, 'so.wwb.gamebox.service.company.PlayerGameOrderAdditionJob', 'execute', 'true', 1, '0 0/5 * * * ?', 'true', 'leg对单任务', now(), NULL, 'api-46-CHECKUP_NORMAL', 'false', 'false', 46, 'java.lang.Integer', 'A', 'scheduler4Api'
   WHERE not exists (SELECT id FROM task_schedule where job_code = 'api-46-CHECKUP_NORMAL' and job_method_arg='46');
 
+INSERT INTO task_schedule (job_name, alias_name, job_group, job_class, job_method, is_local, status, cronexpression, is_sync, description, create_time, update_time, job_code, is_system, is_dynamic, job_method_arg, job_method_arg_class, belong_to_idc, scheduler)
+  SELECT 'apiId-46-leg-新增下单记录', NULL, NULL, 'so.wwb.gamebox.service.company.PlayerGameOrderFetchJob', 'execute', 'true', 1, '0 0/5 * * * ?', 'true', 'leg新增下单记录', now(), NULL, 'api-46-NORMAL', 'false', 'false', 46, 'java.lang.Integer', 'A', 'scheduler4Api'
+  WHERE not exists (SELECT id FROM task_schedule where job_code = 'api-46-NORMAL' and job_method_arg='46');
+
 --10.game_api_provider
 INSERT INTO game_api_provider (id, abbr_name, full_name, api_url, remarks, jar_url, api_class, jar_version, ext_json, default_timezone, support_agent, trial, proxy, is_resend, resend_intervals,  api_origin_url)
 select 46, 'LEG', '乐游棋牌', 'http://3rd.game.api.com/leg-api', '接口地址：https://legapi.ledingnet.com:189/channelHandle；拉单独立接口：https://legrec.ledingnet.com:190/getRecordHandle', 'file:/data/impl-jars/api/api-leg.jar', 'so.wwb.gamebox.service.gameapi.impl.LegGameApi', 20180823050829, '{"apiurl":{"fetchRecord":"http://3rd.game.api.com/leg-record-api/getRecordHandle","others":"http://3rd.game.api.com/leg-api/channelHandle"},"agent":"70043","deskey":"7b00d5750d7c46c0","md5key":"d626631cc37f423a","search-minute":"5","operateType":{"login":"0","fetchBalance":"7","deposit":"2","withdraw":"3","fetchRecord":"6","register":"0"}}', +8, 'false', 'false', 'false', 'true', 12,  ''
@@ -139,3 +143,4 @@ INSERT INTO game_api_interface_request (id, api_field_name, property_name, requi
 INSERT INTO game_api_interface_request (id, api_field_name, property_name, required, min_length, max_length, reg_exp, default_value, interface_id, remarks, comment, min_value, max_value)
   SELECT 46064, 'key', 'key', 'true', NULL, NULL, NULL, NULL, 4606, 'LEG-agent+timestamp+MD5Key', NULL, NULL, NULL
   WHERE NOT EXISTS(select id from game_api_interface_request where id=46064 and interface_id=4606);
+
