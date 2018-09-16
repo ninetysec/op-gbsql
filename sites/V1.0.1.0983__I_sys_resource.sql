@@ -18,3 +18,9 @@ INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structu
 SELECT '41003', '手续费设置-新增', 'rechargeFeeSchema/create.html', '手续费设置-新增', '410', NULL, NULL, 'mcenter', 'operate:recharge_fee_create', '2', NULL, 't', 'f', 't'
 WHERE NOT EXISTS(SELECT ID FROM sys_resource WHERE id=41003);
 
+
+
+INSERT INTO "sys_resource" ("id", "name", "url", "remark", "parent_id", "structure", "sort_num", "subsys_code", "permission", "resource_type", "icon", "built_in", "privilege", "status")
+SELECT '41004', '手续费设置-列表', 'rechargeFeeSchema/list.html', '手续费设置-列表', '410', NULL, NULL, 'mcenter', 'operate:recharge_fee_list', '2', NULL, 't', 'f', 't'
+WHERE NOT EXISTS(SELECT ID FROM sys_resource WHERE id=41004);
+
