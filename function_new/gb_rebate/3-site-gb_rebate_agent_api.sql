@@ -1,14 +1,10 @@
-DROP FUNCTION IF EXISTS gb_rebate_agent_api(INT, TIMESTAMP, TIMESTAMP, TEXT);
-CREATE OR REPLACE FUNCTION gb_rebate_agent_api(
-  p_bill_id   INT,
-  p_start_time   TIMESTAMP,
-  p_end_time   TIMESTAMP,
-  p_settle_flag   TEXT
-) RETURNS VOID AS $$
+DROP FUNCTION IF EXISTS "gb_rebate_agent_api"(p_bill_id int4, p_start_time timestamp, p_end_time timestamp, p_settle_flag text);
+CREATE OR REPLACE FUNCTION "gb_rebate_agent_api"(p_bill_id int4, p_start_time timestamp, p_end_time timestamp, p_settle_flag text)
+  RETURNS "pg_catalog"."void" AS $BODY$
 /*版本更新说明
   版本   时间        作者     内容
---v1.00  2016/10/08  Laser    创建此函数: 返佣结算账单.代理API返佣
---v1.00  2017/07/31  Laser    增加多级代理返佣支持
+--v1.00  2016/10/08  Leisure  创建此函数: 返佣结算账单.代理API返佣
+--v1.00  2017/07/31  Leisure  增加多级代理返佣支持
 
 */
 DECLARE
@@ -39,7 +35,7 @@ BEGIN
                         ) t
                ) effective_player  --获得有效玩家数
         FROM
-          (
+        (
           SELECT ua.agent_rank, ua.id agent_id, su.username agent_name, ua.parent_id, ua.parent_array, array_agg( DISTINCT uas.id) agent_array,
                  SUM(oas.effective_transaction) effective_transaction,
                  -SUM(oas.profit_loss) profit_loss
@@ -328,6 +324,9 @@ BEGIN
 
 END;
 
-$$ language plpgsql;
-COMMENT ON FUNCTION gb_rebate_agent_api(p_bill_id INT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_settle_flag TEXT)
-IS 'Laser-返佣结算账单.代理API返佣';
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+;
+
+
+COMMENT ON FUNCTION "gb_rebate_agent_api"(p_bill_id int4, p_start_time timestamp, p_end_time timestamp, p_settle_flag text) IS 'Leisure-返佣结算账单.代理API返佣';

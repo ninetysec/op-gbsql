@@ -1,19 +1,7 @@
-DROP FUNCTION IF EXISTS gb_rebate_bill( INT, TEXT, TIMESTAMP, TIMESTAMP, TEXT, TEXT);
-CREATE OR REPLACE FUNCTION gb_rebate_bill(
-  p_bill_id  INOUT  INT,
-  p_period    TEXT,
-  p_start_time    TIMESTAMP,
-  p_end_time    TIMESTAMP,
-  p_operation    TEXT,
-  p_flag    TEXT
-)
-RETURNS INT as $$
-/*版本更新说明
-  版本   时间        作者     内容
---v1.00  2016/10/08  Laser     创建此函数: 返佣结算账单-入口（新）
---v1.00  2017/07/31  Laser     增加多级代理返佣支持
+DROP FUNCTION IF EXISTS "gb_rebate_bill"(INOUT p_bill_id int4, IN p_period text, IN p_start_time timestamp, IN p_end_time timestamp, IN p_operation);
+CREATE OR REPLACE FUNCTION "gb_rebate_bill"(INOUT p_bill_id int4, IN p_period text, IN p_start_time timestamp, IN p_end_time timestamp, IN p_operation text, IN p_flag text)
+  RETURNS "pg_catalog"."int4" AS $BODY$
 
-*/
 DECLARE
   rec     record;
   n_rebate_count    INT:=0; -- rebate_agent 条数
@@ -108,6 +96,9 @@ BEGIN
 
 END;
 
-$$ language plpgsql;
-COMMENT ON FUNCTION gb_rebate_bill( p_bill_id INT, p_period TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_operation TEXT, p_flag TEXT)
-IS 'Laser-返佣结算账单.返佣主表';
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+;
+
+
+COMMENT ON FUNCTION "gb_rebate_bill"(INOUT p_bill_id int4, IN p_period text, IN p_start_time timestamp, IN p_end_time timestamp, IN p_operation text, IN p_flag text) IS 'Leisure-返佣结算账单.返佣主表';

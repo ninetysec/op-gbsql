@@ -1,12 +1,6 @@
-DROP FUNCTION IF EXISTS gb_rebate_agent(INT, TIMESTAMP, TIMESTAMP, TEXT);
-DROP FUNCTION IF EXISTS gb_rebate_agent(INT, TEXT, TIMESTAMP, TIMESTAMP, TEXT);
-CREATE OR REPLACE FUNCTION gb_rebate_agent(
-  p_bill_id   INT,
-  p_period    TEXT,
-  p_start_time   TIMESTAMP,
-  p_end_time   TIMESTAMP,
-  p_settle_flag   TEXT
-) RETURNS VOID AS $$
+DROP FUNCTION IF EXISTS "gb_rebate_agent"(p_bill_id int4, p_period text, p_start_time timestamp, p_end_time timestamp, p_settle_flag text);
+CREATE OR REPLACE FUNCTION "gb_rebate_agent"(p_bill_id int4, p_period text, p_start_time timestamp, p_end_time timestamp, p_settle_flag text)
+  RETURNS "pg_catalog"."void" AS $BODY$
 /*版本更新说明
   版本   时间        作者    内容
 --v1.00  2016/10/08  Laser  创建此函数: 返佣结算账单.代理返佣
@@ -14,6 +8,9 @@ CREATE OR REPLACE FUNCTION gb_rebate_agent(
 --v1.11  2017/09/03  Laser  取费用比率时，增加空值判断
 --v1.12  2017/11/17  Laser  增加按梯度计算费用比率功能
 --v1.13  2017/11/20  Laser  改由period来确定上期
+--v1.14  2018/01/19  Laser  增加返佣上限处理
+--v1.15  2018/02/03  Laser  返佣上限为空改为当做无上限处理（原为按0处理）
+--v1.16  2018/02/06  Laser  修复rebate_grads_id空值处理引起的显示错误
 
 */
 DECLARE
@@ -67,16 +64,18 @@ BEGIN
     raa AS --本期返佣信息
     (
       SELECT agent_id,
+             --v1.16  2018/02/06  Laser
+             --COALESCE( MIN(rebate_grads_id), 0) rebate_grads_id,
              MIN(rebate_grads_id) rebate_grads_id,
-             MIN(max_rebate) max_rebate,
-             MIN(effective_player) effective_player,
-             SUM(effective_transaction) effective_transaction,
-             SUM(profit_loss) profit_loss,
-             SUM(rebate_parent) rebate_parent,
-             SUM(effective_self) effective_self,
-             SUM(profit_self) profit_self,
-             SUM(rebate_self)::numeric(20,2) rebate_self,
-             SUM(rebate_sun)::numeric(20,2) rebate_sun
+             CASE WHEN MIN(rebate_grads_id) IS NULL THEN NULL ELSE COALESCE( MIN(max_rebate), -1) END max_rebate, --v1.15  2018/02/03  Laser
+             COALESCE( MIN(effective_player), 0) effective_player,
+             COALESCE( SUM(effective_transaction), 0) effective_transaction,
+             COALESCE( SUM(profit_loss), 0) profit_loss,
+             COALESCE( SUM(rebate_parent), 0) rebate_parent,
+             COALESCE( SUM(effective_self), 0) effective_self,
+             COALESCE( SUM(profit_self), 0) profit_self,
+             COALESCE( SUM(rebate_self), 0)::numeric(20,2) rebate_self,
+             COALESCE( SUM(rebate_sun), 0)::numeric(20,2) rebate_sun
         FROM rebate_agent_api
        WHERE rebate_bill_id = p_bill_id
        GROUP BY agent_id
@@ -85,24 +84,24 @@ BEGIN
     rpf AS --分摊费用
     (
       SELECT agent_id,
-             SUM(deposit_amount) AS deposit_amount,
+             COALESCE( SUM(deposit_amount), 0) AS deposit_amount,
              n_deposit_ratio AS deposit_ratio,
              (SUM(deposit_amount) * n_deposit_ratio/100)::numeric(20,2) AS deposit_fee,
 
-             SUM(withdraw_amount) AS withdraw_amount,
+             COALESCE( SUM(withdraw_amount), 0) AS withdraw_amount,
              n_withdraw_ratio AS withdraw_ratio,
              (SUM(withdraw_amount)*n_withdraw_ratio/100)::numeric(20,2) AS withdraw_fee,
 
-             SUM(rakeback_amount) AS rakeback_amount,
+             COALESCE( SUM(rakeback_amount), 0) AS rakeback_amount,
              n_rakeback_ratio AS rakeback_ratio,
              --v1.12  2017/11/17  Laser
              --(SUM(rakeback_amount) * n_rakeback_ratio/100)::numeric(20,2) AS rakeback_fee,
 
-             SUM(favorable_amount) AS favorable_amount,
+             COALESCE( SUM(favorable_amount), 0) AS favorable_amount,
              n_favorable_ratio AS favorable_ratio,
              --(SUM(favorable_amount) * n_favorable_ratio/100)::numeric(20,2) AS favorable_fee,
 
-             SUM(other_amount) AS other_amount,
+             COALESCE( SUM(other_amount), 0) AS other_amount,
              n_other_ratio AS other_ratio
              --(SUM(other_amount) * n_other_ratio/100)::numeric(20,2) AS other_fee
 
@@ -114,9 +113,9 @@ BEGIN
     rah AS --上期返佣信息
     (
       SELECT agent_id,
-             rebate_self + rebate_self_history AS rebate_self_history,
-             rebate_sun + rebate_sun_history AS rebate_sun_history,
-             fee_amount + fee_history AS fee_history
+             COALESCE( rebate_self + rebate_self_history, 0) AS rebate_self_history,
+             COALESCE( rebate_sun + rebate_sun_history, 0) AS rebate_sun_history,
+             COALESCE( fee_amount + fee_history, 0) AS fee_history
         FROM rebate_agent
        --v1.13  2017/11/20  Laser
        --WHERE rebate_bill_id = (SELECT id FROM rebate_bill WHERE start_time = d_last_start_time)
@@ -130,6 +129,8 @@ BEGIN
              raa.rebate_grads_id, raa.max_rebate, raa.effective_player, raa.effective_transaction, raa.profit_loss, raa.rebate_parent,
              raa.effective_self, raa.profit_self,
              raa.rebate_self, rah.rebate_self_history, raa.rebate_sun, rah.rebate_sun_history,
+             --v1.14  2018/01/19  Laser
+             CASE WHEN raa.max_rebate <> -1 AND COALESCE(raa.rebate_self, 0) + COALESCE(raa.rebate_sun, 0) > raa.max_rebate THEN raa.max_rebate ELSE COALESCE(raa.rebate_self, 0) + COALESCE(raa.rebate_sun, 0) END rebate_amount,
              rpf.deposit_amount, rpf.deposit_ratio, rpf.deposit_fee,
              rpf.withdraw_amount, rpf.withdraw_ratio, rpf.withdraw_fee,
              --v1.12  2017/11/17  Laser
@@ -158,18 +159,21 @@ BEGIN
 
     INSERT INTO rebate_agent ( rebate_bill_id, agent_id, agent_name, agent_rank, parent_id, parent_array, rebate_set_id,
         rebate_grads_id, max_rebate, effective_player, effective_transaction, profit_loss, rebate_parent, effective_self, profit_self,
-        rebate_self, rebate_self_history, rebate_sun, rebate_sun_history, deposit_amount, deposit_ratio, deposit_fee,
+        rebate_self, rebate_self_history, rebate_sun, rebate_sun_history, rebate_amount,
+        deposit_amount, deposit_ratio, deposit_fee,
         withdraw_amount, withdraw_ratio, withdraw_fee, rakeback_amount, rakeback_ratio, rakeback_fee,
         favorable_amount, favorable_ratio, favorable_fee, other_amount, other_ratio, other_fee, fee_amount, fee_history,
         rebate_total, rebate_actual, settlement_state
     )
     SELECT p_bill_id, agent_id, agent_name, agent_rank, parent_id, parent_array, rebate_set_id,
            rebate_grads_id, max_rebate, COALESCE(effective_player, 0), COALESCE(effective_transaction, 0), COALESCE(profit_loss, 0), COALESCE(rebate_parent, 0), COALESCE(effective_self, 0), COALESCE(profit_self, 0),
-           COALESCE(rebate_self, 0), COALESCE(rebate_self_history, 0), COALESCE(rebate_sun, 0), COALESCE(rebate_sun_history, 0), COALESCE(deposit_amount, 0), COALESCE(deposit_ratio, 0), COALESCE(deposit_fee, 0),
+           COALESCE(rebate_self, 0), COALESCE(rebate_self_history, 0), COALESCE(rebate_sun, 0), COALESCE(rebate_sun_history, 0), COALESCE(rebate_amount, 0),
+           COALESCE(deposit_amount, 0), COALESCE(deposit_ratio, 0), COALESCE(deposit_fee, 0),
            COALESCE(withdraw_amount, 0), COALESCE(withdraw_ratio, 0), COALESCE(withdraw_fee, 0), COALESCE(rakeback_amount, 0), COALESCE(rakeback_ratio, 0), COALESCE(rakeback_fee, 0),
            COALESCE(favorable_amount, 0), COALESCE(favorable_ratio, 0), COALESCE(favorable_fee, 0), COALESCE(other_amount, 0), COALESCE(other_ratio, 0), COALESCE(other_fee, 0), COALESCE(fee_amount, 0), COALESCE(fee_history, 0),
-           COALESCE(rebate_self, 0) + COALESCE(rebate_self_history , 0)
-           + COALESCE(rebate_sun , 0) + COALESCE(rebate_sun_history , 0) - COALESCE(fee_amount , 0) - COALESCE(fee_history, 0) AS rebate_total,
+           --v1.14  2018/01/19  Laser
+           COALESCE(rebate_amount, 0) + --COALESCE(rebate_self, 0) + COALESCE(rebate_sun , 0)
+           + COALESCE(rebate_self_history , 0) + COALESCE(rebate_sun_history , 0) - COALESCE(fee_amount , 0) - COALESCE(fee_history, 0) AS rebate_total,
            0 AS rebate_actual,
            'pending_lssuing'
       FROM rai
@@ -195,16 +199,18 @@ BEGIN
     raa AS --本期返佣信息
     (
       SELECT agent_id,
-             MIN(rebate_grads_id) rebate_grads_id,
-             MIN(max_rebate) max_rebate,
-             MIN(effective_player) effective_player,
-             SUM(effective_transaction) effective_transaction,
-             SUM(profit_loss) profit_loss,
-             SUM(rebate_parent) rebate_parent,
-             SUM(effective_self) effective_self,
-             SUM(profit_self) profit_self,
-             SUM(rebate_self)::numeric(20,2) rebate_self,
-             SUM(rebate_sun)::numeric(20,2) rebate_sun
+             --v1.16  2018/02/06  Laser
+             --COALESCE( MIN(rebate_grads_id), 0) rebate_grads_id,
+             CASE WHEN MIN(rebate_grads_id) IS NULL THEN NULL ELSE COALESCE( MIN(max_rebate), -1) END max_rebate, --v1.15  2018/02/03  Laser
+             COALESCE( MIN(max_rebate), -1) max_rebate, --v1.15  2018/02/03  Laser
+             COALESCE( MIN(effective_player), 0) effective_player,
+             COALESCE( SUM(effective_transaction), 0) effective_transaction,
+             COALESCE( SUM(profit_loss), 0) profit_loss,
+             COALESCE( SUM(rebate_parent), 0) rebate_parent,
+             COALESCE( SUM(effective_self), 0) effective_self,
+             COALESCE( SUM(profit_self), 0) profit_self,
+             COALESCE( SUM(rebate_self), 0)::numeric(20,2) rebate_self,
+             COALESCE( SUM(rebate_sun), 0)::numeric(20,2) rebate_sun
         FROM rebate_agent_api_nosettled
        WHERE rebate_bill_id = p_bill_id
        GROUP BY agent_id
@@ -213,27 +219,25 @@ BEGIN
     rpf AS --分摊费用
     (
       SELECT agent_id,
-             SUM(deposit_amount) AS deposit_amount,
+             COALESCE( SUM(deposit_amount), 0) AS deposit_amount,
              n_deposit_ratio AS deposit_ratio,
              (SUM(deposit_amount) * n_deposit_ratio/100)::numeric(20,2) AS deposit_fee,
 
-             SUM(withdraw_amount) AS withdraw_amount,
+             COALESCE( SUM(withdraw_amount), 0) AS withdraw_amount,
              n_withdraw_ratio AS withdraw_ratio,
              (SUM(withdraw_amount)*n_withdraw_ratio/100)::numeric(20,2) AS withdraw_fee,
 
-             SUM(rakeback_amount) AS rakeback_amount,
+             COALESCE( SUM(rakeback_amount), 0) AS rakeback_amount,
              n_rakeback_ratio AS rakeback_ratio,
              --v1.12  2017/11/17  Laser
              --(SUM(rakeback_amount) * n_rakeback_ratio/100)::numeric(20,2) AS rakeback_fee,
 
-             SUM(favorable_amount) AS favorable_amount,
+             COALESCE( SUM(favorable_amount), 0) AS favorable_amount,
              n_favorable_ratio AS favorable_ratio,
-             --v1.12  2017/11/17  Laser
              --(SUM(favorable_amount) * n_favorable_ratio/100)::numeric(20,2) AS favorable_fee,
 
-             SUM(other_amount) AS other_amount,
+             COALESCE( SUM(other_amount), 0) AS other_amount,
              n_other_ratio AS other_ratio
-             --v1.12  2017/11/17  Laser
              --(SUM(other_amount) * n_other_ratio/100)::numeric(20,2) AS other_fee
 
         FROM rebate_player_fee_nosettled
@@ -244,9 +248,9 @@ BEGIN
     rah AS --上期返佣信息
     (
       SELECT agent_id,
-             rebate_self + rebate_self_history AS rebate_self_history,
-             rebate_sun + rebate_sun_history AS rebate_sun_history,
-             fee_amount + fee_history AS fee_history
+             COALESCE(rebate_self + rebate_self_history, 0) AS rebate_self_history,
+             COALESCE(rebate_sun + rebate_sun_history, 0) AS rebate_sun_history,
+             COALESCE(fee_amount + fee_history, 0) AS fee_history
         FROM rebate_agent --上期费用不要用nosettled表
         --v1.13  2017/11/20  Laser
         --WHERE rebate_bill_id = (SELECT id FROM rebate_bill WHERE start_time = d_last_start_time)
@@ -260,6 +264,8 @@ BEGIN
              raa.rebate_grads_id, raa.max_rebate, raa.effective_player, raa.effective_transaction, raa.profit_loss, raa.rebate_parent,
              raa.effective_self, raa.profit_self,
              raa.rebate_self, rah.rebate_self_history, raa.rebate_sun, rah.rebate_sun_history,
+             --v1.14  2018/01/19  Laser
+             CASE WHEN raa.max_rebate <> -1 AND COALESCE(raa.rebate_self, 0) + COALESCE(raa.rebate_sun, 0) > raa.max_rebate THEN raa.max_rebate ELSE COALESCE(raa.rebate_self, 0) + COALESCE(raa.rebate_sun, 0) END rebate_amount,
              rpf.deposit_amount, rpf.deposit_ratio, rpf.deposit_fee,
              rpf.withdraw_amount, rpf.withdraw_ratio, rpf.withdraw_fee,
              --v1.12  2017/11/17  Laser
@@ -288,18 +294,21 @@ BEGIN
 
     INSERT INTO rebate_agent_nosettled ( rebate_bill_id, agent_id, agent_name, agent_rank, parent_id, parent_array, rebate_set_id,
         rebate_grads_id, max_rebate, effective_player, effective_transaction, profit_loss, rebate_parent, effective_self, profit_self,
-        rebate_self, rebate_self_history, rebate_sun, rebate_sun_history, deposit_amount, deposit_ratio, deposit_fee,
+        rebate_self, rebate_self_history, rebate_sun, rebate_sun_history, rebate_amount,
+        deposit_amount, deposit_ratio, deposit_fee,
         withdraw_amount, withdraw_ratio, withdraw_fee, rakeback_amount, rakeback_ratio, rakeback_fee,
         favorable_amount, favorable_ratio, favorable_fee, other_amount, other_ratio, other_fee, fee_amount, fee_history,
         rebate_total
     )
     SELECT p_bill_id, agent_id, agent_name, agent_rank, parent_id, parent_array, rebate_set_id,
            rebate_grads_id, max_rebate, COALESCE(effective_player, 0), COALESCE(effective_transaction, 0), COALESCE(profit_loss, 0), COALESCE(rebate_parent, 0), COALESCE(effective_self, 0), COALESCE(profit_self, 0),
-           COALESCE(rebate_self, 0), COALESCE(rebate_self_history, 0), COALESCE(rebate_sun, 0), COALESCE(rebate_sun_history, 0), COALESCE(deposit_amount, 0), COALESCE(deposit_ratio, 0), COALESCE(deposit_fee, 0),
+           COALESCE(rebate_self, 0), COALESCE(rebate_self_history, 0), COALESCE(rebate_sun, 0), COALESCE(rebate_sun_history, 0), COALESCE(rebate_amount, 0),
+           COALESCE(deposit_amount, 0), COALESCE(deposit_ratio, 0), COALESCE(deposit_fee, 0),
            COALESCE(withdraw_amount, 0), COALESCE(withdraw_ratio, 0), COALESCE(withdraw_fee, 0), COALESCE(rakeback_amount, 0), COALESCE(rakeback_ratio, 0), COALESCE(rakeback_fee, 0),
            COALESCE(favorable_amount, 0), COALESCE(favorable_ratio, 0), COALESCE(favorable_fee, 0), COALESCE(other_amount, 0), COALESCE(other_ratio, 0), COALESCE(other_fee, 0), COALESCE(fee_amount, 0), COALESCE(fee_history, 0),
-           COALESCE(rebate_self, 0) + COALESCE(rebate_self_history , 0)
-           + COALESCE(rebate_sun , 0) + COALESCE(rebate_sun_history , 0) - COALESCE(fee_amount , 0) - COALESCE(fee_history, 0) AS rebate_total
+           --v1.14  2018/01/19  Laser
+           COALESCE(rebate_amount, 0) + --COALESCE(rebate_self, 0) + COALESCE(rebate_sun , 0)
+           + COALESCE(rebate_self_history , 0) + COALESCE(rebate_sun_history , 0) - COALESCE(fee_amount , 0) - COALESCE(fee_history, 0) AS rebate_total
       FROM rai
      WHERE ( COALESCE(effective_transaction, 0) <> 0 OR COALESCE(profit_loss, 0) <> 0 OR
              COALESCE(rebate_self, 0) <> 0 OR COALESCE(rebate_self_history , 0) <> 0 OR COALESCE(rebate_sun , 0) <> 0 OR
@@ -312,6 +321,9 @@ BEGIN
 
 END;
 
-$$ language plpgsql;
-COMMENT ON FUNCTION gb_rebate_agent(p_bill_id INT, p_period TEXT, p_start_time TIMESTAMP, p_end_time TIMESTAMP, p_settle_flag TEXT)
-IS 'Laser-返佣结算账单.代理返佣';
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+;
+
+
+COMMENT ON FUNCTION "gb_rebate_agent"(p_bill_id int4, p_period text, p_start_time timestamp, p_end_time timestamp, p_settle_flag text) IS 'Laser-返佣结算账单.代理返佣';
