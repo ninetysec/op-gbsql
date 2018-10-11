@@ -1,3 +1,4 @@
+-- auto gen by steffan 2018-10-09 22:04:33
 DROP FUNCTION IF EXISTS gb_api_collate_player(TEXT, TEXT, TEXT);
 CREATE OR REPLACE FUNCTION gb_api_collate_player(
   p_comp_url   TEXT,
@@ -8,6 +9,7 @@ CREATE OR REPLACE FUNCTION gb_api_collate_player(
   版本   时间        作者    内容
 --v1.00  2018/01/12  Laser   创建此函数: API注单核对-玩家报表
 --v1.01  2018/02/28  Laser   增加currency字段（撤销修改）
+--v1.02  2018/10/09  steffan     api=12单独处理
 */
 DECLARE
   sif     JSON;
@@ -74,11 +76,17 @@ BEGIN
   FOR rec IN
     SELECT *
     	FROM dblink('mainsite',
-    							'SELECT timezone, array_agg(id) apis
+    							'SELECT * from (SELECT timezone, array_agg(id) apis
     								 FROM api
-                    WHERE ( COALESCE('''|| p_apis || ''', '''') = '''' OR id = ANY ( regexp_split_to_array(''' || p_apis ||''', '','')::INT[]) )
-    								GROUP BY timezone ORDER BY timezone')
-    		AS a ( timezone VARCHAR(16), apis INT[])
+                    WHERE ( COALESCE('''|| p_apis || ''', '''') = '''' OR id = ANY ( regexp_split_to_array(''' || p_apis ||''', '','')::INT[]) ) and id != 12
+    								GROUP BY timezone ORDER BY timezone ) a
+                  union
+                  SELECT * from (
+                  SELECT timezone, array_agg(id) apis
+    								 FROM api
+                    WHERE ( COALESCE('''|| p_apis || ''', '''') = '''' OR id = ANY ( regexp_split_to_array(''' || p_apis ||''', '','')::INT[]) ) and id = 12
+    								GROUP BY timezone ORDER BY timezone) b')
+    		AS a ( timezone VARCHAR(16), apis INT[])--v1.02  2018/10/09  steffan     api=12单独处理
   LOOP
 
     d_start_time := d_static_date - replace(rec.timezone, 'GMT', '')::interval;
@@ -86,7 +94,44 @@ BEGIN
 
     raise notice '正在收集api:%, 开始时间:%, 结束时间:%', rec.apis, d_start_time, d_end_time;
 
+	IF  12 = ANY ( rec.apis::INT[] )  THEN
     INSERT INTO api_collate_player(
+      center_id, center_name, master_id, master_name, --currency, --v1.01  2018/02/28  Laser
+      site_id, site_name, topagent_id, topagent_name,
+      agent_id, agent_name, player_id, player_name,
+      api_id, api_type_id, game_type,
+      static_date, static_time, static_time_end, create_time,
+      transaction_order, transaction_volume, effective_transaction,
+      profit_loss, winning_amount, contribution_amount
+    ) SELECT
+          n_center_id, c_center_name, n_master_id, c_master_name, --c_currency, --v1.01  2018/02/28  Laser
+          n_site_id, c_site_name, u.topagent_id, u.topagent_name,
+          u.agent_id, u.agent_name, u.id, u.username,
+          p.api_id, p.api_type_id, p.game_type,
+          d_static_date, d_start_time::TIMESTAMP, d_end_time::TIMESTAMP, now(),
+          p.transaction_order, p.transaction_volume, p.effective_transaction,
+          p.profit_loss, p.winning_amount, p.contribution_amount
+        FROM (SELECT
+                  player_id, api_id, api_type_id, game_type,
+                  COUNT(order_no)                as transaction_order,
+                  COALESCE(SUM(single_amount), 0.00)      as transaction_volume,
+                  COALESCE(SUM(profit_amount), 0.00)      as profit_loss,
+                  COALESCE(SUM(effective_trade_amount), 0.00) as effective_transaction,
+                  COALESCE(SUM(winning_amount), 0.00) as winning_amount,
+                  COALESCE(SUM(contribution_amount), 0.00) as contribution_amount
+               FROM player_game_order
+              WHERE stat_time >= d_start_time::TIMESTAMP
+                AND stat_time < d_end_time::TIMESTAMP
+                AND api_id = ANY ( rec.apis::INT[] )
+                AND order_state = 'settle'
+              GROUP BY player_id, api_id, api_type_id, game_type
+              ) p, v_sys_user_tier u
+        WHERE p.player_id = u.id;
+	END IF;--v1.02  2018/10/09  steffan     api=12单独处理
+
+
+	IF  12 != ANY ( rec.apis::INT[] )  THEN
+	    INSERT INTO api_collate_player(
       center_id, center_name, master_id, master_name, --currency, --v1.01  2018/02/28  Laser
       site_id, site_name, topagent_id, topagent_name,
       agent_id, agent_name, player_id, player_name,
@@ -118,6 +163,8 @@ BEGIN
               GROUP BY player_id, api_id, api_type_id, game_type
               ) p, v_sys_user_tier u
         WHERE p.player_id = u.id;
+	END IF;
+
 
 	  GET DIAGNOSTICS n_count = ROW_COUNT;
 	  raise notice '本次插入数据量 %', n_count;
